@@ -3,6 +3,13 @@ $semana = array("Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado",
 foreach ($semana as $dia) {
     echo "$dia, ";
 }
+
+sort($semana);
+echo "<br>";
+for ($i = 0; $i < count($semana); $i++) {
+    echo $semana[$i] . "<br>";
+}
+
 echo "<br>" . "<br>";
 
 //echo $semana[2] . "<br>";
@@ -17,5 +24,20 @@ if (is_array($datos)) {
 } else {
     echo "No es un array";
 }
+echo "<br>" . "<br>";
 
+$alimentos = array(
+    "fruta" => array("tropical" => "kiwi", "citrico" => "mandarina", "otros" => "manzana"),
+    "leche" => array("animal" => "vaca", "vegetal" => "coco"),
+    "carne" => array("vacuno" => "lomo", "porcino" => "pata")
+);
+echo $alimentos["carne"]["vacuno"] . "<br>";
+foreach ($alimentos as $clave_alim => $alim) {
+    echo "$clave_alim:<br>";
+    foreach ($alim as $clave => $valor) {
+        echo "$clave=$valor<br>";
+    }
+    echo "<br>";
+}
+echo var_dump($alimentos);
 ?>
