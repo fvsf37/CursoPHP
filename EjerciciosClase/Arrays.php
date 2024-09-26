@@ -40,4 +40,27 @@ foreach ($alimentos as $clave_alim => $alim) {
     echo "<br>";
 }
 echo var_dump($alimentos);
+
+$numeros = [1, 2, 3, 4, 5, 6, 7];
+var_dump($numeros);
+
+$num_agragado = 10;
+array_push($numeros, $num_agragado);
+var_dump($numeros);
+
+$primer_num = array_shift($numeros);
+echo "Array después de agregar $primer_num";
+var_dump($numeros);
+
+rsort($numeros);
+echo "Array ordenado de forma descendente:";
+var_dump($numeros);
+
+$num_buscardo = 5;
+if (in_array($num_buscardo, $numeros)) {
+    echo "El número $num_buscardo existe";
+} else {
+    echo "El número $num_buscardo no existe";
+}
+
 ?>
