@@ -1,45 +1,52 @@
 <?php
-    class Coche{
+class Coche
+{
 
     private $ruedas;
     private $color;
     private $motor;
 
-    public function __construct(){
-        $this->ruedas=4;
-        $this->color="rojo";
-        $this->motor=1600;
+    public function __construct()
+    {
+        $this->ruedas = 4;
+        $this->color = "rojo";
+        $this->motor = 1600;
     }
-    function arrancar(){
+    function arrancar()
+    {
         echo "Estoy arrancando<br>";
     }
-    function girar(){
+    function girar()
+    {
         echo "Estoy girando<br>";
     }
-    function frenar(){
+    function frenar()
+    {
         echo "Estoy frenando<br>";
     }
-    function getruedas(){
+    function getruedas()
+    {
         echo $this->ruedas;
     }
-    function setruedas($num){
-        $this->ruedas=$num;
+    function setruedas($num)
+    {
+        $this->ruedas = $num;
     }
-    }
+}
 
-$renault=new Coche();
-$mazda=new Coche();
-$seat=new Coche();
+$renault = new Coche();
+$mazda = new Coche();
+$seat = new Coche();
 
-$mazda-> arrancar();
-$mazda-> girar();
-$mazda-> frenar();
- 
+$mazda->arrancar();
+$mazda->girar();
+$mazda->frenar();
+
 
 //echo $mazda->ruedas;
 //echo $mazda->motor;
 $renault->getruedas();
-echo"<br>";
+echo "<br>";
 $renault->setruedas(6);
 $renault->getruedas();
 ?>

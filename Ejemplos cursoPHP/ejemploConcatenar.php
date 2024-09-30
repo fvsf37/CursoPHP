@@ -1,14 +1,11 @@
+<?php
+$nombre = "Juan";
+$edad = 18;
 
-            
-        <?php
-                $nombre="Juan";
-                $edad=18;
+echo "El nombre es: " . $nombre . " Y la edad es: " . $edad . "<br>";
 
-                echo "El nombre es: " . $nombre . " Y la edad es: " . $edad. "<br>";
-          
-                echo "El nombre es: $nombre Y la edad es: $edad";
+echo "El nombre es: $nombre Y la edad es: $edad";
 
 
 
-        ?>
-
+?>
