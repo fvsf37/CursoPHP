@@ -43,6 +43,7 @@
     $resultados = mysqli_query($conexion, $consulta);
 
     //RECORREMOS FILA A FILA DICHA TABLA, DICHO RESULSET
+    //HAY QUE HACERLO DE FORMA ASOCIATIVA EN VEZ DE INDEXADA LA IMPRESIÓN DE LOS DATOS
     while ($fila = mysqli_fetch_array($resultados, MYSQLI_ASSOC)) {
         // mysqli_fetch_array necesita dos parámetros, por un lado el resulset y por otro lado una CONSTANTE que es MYSQL_ASSOC
         echo "<table><tr><td>";
