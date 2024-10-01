@@ -50,8 +50,8 @@
 
     $idexistente = "SELECT ID FROM PRDUCTOS";
 
-    if ($consulta==$codigoarticulo){
-        echo"";
+    if ($idexistente==$codigoarticulo){
+        $consulta;
     }
 
     
