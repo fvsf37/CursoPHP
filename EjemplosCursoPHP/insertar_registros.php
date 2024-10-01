@@ -25,7 +25,6 @@
     $fecha = $_POST["fech"];
     $importado = $_POST["imp"];
     $paisdeorigen = $_POST["porig"];
-
     require("datos_conexion.php");
     //REALIZAMOS LA CONEXION
     $conexion = mysqli_connect($db_host, $db_usuario, $db_contra);
@@ -48,9 +47,18 @@
     //$consulta="SELECT * FROM productos WHERE NOMBREARTICULO='$busqueda'";
     $consulta = "INSERT INTO productos (CODIGOARTICULO, SECCION, NOMBREARTICULO, PRECIO, FECHA, IMPORTADO, PAISDEORIGEN) VALUES ('$codigoarticulo', '$seccion', '$nombrearticulo', '$precio',  '$fecha', '$importado', '$paisdeorigen')";
     //---------------------------------------------
+
+    $idexistente = "SELECT ID FROM PRDUCTOS";
+
+    if ($consulta==$codigoarticulo){
+        echo"";
+    }
+
     
     //GUARDAMOS EN UNA TABLA VIRTUAL EL RESULSET O RECORDSET
     $resultados = mysqli_query($conexion, $consulta);
+
+    
 
     if ($resultados == false) {
         echo "ERROR EN LA CONSUTA. REGISTRO NO INSERTADO";

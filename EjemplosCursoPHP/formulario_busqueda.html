@@ -1,47 +1,72 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
   <head>
     <meta charset="utf-8" />
-    <title>Documento sin título</title>
+    <title>Búsqueda</title>
     <style>
-      h1 {
-        text-align: center;
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f9f9f9;
+        margin: 0;
+        padding: 20px; /* Espacio alrededor del contenido */
+        display: flex; /* Habilitar Flexbox */
+        flex-direction: column; /* Organizar en columna */
+        align-items: center; /* Centrar horizontalmente */
+        justify-content: center; /* Centrar verticalmente */
+        height: 100vh; /* Tomar el alto completo de la vista */
       }
 
-      table {
-        width: 25%;
-        background-color: lightyellow;
-        border: 2px solid #f49118;
-        margin: auto;
+      h1 {
+        margin-bottom: 20px; /* Espacio debajo del encabezado */
       }
-      .izq {
-        text-align: right;
+
+      .form-container {
+        background-color: #fff; /* Fondo blanco para el formulario */
+        padding: 20px; /* Espaciado interno del formulario */
+        border: 1px solid #ddd; /* Borde simple */
+        border-radius: 5px; /* Bordes redondeados */
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra suave */
+        width: 300px; /* Ancho del contenedor del formulario */
       }
-      .der {
-        text-align: left;
+
+      form {
+        display: flex; /* Habilitar Flexbox en el formulario */
+        flex-direction: column; /* Organizar en columna */
+        gap: 10px; /* Espacio entre los elementos del formulario */
+        align-items: center;
       }
-      td {
-        text-align: center;
-        padding: 10px;
+
+      input[type="text"] {
+        width: 94%; /* Ancho completo del campo de texto */
+        padding: 8px; /* Espaciado interno del campo */
+        border: 1px solid #ccc; /* Borde simple */
+        border-radius: 3px; /* Bordes ligeramente redondeados */
+      }
+
+      input[type="submit"] {
+        background-color: #4caf50; /* Color del botón */
+        color: white; /* Color del texto del botón */
+        border: none; /* Sin borde */
+        padding: 10px; /* Espaciado interno del botón */
+        cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
+        border-radius: 3px; /* Bordes ligeramente redondeados */
+        width: 50%; /* Ancho completo del botón */
+      }
+
+      input[type="submit"]:hover {
+        background-color: #45a049; /* Color del botón al pasar el cursor */
       }
     </style>
   </head>
 
   <body>
-    <h1>BUSQUEDA</h1>
+    <h1>BÚSQUEDA</h1>
 
-    <form action="pagina_busqueda.php" method="get">
-      <table>
-        <tr>
-          <td class="izq">Buscar:</td>
-          <td class="der"><input type="text" name="buscar" /></td>
-        </tr>
-        <tr>
-          <td colspan="2">
-            <input type="submit" name="enviando" value="Dale!" />
-          </td>
-        </tr>
-      </table>
-    </form>
+    <div class="form-container">
+      <form action="pagina_busqueda.php" method="get">
+        <input type="text" id="buscar" name="buscar" placeholder="Buscar..." />
+        <input type="submit" name="enviando" value="Dale!" />
+      </form>
+    </div>
   </body>
 </html>

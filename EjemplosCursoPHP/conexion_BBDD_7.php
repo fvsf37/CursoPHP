@@ -7,10 +7,55 @@
     <title>Document</title>
 
     <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 24px;
+            color: #333;
+        }
+
         table {
-            width: 50%;
-            border: 1px dotted red;
-            margin: auto;
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            table-layout: fixed;
+            /* Mantiene el tamaño de las celdas igual */
+        }
+
+        th,
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #ddd;
+            text-align: center;
+            /* Centra el texto en la celda */
+            overflow: hidden;
+            /* Evita que el contenido desborde */
+            text-overflow: ellipsis;
+            /* Agrega puntos suspensivos si el texto es muy largo */
+            white-space: nowrap;
+            /* Evita que el texto se envuelva en varias líneas */
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #e0f7fa;
         }
     </style>
 </head>
@@ -37,7 +82,7 @@
     mysqli_set_charset($conexion, "utf8");
 
     //CREAMOS LA CONSULTA
-    $consulta = "SELECT * FROM productos WHERE PAISDEORIGEN='ESPAÑA'";
+    $consulta = "SELECT * FROM productos WHERE NOMBREARTICULO LIKE 'BALON%'";
 
     //GUARDAMOS EN UNA TABLA VIRTUAL EL RESULSET O RECORDSET
     $resultados = mysqli_query($conexion, $consulta);

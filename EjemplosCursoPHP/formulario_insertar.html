@@ -1,54 +1,98 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
   <head>
     <meta charset="utf-8" />
-    <title>Documento sin título</title>
-  </head>
+    <title>Insertar Registro</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f9f9f9;
+        margin: 0;
+        padding: 0px;
+        box-sizing: border-box;
+        text-align: center; /* Centra todo el contenido */
+      }
 
+      h1 {
+        font-size: 24px;
+        color: #333;
+        margin-bottom: 20px; /* Espacio debajo del encabezado */
+      }
+
+      .form-container {
+        display: flex; /* Habilitar Flexbox para el contenedor del formulario */
+        flex-direction: column; /* Organizar en columna */
+        align-items: center; /* Centrar horizontalmente */
+        background-color: #fff; /* Fondo blanco para el formulario */
+        padding: 20px; /* Espaciado interno del formulario */
+        border: 1px solid #ddd; /* Borde simple */
+        border-radius: 5px; /* Bordes redondeados */
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra suave */
+        width: 30%; /* Ancho del contenedor del formulario */
+        margin: 0 auto; /* Centrar el contenedor en la página */
+        text-align: left;
+      }
+
+      
+
+      label {
+        width: 100%; /* Ancho completo para etiquetas */
+        text-align: left; /* Alinear el texto a la izquierda */
+        margin-bottom: 5px; /* Espacio debajo de la etiqueta */
+      }
+
+      input[type="text"] {
+        width: 95%; /* Ancho completo del campo de texto */
+        padding: 6px; /* Espaciado interno del campo */
+        margin-bottom: 15px; /* Espacio debajo del campo */
+        border: 1px solid #ccc; /* Borde simple */
+        border-radius: 3px; /* Bordes ligeramente redondeados */
+      }
+
+      input[type="submit"] {
+        background-color: #4caf50; /* Color del botón */
+        color: white; /* Color del texto del botón */
+        border: none; /* Sin borde */
+        padding: 10px; /* Espaciado interno del botón */
+        cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
+        border-radius: 3px; /* Bordes ligeramente redondeados */
+        font-size: 16px; /* Tamaño del texto */
+        width: 100%; /* Ancho completo del botón */
+      }
+
+      input[type="submit"]:hover {
+        background-color: #45a049; /* Color del botón al pasar el cursor */
+      }
+    </style>
+  </head>
   <body>
     <h1>INSERTAR REGISTRO</h1>
 
-    <form action="insertar_registros.php" method="post">
-      <table>
-        <tr>
-          <td>CODIGOARTICULO:</td>
-          <td><input type="text" name="cart" /><br /></td>
-        </tr>
+    <div class="form-container">
+      <form action="insertar_registros.php" method="post">
+        <label for="cart">CODIGOARTICULO:</label>
+        <input type="text" name="cart" id="cart" />
 
-        <tr>
-          <td>SECCION:</td>
-          <td><input type="text" name="secc" /><br /></td>
-        </tr>
+        <label for="secc">SECCION:</label>
+        <input type="text" name="secc" id="secc" />
 
-        <tr>
-          <td>NOMBREARTICULO:</td>
-          <td><input type="text" name="nart" /><br /></td>
-        </tr>
+        <label for="nart">NOMBREARTICULO:</label>
+        <input type="text" name="nart" id="nart" />
 
-        <tr>
-          <td>PRECIO:</td>
-          <td><input type="text" name="pre" /><br /></td>
-        </tr>
+        <label for="pre">PRECIO:</label>
+        <input type="text" name="pre" id="pre" />
 
-        <tr>
-          <td>FECHA:</td>
-          <td><input type="text" name="fech" /><br /></td>
-        </tr>
+        <label for="fech">FECHA:</label>
+        <input type="text" name="fech" id="fech" />
 
-        <tr>
-          <td>IMPORTADO:</td>
-          <td><input type="text" name="imp" /><br /></td>
-        </tr>
+        <label for="imp">IMPORTADO:</label>
+        <input type="text" name="imp" id="imp" />
 
-        <tr>
-          <td>PAISDEORIGEN:</td>
-          <td><input type="text" name="porig" /><br /></td>
-        </tr>
+        <label for="porig">PAISDEORIGEN:</label>
+        <input type="text" name="porig" id="porig" />
 
-        <tr>
-          <td><input type="submit" value="Insertar" /></td>
-        </tr>
-      </table>
-    </form>
+        <input type="submit" value="Insertar" />
+      </form>
+    </div>
   </body>
 </html>
