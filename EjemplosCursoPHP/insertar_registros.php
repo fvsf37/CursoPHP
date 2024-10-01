@@ -47,11 +47,14 @@
     //$consulta="SELECT * FROM productos WHERE NOMBREARTICULO='$busqueda'";
     $consulta = "INSERT INTO productos (CODIGOARTICULO, SECCION, NOMBREARTICULO, PRECIO, FECHA, IMPORTADO, PAISDEORIGEN) VALUES ('$codigoarticulo', '$seccion', '$nombrearticulo', '$precio',  '$fecha', '$importado', '$paisdeorigen')";
     //---------------------------------------------
-
+    
+    //Comprobar si existe
     $idexistente = "SELECT ID FROM PRDUCTOS";
 
     if ($idexistente==$codigoarticulo){
         $consulta;
+    }else{
+        echo"ya existe";
     }
 
     
