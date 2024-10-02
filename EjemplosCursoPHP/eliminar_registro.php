@@ -45,10 +45,24 @@
 
     //--------------------------------------------
     //CREAMOS LA CONSULTA USANDO $busqueda
-    //$consulta="SELECT * FROM productos WHERE NOMBREARTICULO='$busqueda'";
+    echo $consulta1="SELECT * FROM productos WHERE NOMBREARTICULO='$codigoarticulo'";
     $consulta = "DELETE FROM productos WHERE CODIGOARTICULO='$codigoarticulo'";
     //---------------------------------------------
-    
+    $resultados = mysqli_query($conexion, $consulta1);
+
+    while ($fila = mysqli_fetch_array($resultados, MYSQLI_ASSOC)) {
+        // mysqli_fetch_array necesita dos parámetros, por un lado el resulset y por otro lado una CONSTANTE que es MYSQL_ASSOC
+        echo "<table><tr><td>";
+        echo $fila['CODIGOARTICULO'] . "</td><td>";
+        echo $fila['SECCION'] . "</td><td>";
+        echo $fila['NOMBREARTICULO'] . "</td><td>";
+        echo $fila['PRECIO'] . "</td><td>";
+        echo $fila['FECHA'] . "</td><td>";
+        echo $fila['IMPORTADO'] . "</td><td>";
+        echo $fila['PAISDEORIGEN'] . "</td></tr></table>";
+    }
+
+
     //GUARDAMOS EN UNA TABLA VIRTUAL EL RESULSET O RECORDSET
     $resultados = mysqli_query($conexion, $consulta);
 

@@ -31,11 +31,6 @@
 
 	echo $compra_Ana->precio_final();
 
-
-
-
-
-
 	?>
 </body>
 
