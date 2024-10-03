@@ -1,47 +1,142 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
   <head>
-    <meta charset="utf-8" />
-    <title>Documento sin título</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gestión de Productos</title>
     <style>
-      h1 {
-        text-align: center;
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
       }
-
       table {
-        width: 25%;
-        background-color: lightyellow;
-        border: 2px solid #f49118;
-        margin: auto;
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
       }
-      .izq {
-        text-align: right;
+      table,
+      th,
+      td {
+        border: 1px solid black;
       }
-      .der {
+      th,
+      td {
+        padding: 10px;
         text-align: left;
       }
-      td {
-        text-align: center;
+      footer {
+        margin-top: 20px;
         padding: 10px;
+        text-align: center;
+      }
+      .actions {
+        display: flex;
+        gap: 10px;
+      }
+      .search-bar {
+        margin-bottom: 20px;
       }
     </style>
   </head>
-
   <body>
-    <h1>ACTUALIZAR</h1>
+    <h1>Gestión de Productos</h1>
 
-    <form action="pagina_resultados_actualizar.php" method="get">
-      <table>
+    <div class="search-bar">
+      <form method="GET" action="crud_productos.php">
+        <input type="text" name="buscar" placeholder="Buscar..." required />
+        <select name="tipo">
+          <option value="codigo">Código</option>
+          <option value="nombre">Nombre</option>
+          <option value="seccion">Sección</option>
+        </select>
+        <input type="submit" value="Buscar" />
+      </form>
+    </div>
+
+    <table>
+      <thead>
         <tr>
-          <td class="izq">Actualizar:</td>
-          <td class="der"><input type="text" name="actualizar" /></td>
+          <th>Código</th>
+          <th>Sección</th>
+          <th>Nombre</th>
+          <th>Precio</th>
+          <th>Fecha</th>
+          <th>Importado</th>
+          <th>País de Origen</th>
+          <th>Acciones</th>
         </tr>
+      </thead>
+      <tbody>
+        <?php
+            // Conectar a la base de datos
+            $db_host = "localhost";
+            $db_nombre = "productos";
+            $db_usuario = "root";
+            $db_contra = "";
+
+            $conexion = mysqli_connect($db_host, $db_usuario, $db_contra, $db_nombre);
+            if (!$conexion) {
+                die("Error de conexión: " . mysqli_connect_error());
+            }
+            mysqli_set_charset($conexion, "utf8");
+
+            // Obtener todos los productos
+            $consulta = "SELECT * FROM productos";
+            $resultados = mysqli_query($conexion, $consulta);
+
+            if (mysqli_num_rows($resultados) >
+        0) { while ($fila = mysqli_fetch_assoc($resultados)) { echo "
         <tr>
-          <td colspan="2">
-            <input type="submit" name="enviando" value="Dale!" />
+          <td>{$fila['codigo']}</td>
+          <td>{$fila['seccion']}</td>
+          <td>{$fila['nombre']}</td>
+          <td>{$fila['precio']}</td>
+          <td>{$fila['fecha']}</td>
+          <td>{$fila['importado']}</td>
+          <td>{$fila['pais_origen']}</td>
+          <td class="actions">
+            <form
+              method="POST"
+              action="crud_productos.php"
+              style="display: inline-block"
+            >
+              <input type='hidden' name='id' value='{$fila['id']}'>
+              <input
+                type="submit"
+                name="eliminar"
+                value="Eliminar"
+                class="delete-btn"
+              />
+            </form>
+            <form
+              method="POST"
+              action="crud_productos.php"
+              style="display: inline-block"
+            >
+              <input type='hidden' name='id' value='{$fila['id']}'>
+              <input
+                type="submit"
+                name="actualizar"
+                value="Actualizar"
+                class="update-btn"
+              />
+            </form>
           </td>
         </tr>
-      </table>
-    </form>
+        "; } } else { echo "
+        <tr>
+          <td colspan="8">No se encontraron productos.</td>
+        </tr>
+        "; } // Cerrar la conexión mysqli_close($conexion); ?>
+      </tbody>
+    </table>
+
+    <footer>
+      <h2>Productos</h2>
+      <form method="POST" action="crud_productos.php">
+        <input type="submit" name="crear" value="Agregar Nuevo Producto" />
+      </form>
+    </footer>
   </body>
 </html>
