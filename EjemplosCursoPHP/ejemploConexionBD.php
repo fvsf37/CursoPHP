@@ -18,47 +18,51 @@
 <body>
     <?php
 
-    $db_host = "localhost";
-    $db_nombre = "cesurdb";
-    $db_usuario = "root";
-    $db_contra = "";
-
-    //REALIZAMOS LA CONEXION
+    // Definir las credenciales para la conexión a la base de datos
+    $db_host = "localhost";    // Nombre del host, en este caso localhost (servidor local)
+    $db_nombre = "cesurdb";    // Nombre de la base de datos
+    $db_usuario = "root";      // Usuario de la base de datos, en este caso 'root'
+    $db_contra = "";           // Contraseña del usuario de la base de datos (vacía en este caso)
+    
+    // REALIZAR LA CONEXIÓN
     $conexion = mysqli_connect($db_host, $db_usuario, $db_contra);
 
-    //ESTA FUNCION SE EJECUTA SI NO TIENE EXITO LA CONEXION CON LA BASE DE DATOS
+    // Verificar si la conexión fue exitosa
     if (mysqli_connect_errno()) {
+        // Si hay un error en la conexión, mostramos un mensaje y detenemos la ejecución
         echo "Fallo al conectar con la base de datos";
-        //SI HAY FALLO LE DECIMOS QUE SALGA PARA QUE NO SIGA EJECUTANDO CÓDIGO PHP Y SALGAN MÁS ERRORES
-        exit();
+        exit(); // Salir del script para evitar más errores
     }
 
-    // Quitamos de $conexion el nombre de la base de datos para controlarlo por aquí
+    // Seleccionar la base de datos para trabajar
     mysqli_select_db($conexion, $db_nombre) or die("No se encuentra la base de datos");
 
-    //PARA INDICAR QUE QUEREMOS UTILIZAR EL JUEGO DE CARACTERES UTF-8
+    // Establecer el juego de caracteres a UTF-8 para manejar correctamente caracteres especiales
     mysqli_set_charset($conexion, "utf8");
 
-    //CREAMOS LA CONSULTA
+    // CREAR LA CONSULTA
+    // Aquí se seleccionan todos los registros de la tabla 'productos'
     $consulta = "SELECT * FROM productos";
 
-    //GUARDAMOS EN UNA TABLA VIRTUAL EL RESULSET O RECORDSET
+    // Ejecutar la consulta y almacenar el resultado en la variable $resultados
     $resultados = mysqli_query($conexion, $consulta);
 
-    //RECORREMOS FILA A FILA DICHA TABLA, DICHO RESULSET
+    // RECORRER FILA POR FILA EL RESULTADO (RESULSET)
+    // Utilizamos un bucle while para recorrer cada fila del conjunto de resultados
     while ($fila = mysqli_fetch_array($resultados, MYSQLI_ASSOC)) {
-        // mysqli_fetch_array necesita dos parámetros, por un lado el resulset y por otro lado una CONSTANTE que es MYSQL_ASSOC
+        // mysqli_fetch_array devuelve cada fila como un array asociativo (MYSQLI_ASSOC)
+        // Mostrar los valores de las columnas de cada fila en una tabla HTML
         echo "<table><tr><td>";
-        echo $fila['codigo'] . "</td><td>";
-        echo $fila['descripcion'] . "</td><td>";
-        echo $fila['precioVenta'] . "</td><td>";
-        echo $fila['precioCompra'] . "</td><td>";
-        echo $fila['existencias'] . "</td><tr></table>";
-        echo "<br>";
+        echo $fila['codigo'] . "</td><td>";         // Mostrar el valor de la columna 'codigo'
+        echo $fila['descripcion'] . "</td><td>";   // Mostrar el valor de la columna 'descripcion'
+        echo $fila['precioVenta'] . "</td><td>";   // Mostrar el valor de la columna 'precioVenta'
+        echo $fila['precioCompra'] . "</td><td>";  // Mostrar el valor de la columna 'precioCompra'
+        echo $fila['existencias'] . "</td><tr></table>"; // Mostrar el valor de la columna 'existencias'
+        echo "<br>"; // Añadir un salto de línea entre tablas
     }
 
-    //FINALMENTE CERRAMOS LA CONEXION
-    
+    // CERRAR LA CONEXIÓN
+    // Una vez que hemos terminado de procesar los datos, cerramos la conexión a la base de datos
     mysqli_close($conexion);
 
     ?>

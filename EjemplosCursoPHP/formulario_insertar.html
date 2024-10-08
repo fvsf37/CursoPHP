@@ -1,83 +1,56 @@
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Insertar Registro</title>
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        background-color: #f4f4f4;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-      }
-      h1 {
-        text-align: center;
-        color: #333;
-      }
-      .form-container {
-        background-color: #fff;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        width: 400px;
-      }
-      label {
-        display: block;
-        margin: 10px 0 5px;
-        color: #333;
-      }
-      input[type="text"] {
-        width: 100%;
-        padding: 10px;
-        margin: 5px 0;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-      }
-      input[type="submit"] {
-        background-color: #28a745;
-        color: white;
-        padding: 10px;
-        width: 100%;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-      }
-      input[type="submit"]:hover {
-        background-color: #218838;
-      }
-    </style>
-  </head>
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Documento sin título</title>
+</head>
 
-  <body>
-    <div class="form-container">
-      <h1>INSERTAR REGISTRO</h1>
-      <form action="insertar_registros.php" method="post">
-        <label for="cart">CODIGOARTICULO:</label>
-        <input type="text" name="cart" id="cart" />
+<body>
+	
+<h1>INSERTAR REGISTRO</h1>
+	
+<form action="insertar_registros.php" method="post">
+	<table>
+		<tr>
+			<td>CODIGOARTICULO:</td>
+			<td><input type="text" name="cart"><br></td>
+		</tr>
 
-        <label for="secc">SECCION:</label>
-        <input type="text" name="secc" id="secc" />
+		<tr>
+			<td>SECCION:</td>
+			<td><input type="text" name="secc"><br></td>
+		</tr>
 
-        <label for="nart">NOMBREARTICULO:</label>
-        <input type="text" name="nart" id="nart" />
+		<tr>
+			<td>NOMBREARTICULO:</td>
+			<td><input type="text" name="nart"><br></td>
+		</tr>
 
-        <label for="pre">PRECIO:</label>
-        <input type="text" name="pre" id="pre" />
+		<tr>
+			<td>PRECIO:</td>
+			<td><input type="text" name="pre"><br></td>
+		</tr>
 
-        <label for="fech">FECHA:</label>
-        <input type="text" name="fech" id="fech" />
+		<tr>
+			<td>FECHA:</td>
+			<td><input type="text" name="fech"><br></td>
+		</tr>
 
-        <label for="imp">IMPORTADO:</label>
-        <input type="text" name="imp" id="imp" />
+		<tr>
+			<td>IMPORTADO:</td>
+			<td><input type="text" name="imp"><br></td>
+		</tr>
 
-        <label for="porig">PAISDEORIGEN:</label>
-        <input type="text" name="porig" id="porig" />
+		<tr>
+			<td>PAISDEORIGEN:</td>
+			<td><input type="text" name="porig"><br></td>
+		</tr>
 
-        <input type="submit" value="Insertar" />
-      </form>
-    </div>
-  </body>
+		<tr>
+			<td><input type="submit" value="Insertar"></td>
+		</tr>
+	</table>
+</form>
+	
+</body>
 </html>
