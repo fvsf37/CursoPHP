@@ -1,46 +1,47 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-<head>
-	<meta charset="utf-8">
-	<title>Documento sin título</title>
-	<style>
-	
-		h1{
-			text-align: center;
-		}
-		
-		table{
-			width: 25%;
-			background-color:lightyellow;
-			border: 2px solid #F49118;
-			margin: auto;
-		}
-		.izq{
-			text-align: right;
-		}
-		.der{
-			text-align: left;
-		}
-		td{
-			text-align: center;
-			padding: 10px;
-		}
-	
-	</style>
-</head>
+  <head>
+    <meta charset="utf-8" />
+    <title>Documento sin título</title>
+    <style>
+      h1 {
+        text-align: center;
+      }
 
-<body>
-	
-<h1>BUSQUEDA</h1>
-	
-<form action="pagina_busqueda_PDO.php" method="get">
-	<table>
-	<tr><td class="izq">Buscar:</td><td class="der"><input type="text" name="buscar"></td></tr>
-	<tr><td colspan="2"><input type="submit" name="enviando" value="Dale!"></td></tr>
-	</table>
-		
-	
-</form> 
-	
-</body>
+      table {
+        width: 25%;
+        background-color: lightyellow;
+        border: 2px solid #f49118;
+        margin: auto;
+      }
+      .izq {
+        text-align: right;
+      }
+      .der {
+        text-align: left;
+      }
+      td {
+        text-align: center;
+        padding: 10px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>BUSQUEDA</h1>
+
+    <form action="pagina_busqueda_PDO.php" method="get">
+      <table>
+        <tr>
+          <td class="izq">Buscar:</td>
+          <td class="der"><input type="text" name="buscar" /></td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <input type="submit" name="enviando" value="Dale!" />
+          </td>
+        </tr>
+      </table>
+    </form>
+  </body>
 </html>
