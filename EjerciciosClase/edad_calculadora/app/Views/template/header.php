@@ -1,0 +1,8 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title><?php if(!empty($titulo)) echo $titulo.' :: '; ?>Mi APP en CI4</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
