@@ -4,7 +4,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $numero2 = isset($_POST['numero2']) ? $_POST['numero2'] : null;
     $operacion = $_POST['operacion'];
 
-    // Función que realiza las operaciones matemáticas
     function calculadora($operacion, $a, $b = null)
     {
         switch ($operacion) {
@@ -29,7 +28,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 
-    // Funciones para cada operación
     function suma($a, $b)
     {
         return $a + $b;
@@ -48,19 +46,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     function division($a, $b)
     {
         if ($b == 0) {
-            return "Error: División por cero no permitida.";
-        } else {
-            return $a / $b;
+            return "Error: No se puede dividir por cero.";
         }
+        return $a / $b;
     }
 
     function modulo($a, $b)
     {
         if ($b == 0) {
-            return "Error: División por cero no permitida.";
-        } else {
-            return $a % $b;
+            return "Error: No se puede calcular el módulo con cero.";
         }
+        return $a % $b;
     }
 
     function potencia($a, $b)
@@ -85,10 +81,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         return rand($min, $max);
     }
 
-    // Llamar a la calculadora
     $resultado = calculadora($operacion, $numero1, $numero2);
 
-    // Mostrar el resultado
     echo "<h2>Resultado: $resultado</h2>";
 }
 ?>
