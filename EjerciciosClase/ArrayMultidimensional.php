@@ -1,3 +1,38 @@
+<?php
+$productos = [
+    [
+        "id" => 1,
+        "codigo" => "s1024",
+        "descripcion" => "Mermelada de fresas",
+        "precioVenta" => 2.35,
+        "precioCompra" => 2.09,
+        "existencias" => 77
+    ],
+    [
+        "id" => 2,
+        "codigo" => "p0703",
+        "descripcion" => "Aceite de Oliva",
+        "precioVenta" => 6.75,
+        "precioCompra" => 5.98,
+        "existencias" => 17
+    ],
+    [
+        "id" => 3,
+        "codigo" => "f5941",
+        "descripcion" => "Palomitas de maíz",
+        "precioVenta" => 0.78,
+        "precioCompra" => 0.41,
+        "existencias" => 48
+    ]
+];
+
+$existencias_minimas = 0;
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $existencias_minimas = $_POST['existencias'];
+}
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -21,22 +56,16 @@
 
 <body>
 
-    <!-- Formulario que envía los datos por POST para filtrar productos según existencias -->
     <form method="post">
-        <label for="existencias">Introduce un número (X) para filtrar por existencias:</label>
-        <!-- Campo de entrada numérico para el usuario -->
+        <label for="existencias">Introduce un número para filtrar por existencias:</label>
         <input type="number" id="existencias" name="existencias" required>
-        <!-- Botón para enviar el formulario -->
         <button type="submit">Filtrar</button>
     </form>
 
     <?php
-    // Verificamos si el formulario ha sido enviado mediante el método POST
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        // Mostramos un título con el resultado del filtrado
         echo "<h2>Resultado de productos mostrados con existencia mayor a las unidades introducidas anteriormente</h2>";
 
-        // Creamos la tabla para mostrar los productos
         echo "<table>
                 <tr>
                     <th>ID</th>
@@ -47,12 +76,9 @@
                     <th>Existencias</th>
                 </tr>";
 
-        // Recorremos el array $productos para mostrar solo los productos con existencias mayores al valor introducido
         foreach ($productos as $producto) {
-            // Filtramos los productos que tengan más existencias que el valor ingresado en el formulario
             if ($producto['existencias'] > $existencias_minimas) {
                 echo "<tr>";
-                // Imprimimos cada atributo del producto en una fila de la tabla
                 echo "<td>{$producto['id']}</td>";
                 echo "<td>{$producto['codigo']}</td>";
                 echo "<td>{$producto['descripcion']}</td>";
@@ -63,7 +89,6 @@
             }
         }
 
-        // Cerramos la tabla
         echo "</table>";
     }
     ?>
