@@ -40,26 +40,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Productos</title>
-    <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th,
-        td {
-            padding: 10px;
-            text-align: center;
-        }
-    </style>
+    <!-- Llamada al archivo CSS externo -->
+    <link rel="stylesheet" href="estilos.css" />
 </head>
 
 <body>
 
-    <form method="post">
+    <header>
+        <h1>Gestión de Productos</h1>
+    </header>
+
+    <form method="post" class="formulario">
         <label for="existencias">Introduce un número para filtrar por existencias:</label>
         <input type="number" id="existencias" name="existencias" required>
-        <button type="submit">Filtrar</button>
+        <button type="submit" class="boton">Filtrar</button>
     </form>
 
     <?php

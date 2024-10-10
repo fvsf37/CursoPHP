@@ -7,72 +7,94 @@
   <title>Búsqueda de Productos</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background-color: #f4f4f4;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
+      font-family: 'Arial', sans-serif;
       margin: 0;
-      padding: 0;
-    }
-
-    .container {
-      background-color: #fff;
       padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      text-align: center;
-    }
-
-    .container h1 {
-      margin-bottom: 20px;
+      background-color: #f0f4f8;
       color: #333;
     }
 
-    .form-container {
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 24px;
+      color: #333;
       margin-bottom: 20px;
     }
 
-    .form-container input[type="text"] {
-      padding: 10px;
-      margin: 10px 0;
-      border: 1px solid #ddd;
-      border-radius: 4px;
+    form {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
     }
 
-    .form-container input[type="submit"] {
-      background-color: #007bff;
+    input[type="text"] {
+      padding: 10px;
+      width: 300px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      margin-right: 10px;
+    }
+
+    input[type="submit"] {
+      background-color: #00796b;
       color: white;
       padding: 10px 20px;
       border: none;
-      border-radius: 4px;
+      border-radius: 5px;
       cursor: pointer;
       transition: background-color 0.3s;
     }
 
-    .form-container input[type="submit"]:hover {
-      background-color: #0056b3;
+    input[type="submit"]:hover {
+      background-color: #004d40;
     }
 
     table {
       width: 100%;
       border-collapse: collapse;
       margin-top: 20px;
-      background-color: #fff;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      background-color: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
 
-    table th,
-    table td {
-      padding: 10px;
-      border: 1px solid #ddd;
+    th,
+    td {
+      padding: 15px;
+      text-align: center;
+      border-bottom: 1px solid #ddd;
     }
 
-    table th {
-      background-color: #007bff;
+    th {
+      background-color: #00796b;
       color: white;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    tr:nth-child(even) td {
+      background-color: #f1f1f1;
+    }
+
+    td {
+      background-color: #fafafa;
+    }
+
+    .no-results {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 16px;
+      color: #f44336;
     }
   </style>
 </head>
@@ -132,13 +154,12 @@
 
         echo '</table>';
       } else {
-        echo '<p>No se encontraron resultados.</p>';
+        echo '<p class="no-results">No se encontraron resultados.</p>';
       }
 
       mysqli_close($conexion);
     }
     ?>
-
   </div>
 
 </body>
