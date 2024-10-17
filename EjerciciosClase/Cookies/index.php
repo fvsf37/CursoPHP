@@ -1,5 +1,12 @@
 <?php
-// Verificamos si la cookie idioma está establecida
+// Comprobamos si se ha enviado una solicitud para eliminar la cookie
+if (isset($_POST['eliminar_cookie'])) {
+    setcookie('idioma', '', time() - 5, "/");
+    header("Location: index.php");
+    exit();
+}
+
+// Verificamos si la cookie 'idioma' está establecida
 if (isset($_COOKIE['idioma'])) {
     $idioma = $_COOKIE['idioma'];
 
@@ -13,7 +20,7 @@ if (isset($_COOKIE['idioma'])) {
     $mensaje = null;
 }
 
-// Si se ha enviado el parámetro lang, guardamos la cookie del idioma seleccionado
+// Si se ha enviado el parámetro 'lang', guardamos la cookie del idioma seleccionado
 if (isset($_GET['lang'])) {
     $lang = $_GET['lang'];
     setcookie('idioma', $lang, time() + 5, "/");
@@ -35,8 +42,8 @@ if (isset($_GET['lang'])) {
 
     <?php if ($idioma): ?>
         <h1><?php echo $mensaje; ?></h1>
-        <form action="eliminar_cookie.php" method="post">
-            <button type="submit">Borrar cookie y cambiar idioma</button>
+        <form method="post">
+            <button type="submit" name="eliminar_cookie">Borrar cookie y cambiar idioma</button>
         </form>
     <?php else: ?>
         <h1>Selecciona tu idioma</h1>
