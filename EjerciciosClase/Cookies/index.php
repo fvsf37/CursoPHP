@@ -1,23 +1,29 @@
 <?php
-// Comprobamos si la cookie 'idioma' existe
+// Verificamos si la cookie idioma está establecida
 if (isset($_COOKIE['idioma'])) {
     $idioma = $_COOKIE['idioma'];
 
-    // Dependiendo del idioma almacenado en la cookie, mostramos el contenido adecuado
     if ($idioma == 'es') {
-        $mensaje = "Bienvenido, has seleccionado Español";
+        $mensaje = "Esta es la página en español";
     } elseif ($idioma == 'en') {
-        $mensaje = "Welcome, you have selected English";
+        $mensaje = "This is the English page";
     }
 } else {
-    // Si no existe la cookie, mostramos las opciones de idioma
     $idioma = null;
     $mensaje = null;
+}
+
+// Si se ha enviado el parámetro lang, guardamos la cookie del idioma seleccionado
+if (isset($_GET['lang'])) {
+    $lang = $_GET['lang'];
+    setcookie('idioma', $lang, time() + 5, "/");
+    header("Location: index.php");
+    exit();
 }
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="<?php echo $idioma ? $idioma : 'en'; ?>">
 
 <head>
     <meta charset="UTF-8">
@@ -28,16 +34,14 @@ if (isset($_COOKIE['idioma'])) {
 <body>
 
     <?php if ($idioma): ?>
-        <!-- Si existe la cookie, mostramos el mensaje y el botón para cambiar el idioma -->
         <h1><?php echo $mensaje; ?></h1>
         <form action="eliminar_cookie.php" method="post">
-            <button type="submit">Borrar cookie y cambiar idioma</button> <!-- Botón para borrar la cookie -->
+            <button type="submit">Borrar cookie y cambiar idioma</button>
         </form>
     <?php else: ?>
-        <!-- Si no existe la cookie, mostramos las banderas para seleccionar el idioma -->
         <h1>Selecciona tu idioma</h1>
-        <a href="idioma.php?lang=es"><img src="Bandera_cruz_de_Borgoña_2.svg.png" alt="Español" style="width:50px;"></a>
-        <a href="idioma.php?lang=en"><img src="BanderaReinoUnido22.jpg" alt="Inglés" style="width:50px;"></a>
+        <a href="index.php?lang=es"><img src="Bandera_cruz_de_Borgoña_2.svg.png" alt="Español" style="width:50px;"></a>
+        <a href="index.php?lang=en"><img src="BanderaReinoUnido22.jpg" alt="Inglés" style="width:50px;"></a>
     <?php endif; ?>
 
 </body>
