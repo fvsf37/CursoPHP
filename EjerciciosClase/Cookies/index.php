@@ -2,7 +2,7 @@
 // Comprobamos si se ha enviado una solicitud para eliminar la cookie
 if (isset($_POST['eliminar_cookie'])) {
     // Eliminamos la cookie de idioma estableciendo su fecha de expiración en el pasado
-    setcookie('idioma', '', time() - 5, "/");
+    setcookie('idioma', '', time() - 3600, "/");
     // Redirigimos a la misma página para que el usuario pueda volver a elegir un idioma
     header("Location: index.php");
     exit();
@@ -28,7 +28,7 @@ if (isset($_COOKIE['idioma'])) {
 if (isset($_GET['lang'])) {
     $lang = $_GET['lang'];
     // Establecemos una cookie que dura 1 día
-    setcookie('idioma', $lang, time() + 5, "/");
+    setcookie('idioma', $lang, time() + 86400, "/");
     // Redirigimos a la misma página para evitar reenvío del formulario
     header("Location: index.php");
     exit();
@@ -42,10 +42,11 @@ if (isset($_GET['lang'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Seleccionar Idioma</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
+            font-family: 'Roboto', sans-serif;
+            background-color: #f4f7f6;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -56,48 +57,57 @@ if (isset($_GET['lang'])) {
         .container {
             text-align: center;
             background-color: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 450px;
         }
 
         h1 {
-            font-size: 24px;
+            font-size: 28px;
             color: #333;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .language-selection {
+            margin: 25px 0;
         }
 
         .language-selection img {
-            width: 100px;
-            margin: 15px;
-            transition: transform 0.3s ease;
+            width: 120px;
+            margin: 10px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
             cursor: pointer;
+            border-radius: 10px;
         }
 
         .language-selection img:hover {
             transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
 
         button {
-            background-color: #4CAF50;
+            background-color: #007BFF;
             color: white;
             border: none;
-            padding: 10px 20px;
+            padding: 12px 25px;
             font-size: 16px;
-            border-radius: 5px;
+            border-radius: 8px;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
         }
 
         button:hover {
-            background-color: #45a049;
+            background-color: #0056b3;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         }
 
         .message {
             margin: 20px 0;
-        }
-
-        .language-selection {
-            margin: 20px 0;
+            font-size: 18px;
+            color: #333;
         }
     </style>
 </head>
