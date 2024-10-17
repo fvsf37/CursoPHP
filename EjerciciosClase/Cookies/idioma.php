@@ -3,7 +3,7 @@
 if (isset($_GET['lang'])) {
     $lang = $_GET['lang'];
     // Establecemos una cookie
-    setcookie('idioma', $lang, time() + 30, "/");
+    setcookie('idioma', $lang, time() + 5, "/");
     // Redirigimos a la página principal (index.php)
     header("Location: index.php");
     exit();
