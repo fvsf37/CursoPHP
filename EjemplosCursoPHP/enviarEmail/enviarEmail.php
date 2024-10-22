@@ -19,7 +19,7 @@ try {
     $mail->isSMTP();                           // Usar SMTP para enviar
     $mail->Host = 'smtp.gmail.com';            // Definimos el servidor SMTP de Gmail
     $mail->SMTPAuth = true;                    // Habilitamos la autenticación SMTP
-    $mail->Username = 'remitente@gmail.com';        // Usuario SMTP
+    $mail->Username = 'remitente@gmail.com';   // Usuario SMTP
     $mail->Password = 'wnck vepq ubmm evqc';   // Contraseña de la aplicación de Gmail
     $mail->SMTPSecure = 'ssl';                 // Habilitamos la encriptación SSL
     $mail->Port = 465;                         // Puerto TCP para conectarse, usa 587 si utilizas STARTTLS
