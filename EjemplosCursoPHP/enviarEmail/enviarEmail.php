@@ -19,7 +19,7 @@ try {
     $mail->isSMTP();                           // Usar SMTP para enviar
     $mail->Host = 'smtp.gmail.com';            // Definimos el servidor SMTP de Gmail
     $mail->SMTPAuth = true;                    // Habilitamos la autenticación SMTP
-    $mail->Username = 'cesurformacion2024@gmail.com';  // Usuario SMTP
+    $mail->Username = 'remitente@gmail.com';        // Usuario SMTP
     $mail->Password = 'wnck vepq ubmm evqc';   // Contraseña de la aplicación de Gmail
     $mail->SMTPSecure = 'ssl';                 // Habilitamos la encriptación SSL
     $mail->Port = 465;                         // Puerto TCP para conectarse, usa 587 si utilizas STARTTLS
@@ -29,15 +29,15 @@ try {
         throw new Exception('La dirección de email del remitente no es válida.');
     }
 
-    // Recipientes
-    $destinatario = 'victormanuelnavarrocamino@gmail.com';  // Dirección de destino
+    // Dirección de destino
+    $destinatario = 'destinatario@gmail.com';
     // Validación de la dirección de email del destinatario
     if (!filter_var($destinatario, FILTER_VALIDATE_EMAIL)) {
         throw new Exception('La dirección de email del destinatario no es válida.');
     }
 
-    $mail->setFrom('cesurformacion2024@gmail.com', 'Cesur-Gmail');  // Remitente del correo
-    $mail->addAddress($destinatario, 'VMNC-Gmail');                 // Añadimos destinatario
+    $mail->setFrom('remitente@gmail.com', 'Cesur-Gmail');  // Remitente del correo
+    $mail->addAddress($destinatario, 'VMNC-Gmail');        // Añadimos destinatario
 
     // Archivos adjuntos
     $mail->addAttachment('C:/xampp/htdocs/cursoPHP/enviarEmail/adjuntarArchivosEnviarEmail/PracticaCookieLogin.pdf'); // Adjuntamos un archivo
