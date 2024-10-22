@@ -15,7 +15,7 @@
 
 	// Ciframos la contraseña utilizando password_hash() con el algoritmo PASSWORD_DEFAULT, que incluye una sal automáticamente.
 	// La opción 'cost' se usa para aumentar la complejidad de cifrado (13 en este caso, que es un número alto).
-	$contra_cifrada = password_hash($contra, PASSWORD_DEFAULT, array("cost" => 13));
+	$contra_cifrada = password_hash($contra, PASSWORD_DEFAULT, array("cost" =>13));
 
 	// Configuración de los datos de conexión a la base de datos
 	$servername = "localhost";  // Servidor de base de datos (localhost)

@@ -51,7 +51,7 @@
 				// Verificamos si la contraseña ingresada coincide con la almacenada en la base de datos
 				if (password_verify($password, $registro['PASSWORD'])) {
 					// Si la contraseña es correcta, mostramos un mensaje de éxito
-					echo "Usuario Registrado" . "<br>";
+					echo "Estás dentro, cruza la pasarela" . "<br>";
 				} else {
 					// Si la contraseña es incorrecta, mostramos un mensaje de error
 					echo "Usuario NO Registrado" . "<br>";
