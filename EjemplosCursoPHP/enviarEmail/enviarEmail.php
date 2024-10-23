@@ -1,6 +1,5 @@
 <?php
 // Importamos las clases PHPMailer en el espacio de nombres global
-// Estas importaciones deben estar en la parte superior del script, no dentro de funciones
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
@@ -40,7 +39,8 @@ try {
     $mail->addAddress($destinatario, 'VMNC-Gmail');        // Añadimos destinatario
 
     // Archivos adjuntos
-    $mail->addAttachment('C:/xampp/htdocs/cursoPHP/enviarEmail/adjuntarArchivosEnviarEmail/PracticaCookieLogin.pdf'); // Adjuntamos un archivo
+    $mail->addAttachment('adjuntarArchivosEnviarEmail/PracticaCookieLogin.pdf');
+    // Adjuntamos un archivo
 
     // Contenido del email
     $mail->isHTML(true);                           // Configuramos el formato del correo como HTML
@@ -59,8 +59,7 @@ try {
     echo 'EMAIL ENVIADO CORRECTAMENTE';            // Mensaje en caso de éxito
 
 } catch (Exception $e) {
-    // Manejo mejorado de excepciones y registro de errores en un archivo log
-    error_log("ERROR AL ENVIAR EMAIL: {$mail->ErrorInfo}", 3, '/var/log/phpmailer_errors.log');  // Guardamos el error en un archivo de log
-    echo 'Hubo un error al enviar el correo. Por favor, revisa los registros para más detalles.';  // Mensaje para el usuario
+    // Mensaje en caso de error
+    echo 'Hubo un error al enviar el correo: ' . $mail->ErrorInfo;
 }
 ?>
