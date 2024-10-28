@@ -1,50 +1,56 @@
 <?php
-//RECIBIMOS LOS DATOS DE LA IMAGEN
+// RECIBIMOS LOS DATOS DE LA IMAGEN
 
-//con esto almacenamos: nombre, tipo y tamaño de imagen
-$nombre_imagen=$_FILES["imagen"]["name"];
-$tipo_imagen=$_FILES["imagen"]["type"];
-$size_imagen=$_FILES["imagen"]["size"];
+// Almacenamos en variables el nombre, tipo y tamaño de la imagen recibida
+$nombre_imagen = $_FILES["imagen"]["name"]; // Nombre del archivo de imagen
+$tipo_imagen = $_FILES["imagen"]["type"];   // Tipo de archivo (MIME type)
+$size_imagen = $_FILES["imagen"]["size"];   // Tamaño del archivo en bytes
 
 
-//CUANDO SUBIMOS UNA IMAGEN EL TYPE ES: image/ y luego el formato: gif, jpeg....
-// Tamaño en bytes. 1Millon bytes es aprox 1 Mb 
-if ($size_imagen<=1000000){  
-	if ($tipo_imagen=="image/jpeg" || $tipo_imagen=="image/jpg" || $tipo_imagen=="image/png" || $tipo_imagen=="image/gif"){
-	
-		$carpeta_destino=$_SERVER['DOCUMENT_ROOT'] . '/cursoPHP/Imagenes_Servidor/carpeta_imagenes_subidas/';
-		move_uploaded_file($_FILES["imagen"]["tmp_name"],$carpeta_destino.$nombre_imagen);
+// VERIFICAMOS EL TIPO Y TAMAÑO DE LA IMAGEN
 
-		echo "Nombre de la imagen en bytes: " . $nombre_imagen;
-		echo "<br>";
-		echo "Tipo de la imagen: " . $tipo_imagen;
-		echo "<br>";
-		echo "Tamaño de la imagen: " . $size_imagen;
-		echo "<br>";
-		
-	}else{
-		echo "Solo se pueden subir imágenes, es decir formatos: jpeg, jpg, png, gif";
+// Restricción de tamaño: solo se permite si es menor o igual a 1 MB (1 millón de bytes)
+if ($size_imagen <= 1000000) {
+	// Verificamos si el archivo es un tipo de imagen permitido: jpeg, jpg, png, gif
+	if ($tipo_imagen == "image/jpeg" || $tipo_imagen == "image/jpg" || $tipo_imagen == "image/png" || $tipo_imagen == "image/gif") {
+
+		// Definimos la carpeta de destino en el servidor donde se guardará la imagen
+		$carpeta_destino = $_SERVER['DOCUMENT_ROOT'] . '/cursoPHP/Imagenes_Servidor/carpeta_imagenes_subidas/';
+		// Movemos la imagen desde la ubicación temporal a la carpeta destino con su nombre original
+		move_uploaded_file($_FILES["imagen"]["tmp_name"], $carpeta_destino . $nombre_imagen);
+
+		// Mostramos la información de la imagen subida
+		echo "Nombre de la imagen: " . $nombre_imagen . "<br>";
+		echo "Tipo de la imagen: " . $tipo_imagen . "<br>";
+		echo "Tamaño de la imagen en bytes: " . $size_imagen . "<br>";
+
+	} else {
+		// Mensaje de error si el archivo no es un tipo de imagen permitido
+		echo "Solo se pueden subir imágenes en formato: jpeg, jpg, png, gif";
 	}
-}else{
-	echo "El tamaño es demasiado grande";
+} else {
+	// Mensaje de error si el tamaño del archivo supera el límite permitido de 1 MB
+	echo "El tamaño del archivo es demasiado grande";
 }
-//----------------------CONEXION BASE DATOS y ALMACENAMIENTO DE ESA IMAGEN EN ESE CAMPO
-	require("datos_conexion.php");
-
-	$conexion = mysqli_connect($servername, $username, $password, $database);
-		if (!$conexion) {
-			die("Connection failed: " . mysqli_connect_error());
-		}
-	echo "Connected successfully" . "<br>";
-//insertamos en el campo foto de la tabla productos la ruta de la imagen que está en $nombre_imagen
-//	$sql="INSERT INTO productos (FOTO) VALUES ('$nombre_imagen')"; 
-	$sql="UPDATE productos SET FOTO='$nombre_imagen' WHERE CODIGOARTICULO='AR01'";
-	$resultado=mysqli_query($conexion,$sql);
 
 
+// CONEXIÓN A LA BASE DE DATOS Y ALMACENAMIENTO DE LA RUTA DE LA IMAGEN
 
+// Incluimos el archivo con los datos de conexión a la base de datos
+require("datos_conexion.php");
 
+// Establecemos la conexión a la base de datos
+$conexion = mysqli_connect($servername, $username, $password, $database);
+if (!$conexion) {
+	die("Connection failed: " . mysqli_connect_error()); // Mensaje de error en caso de fallo de conexión
+}
+echo "Conexión exitosa" . "<br>";
 
-	
-//--------------------------- FIN CONEXION BASE DATOS
+// Actualizamos la tabla 'productos' para guardar la ruta de la imagen en el campo 'FOTO' del producto con el código 'AR01'
+$sql = "UPDATE productos SET FOTO='$nombre_imagen' WHERE CODIGOARTICULO='AR01'";
+$resultado = mysqli_query($conexion, $sql);
+
+// Cerramos la conexión a la base de datos
+mysqli_close($conexion);
+
 ?>
