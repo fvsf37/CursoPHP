@@ -1,35 +1,32 @@
 <?php
-// RECIBIMOS LOS DATOS DE LA IMAGEN
+//RECIBIMOS LOS DATOS DE LA IMAGEN
 
-// Obtenemos y almacenamos el nombre, tipo y tamaño de la imagen
-$nombre_imagen = $_FILES["imagen"]["name"]; // Nombre original del archivo de imagen
-$tipo_imagen = $_FILES["imagen"]["type"];   // Tipo MIME del archivo
-$size_imagen = $_FILES["imagen"]["size"];   // Tamaño del archivo en bytes
-
-
-// DEFINIMOS EL DIRECTORIO DE DESTINO PARA GUARDAR LA IMAGEN
-
-// $_SERVER['DOCUMENT_ROOT'] proporciona la ruta al directorio principal de documentos del servidor, generalmente 'C:\xampp\htdocs\'
-// Añadimos la carpeta donde se almacenará la imagen dentro del servidor
-$carpeta_destino = $_SERVER['DOCUMENT_ROOT'] . '/cursoPHP/Imagenes_Servidor/carpeta_imagenes_subidas/';
+//con esto almacenamos: nombre, tipo y tamaño de imagen
+$nombre_imagen=$_FILES["imagen"]["name"];
+$tipo_imagen=$_FILES["imagen"]["type"];
+$size_imagen=$_FILES["imagen"]["size"];
 
 
-// MOVEMOS LA IMAGEN DESDE LA CARPETA TEMPORAL A LA CARPETA DESTINO
+//aqui decimos el directorio o carpeta donde queremos guardar la imagen.
+// DOCUMENT_ROOT ES C:\xampp\htdocs\
+//lUEGO LE SEGUIMOS INDICANDO EL RESTO DE LA RUTA
 
-// La función `move_uploaded_file` toma el archivo temporal y lo mueve al directorio especificado con su nombre original
-move_uploaded_file($_FILES["imagen"]["tmp_name"], $carpeta_destino . $nombre_imagen);
+//                 RUTA DE LA CARPETA DESTINO DEL SERVIDOR
+$carpeta_destino=$_SERVER['DOCUMENT_ROOT'] . '/cursoPHP/ejemploscursophp/Imagenes_Servidor/carpeta_imagenes_subidas/';
 
 
-// MOSTRAMOS DETALLES DE LA IMAGEN SUBIDA
+//                 AHORA MOVEMOS EL ARCHIVO DE LA CARPETA TEMPORAL A LA CARPETA DESTINO
 
-// Mostramos al usuario información sobre la imagen que se ha subido, incluyendo su nombre, tipo y tamaño
-echo "Nombre de la imagen: " . $nombre_imagen . "<br>";
-echo "Tipo de la imagen: " . $tipo_imagen . "<br>";
-echo "Tamaño de la imagen en bytes: " . $size_imagen . "<br>";
+move_uploaded_file($_FILES["imagen"]["tmp_name"],$carpeta_destino.$nombre_imagen);
 
-// NOTA:
-// Aquí se podrían agregar verificaciones adicionales, como:
-// - Limitar el tamaño de la imagen para evitar cargas demasiado grandes.
-// - Restringir el tipo de archivo para aceptar solo imágenes, evitando archivos no deseados.
+//  FALTARIA CONTROLAR QUE NO SUBA MAS DE UN TAMAÑO INDICADO, QUE NO DEJE SUBIR COSAS QUE NO SEAN IMAGENES...ETC
+
+echo "Nombre de la imagen: " . $nombre_imagen;
+echo "<br>";
+echo "Tipo de la imagen: " . $tipo_imagen;
+echo "<br>";
+echo "Tamaño de la imagen en bytes: " . $size_imagen;
+echo "<br>";
+	
 
 ?>
