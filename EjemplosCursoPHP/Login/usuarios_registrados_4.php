@@ -9,10 +9,7 @@
         table,
         tr,
         td {
-<<<<<<< HEAD
-=======
             /* Define que la tabla, filas y celdas compartan el mismo estilo de borde */
->>>>>>> 7a93cebd5afbddf3294ef3a87752beb87e361cbd
             border-collapse: collapse;
             border: 2px solid red;
             /* Borde de 2px color rojo */
@@ -32,21 +29,12 @@
     // Comenzamos o reanudamos la sesión existente
     session_start();
 
-<<<<<<< HEAD
-    //Poneos código php aquí antes de mostrar el contenido  del html, comprobando que la sesión está abierta y es correcta
-    
-    session_start();
-    if (!isset($_SESSION["usuario"])) {
-        header("Location:login_3.php");
-    }
-=======
     // Verificamos si la sesión no está iniciada. Si el usuario no ha iniciado sesión, lo redirigimos al formulario de login
     if (!isset($_SESSION["usuario"])) {
         header("Location:login_3.php"); // Si no está logueado, redirige al formulario de login
     }
 
     // Si la sesión existe, mostramos el nombre del usuario
->>>>>>> 7a93cebd5afbddf3294ef3a87752beb87e361cbd
     echo "USUARIO: " . $_SESSION["usuario"] . "<br>";
     ?>
 
