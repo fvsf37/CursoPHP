@@ -17,14 +17,14 @@ try {
     //Server settings
     $mail->SMTPDebug = 2;                      //Enable verbose debug output
     $mail->isSMTP();                                            //Send using SMTP
-    $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
-    $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
-    $mail->Username   = 'cesurformacion2024@gmail.com';                     //SMTP username
+    $mail->Host = 'smtp.gmail.com';                     //Set the SMTP server to send through
+    $mail->SMTPAuth = true;                                   //Enable SMTP authentication
+    $mail->Username = 'cesurformacion2024@gmail.com';                     //SMTP username
     //$mail->Password   = 'slwc dtci owpw htxa';     //SMTP password DE LA CONTRASEÑA DE APLICACION. AL ESTAR HABILITADO SEGURIDAD 2 PASOS EN GMAIL
-    $mail->Password   = 'wnck vepq ubmm evqc';
+    $mail->Password = 'wnck vepq ubmm evqc';
 
     $mail->SMTPSecure = 'ssl';            //Enable implicit TLS encryption
-    $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+    $mail->Port = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
     //Recipients
     $mail->setFrom('cesurformacion2024@gmail.com', 'Cesur-Gmail');
@@ -32,7 +32,7 @@ try {
     //$mail->addAddress('ellen@example.com');               //Name is optional
     //$mail->addReplyTo('info@example.com', 'Information');
     //$mail->addCC('cc@example.com');
-   // $mail->addBCC('bcc@example.com');
+    // $mail->addBCC('bcc@example.com');
 
     //Attachments
     //$mail->addAttachment('/var/tmp/file.tar.gz');         //Add attachments
@@ -45,17 +45,17 @@ try {
     $mail->isHTML(true);                                  //Set email format to HTML
     $mail->Subject = 'ASUNTO TEST';
     //------------------------------------------------------------------------
-   
-//$mail->Body    = 'MENSAJE EJEMPLO ENVIADO DE <b>PRUEBA</b>'; //SI QUEREMOS PONER DIRECTAMENTE EL TEXTO DEL BODY
+
+    //$mail->Body    = 'MENSAJE EJEMPLO ENVIADO DE <b>PRUEBA</b>'; //SI QUEREMOS PONER DIRECTAMENTE EL TEXTO DEL BODY
     //$mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 
     //----- PODEMOS PONER EL BODY LLAMANDO A UN HTML YA EXISTENTE: Ej bodyEnviarEmail.html
-    $file= fopen("bodyenviarEmail.html", "r");
-    $str=fread($file,filesize("bodyenviarEmail.html"));
-    $str=trim($str);
+    $file = fopen("bodyenviarEmail.html", "r");
+    $str = fread($file, filesize("bodyenviarEmail.html"));
+    $str = trim($str);
     fclose($file);
 
-    $mail->Body    = $str;
+    $mail->Body = $str;
     //-----------------------------------------------------------------------
 
     $mail->send();

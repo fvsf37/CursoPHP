@@ -1,8 +1,9 @@
 <!doctype html>
 <html>
+
 <head>
-<meta charset="utf-8">
-<title>Documento sin título</title>
+	<meta charset="utf-8">
+	<title>Documento sin título</title>
 </head>
 
 <body>
@@ -12,6 +13,7 @@
 
 		<input type="submit" name="enviando" value="Registro">
 	</form>
-	
+
 </body>
+
 </html>
