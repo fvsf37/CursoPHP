@@ -12,7 +12,7 @@ $size_imagen=$_FILES["imagen"]["size"];
 //lUEGO LE SEGUIMOS INDICANDO EL RESTO DE LA RUTA
 
 //                 RUTA DE LA CARPETA DESTINO DEL SERVIDOR
-$carpeta_destino=$_SERVER['DOCUMENT_ROOT'] . '/cursoPHP/Imagenes_Servidor/carpeta_imagenes_subidas/';
+$carpeta_destino=$_SERVER['DOCUMENT_ROOT'] . '/cursoPHP/ejemploscursophp/Imagenes_Servidor/carpeta_imagenes_subidas/';
 
 
 //                 AHORA MOVEMOS EL ARCHIVO DE LA CARPETA TEMPORAL A LA CARPETA DESTINO

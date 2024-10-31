@@ -10,7 +10,7 @@ $size_archivo=$_FILES["archivo"]["size"];
 //CUANDO SUBIMOS UNA IMAGEN EL TYPE ES: image/ y luego el formato: gif, jpeg....
 // Tamaño en bytes. 1Millon bytes es aprox 1 Mb 
 if ($size_archivo<=1000000){  
-	$carpeta_destino=$_SERVER['DOCUMENT_ROOT'] . '/cursoPHP/Imagenes_Servidor/carpeta_imagenes_subidas/';
+	$carpeta_destino=$_SERVER['DOCUMENT_ROOT'] . '/cursoPHP/ejemploscursophp/Imagenes_Servidor/carpeta_imagenes_subidas/';
 	move_uploaded_file($_FILES["archivo"]["tmp_name"],$carpeta_destino.$nombre_archivo);
 
 	echo "Nombre DEL ARCHIVO en bytes: " . $nombre_archivo;

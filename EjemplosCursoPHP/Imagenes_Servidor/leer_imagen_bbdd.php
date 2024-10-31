@@ -9,12 +9,12 @@
 
 // LO PRIMERO CONECTAR CON LA BASE DE DATOS
 	
-	require("datos_conexIon.php");
+	require("datos_conexion.php");
 	$conexion = mysqli_connect($servername, $username, $password, $database);
 		if (!$conexion) {
 			die("Connection failed: " . mysqli_connect_error());
 		}
-	$consulta="SELECT FOTO FROM productos WHERE CODIGOARTICULO='AR01'";
+	$consulta="SELECT FOTO FROM archivos WHERE id=2";
 	$resultado=mysqli_query($conexion,$consulta);
 	while ($fila=mysqli_fetch_array($resultado)){
 		$ruta_imagen=$fila["FOTO"];

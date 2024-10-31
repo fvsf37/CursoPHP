@@ -13,7 +13,7 @@ $size_imagen=$_FILES["imagen"]["size"];
 if ($size_imagen<=1000000){  
 	if ($tipo_imagen=="image/jpeg" || $tipo_imagen=="image/jpg" || $tipo_imagen=="image/png" || $tipo_imagen=="image/gif"){
 	
-		$carpeta_destino=$_SERVER['DOCUMENT_ROOT'] . '/cursoPHP/Imagenes_Servidor/carpeta_imagenes_subidas/';
+		$carpeta_destino=$_SERVER['DOCUMENT_ROOT'] . '/cursoPHP/ejemploscursophp/Imagenes_Servidor/carpeta_imagenes_subidas/';
 		move_uploaded_file($_FILES["imagen"]["tmp_name"],$carpeta_destino.$nombre_imagen);
 
 		echo "Nombre de la imagen en bytes: " . $nombre_imagen;
@@ -39,7 +39,7 @@ if ($size_imagen<=1000000){
 /*	echo "Connected successfully" . "<br>";*/
 //insertamos en el campo foto de la tabla productos la ruta de la imagen que está en $nombre_imagen
 
-	$sql="INSERT INTO productos (FOTO) VALUES ('$nombre_imagen')"; 
+	$sql="INSERT INTO archivos (FOTO, tipo, contenido) VALUES ('$nombre_imagen', '$tipo_imagen', '$size_imagen')"; 
 //	$sql="UPDATE productos SET FOTO='$nombre_imagen' WHERE CODIGOARTICULO='AR01'";
 	$resultado=mysqli_query($conexion,$sql);
 
