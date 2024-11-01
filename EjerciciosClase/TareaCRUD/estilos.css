@@ -1,3 +1,4 @@
+/* Estilos generales */
 body {
   font-family: "Arial", sans-serif;
   margin: 0;
@@ -6,13 +7,19 @@ body {
   color: #333;
 }
 
-h1,
-h2 {
+h1 {
   color: white;
   font-weight: 600;
   text-align: center;
 }
 
+h2 {
+  color: #00796b;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* Header */
 header {
   display: flex;
   justify-content: space-between;
@@ -23,7 +30,7 @@ header {
   border-radius: 5px;
 }
 
-header a {
+header a.add-button {
   background-color: #ff5722;
   color: white;
   padding: 10px 20px;
@@ -32,12 +39,70 @@ header a {
   transition: background-color 0.3s ease;
 }
 
-header a:hover {
+header a.add-button:hover {
   background-color: #e64a19;
 }
 
+/* Formulario de búsqueda */
+form {
+  max-width: 700px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+}
+
+form input[type="text"],
+form input[type="number"],
+form select {
+  width: 100%;
+  padding: 12px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
+  font-size: 14px;
+  box-sizing: border-box;
+  transition: border-color 0.3s;
+}
+
+form input[type="text"]:focus,
+form input[type="number"]:focus,
+form select:focus {
+  border-color: #00796b;
+  outline: none;
+}
+
+form input[type="submit"] {
+  grid-column: 1 / -1;
+  background-color: #00796b;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+form input[type="submit"]:hover {
+  background-color: #004d40;
+}
+
+form label {
+  font-weight: bold;
+  font-size: 13px;
+  color: #555;
+  margin-bottom: 5px;
+  display: block;
+}
+
+/* Tabla de productos */
 table {
-  width: 90%;
+  width: 100%;
   margin: 20px auto;
   border-collapse: collapse;
   background-color: white;
@@ -85,27 +150,44 @@ tr:nth-child(even) td {
   gap: 10px;
 }
 
-form {
-  max-width: 600px;
-  margin: 20px auto;
+/* Formularios de agregar y modificar */
+.formularios-container {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.formulario {
+  width: 300px;
   padding: 20px;
   background-color: white;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: grid;
+  gap: 15px;
 }
 
-form input[type="text"],
-form input[type="number"],
-form input[type="date"],
-form select {
-  width: calc(100% - 20px);
+.formulario h2 {
+  text-align: center;
+  color: #00796b;
+}
+
+.formulario input[type="text"],
+.formulario input[type="number"],
+.formulario input[type="date"],
+.formulario select,
+.formulario input[type="file"] {
+  width: 100%;
   padding: 10px;
-  margin-bottom: 15px;
   border-radius: 5px;
   border: 1px solid #ccc;
+  background-color: #f9f9f9;
+  box-sizing: border-box;
 }
 
-form input[type="submit"] {
+.formulario input[type="submit"] {
+  width: 100%;
   background-color: #00796b;
   color: white;
   padding: 10px;
@@ -113,39 +195,131 @@ form input[type="submit"] {
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  width: 100%;
 }
 
-form input[type="submit"]:hover {
+.formulario input[type="submit"]:hover {
   background-color: #004d40;
 }
 
-/* Estilos para los mensajes de éxito o error */
-.alert {
-  max-width: 600px;
-  margin: 20px auto;
-  padding: 15px;
-  border-radius: 5px;
-  text-align: center;
-  font-size: 16px;
-  display: none; /* Ocultamos inicialmente */
-}
-
-.alert.exito {
-  background-color: #4caf50; /* Verde para éxito */
-  color: white;
-}
-
-.alert.error {
-  background-color: #f44336; /* Rojo para errores */
-  color: white;
-}
-
+/* Footer */
 footer {
-  text-align: center;
-  margin-top: 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   padding: 20px;
   background-color: #00796b;
   color: white;
   border-radius: 5px;
+  font-size: 14px;
+}
+
+footer p {
+  margin: 0;
+}
+
+.logout-button {
+  background-color: #ff5722;
+  color: white;
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.logout-button:hover {
+  background-color: #e64a19;
+}
+
+/* Estilos específicos para Login y Registro */
+.login-container,
+.register-container {
+  max-width: 500px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  display: grid;
+  gap: 15px;
+  text-align: center;
+}
+
+/* Título del formulario de Login y Registro */
+.login-container h2,
+.register-container h2 {
+  color: #00796b;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+/* Campos de input para Login y Registro */
+.login-container input[type="text"],
+.login-container input[type="password"],
+.register-container input[type="text"],
+.register-container input[type="password"],
+.register-container select {
+  width: 100%;
+  padding: 12px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
+  font-size: 14px;
+  box-sizing: border-box;
+  transition: border-color 0.3s;
+}
+
+.login-container input[type="text"]:focus,
+.login-container input[type="password"]:focus,
+.register-container input[type="text"]:focus,
+.register-container input[type="password"]:focus,
+.register-container select:focus {
+  border-color: #00796b;
+  outline: none;
+}
+
+/* Botones de envío para Login y Registro */
+.login-container input[type="submit"],
+.register-container input[type="submit"] {
+  background-color: #00796b;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  width: 100%;
+}
+
+.login-container input[type="submit"]:hover,
+.register-container input[type="submit"]:hover {
+  background-color: #004d40;
+}
+
+/* Botón de alternancia entre Login y Registro */
+.toggle-button {
+  background-color: #ff5722;
+  color: white;
+  font-size: 14px;
+  padding: 8px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 10px;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.toggle-button:hover {
+  background-color: #e64a19;
+}
+
+/* Label para el selector de tipo de usuario en el registro */
+.register-container label {
+  font-weight: bold;
+  font-size: 13px;
+  color: #555;
+  margin-top: 10px;
+  display: block;
 }
