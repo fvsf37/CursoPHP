@@ -29,6 +29,8 @@ header {
   padding: 15px;
   color: white;
   border-radius: 5px;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 header a.add-button,
@@ -135,13 +137,13 @@ td a {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 40px; /* Altura fija para todos los botones en la tabla */
-  padding: 0 15px; /* Ajuste horizontal sin aumentar la altura */
-  font-size: 14px; /* Tamaño de fuente */
-  border-radius: 5px; /* Bordes redondeados */
+  height: 40px;
+  padding: 0 15px;
+  font-size: 14px;
+  border-radius: 5px;
   text-decoration: none;
   color: white;
-  background-color: #ff5722; /* Color naranja */
+  background-color: #ff5722;
   transition: background-color 0.3s ease;
 }
 
@@ -181,9 +183,9 @@ tr:nth-child(even) td {
 .button-wrapper {
   display: flex;
   margin: 20px 0;
-  background-color: transparent; /* Sin fondo */
-  box-shadow: none; /* Eliminar sombra */
-  padding: 0; /* Sin padding extra */
+  background-color: transparent;
+  box-shadow: none;
+  padding: 0;
   justify-content: flex-end;
 }
 
@@ -193,6 +195,7 @@ tr:nth-child(even) td {
   gap: 20px;
   justify-content: center;
   margin-top: 20px;
+  flex-wrap: wrap;
 }
 
 .formulario {
@@ -341,4 +344,37 @@ footer .logout-button {
   color: #555;
   margin-top: 10px;
   display: block;
+}
+
+/* Media Queries para dispositivos más pequeños */
+@media (max-width: 768px) {
+  /* Ajusta el header para pantallas pequeñas */
+  header {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  /* Ajusta la tabla */
+  table,
+  th,
+  td {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  /* Formularios generales */
+  form {
+    grid-template-columns: 1fr;
+  }
+
+  /* Ajuste en la vista móvil para el botón de envío */
+  .button-wrapper {
+    justify-content: center;
+  }
+
+  /* Formularios específicos de agregar y modificar */
+  .formularios-container {
+    flex-direction: column;
+    align-items: center;
+  }
 }
