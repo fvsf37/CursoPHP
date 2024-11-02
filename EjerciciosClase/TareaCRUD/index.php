@@ -1,8 +1,10 @@
 <?php
-include 'auth.php';
-include 'db.php';
+include_once 'auth.php';
+include_once 'db.php';
 
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 // Verifica que el usuario haya iniciado sesión
 if (!isset($_SESSION['username'])) {
@@ -36,18 +38,25 @@ if (isset($_GET['editar'])) {
     <header>
         <h1>Gestión de Productos</h1>
         <!-- Solo muestra el botón de agregar producto si el usuario es admin -->
-        <?php if ($tipo_usuario == 'admin'): ?>
-            <a href="#formulario-agregar" class="add-button">Agregar Producto</a>
-        <?php endif; ?>
-        <a href="logout.php" class="logout-button">Cerrar Sesión</a>
+        <div class="button-group">
+            <!-- Botón de agregar producto, solo visible para admin -->
+            <?php if ($tipo_usuario == 'admin'): ?>
+                <a href="#formulario-agregar" class="add-button">Agregar Producto</a>
+            <?php endif; ?>
+        </div>
     </header>
 
-    <!-- Mensaje de bienvenida según el tipo de usuario -->
-    <?php if ($tipo_usuario == 'admin'): ?>
-        <p>Bienvenido, administrador. Tienes acceso completo a todas las funcionalidades.</p>
-    <?php else: ?>
-        <p>Bienvenido, usuario. Tienes acceso limitado.</p>
-    <?php endif; ?>
+    <!-- Ejecuta el mensaje de bienvenida con JavaScript
+    <script>
+        window.onload = function () {
+            const username = "<?php echo $username; ?>";
+            const tipoUsuario = "<?php echo $tipo_usuario; ?>";
+            const mensaje = tipoUsuario === 'admin'
+                ? `Bienvenido, ${username}. Tienes acceso completo a todas las funcionalidades.`
+                : `Bienvenido, ${username}. Tienes acceso limitado.`;
+            alert(mensaje);
+        };
+    </script> -->
 
     <!-- Formulario de búsqueda avanzada (solo visible para admin) -->
     <?php if ($tipo_usuario == 'admin'): ?>
@@ -76,10 +85,7 @@ if (isset($_GET['editar'])) {
             <th>Fecha</th>
             <th>Importado</th>
             <th>País</th>
-            <!-- Solo muestra las opciones de acciones si el usuario es admin -->
-            <?php if ($tipo_usuario == 'admin'): ?>
-                <th>Acciones</th>
-            <?php endif; ?>
+            <th>Acciones</th>
         </tr>
         <?php
         // Obtén los productos desde la base de datos
@@ -95,17 +101,30 @@ if (isset($_GET['editar'])) {
                 <td><?php echo $producto_item['FECHA']; ?></td>
                 <td><?php echo $producto_item['IMPORTADO']; ?></td>
                 <td><?php echo $producto_item['PAISDEORIGEN']; ?></td>
-                <!-- Solo muestra las acciones de modificar y eliminar si el usuario es admin -->
-                <?php if ($tipo_usuario == 'admin'): ?>
-                    <td class="actions">
+                <td class="actions">
+                    <!-- Botón para enviar solo este registro -->
+                    <form method="post" action="enviar_registro.php" style="display:inline;">
+                        <input type="hidden" name="codigo" value="<?php echo $producto_item['CODIGOARTICULO']; ?>">
+                        <button type="submit" name="enviar_registro" class="send-button">Enviar Registro</button>
+                    </form>
+                    <!-- Botones de modificar y eliminar si el usuario es admin -->
+                    <?php if ($tipo_usuario == 'admin'): ?>
                         <a href="?editar=<?php echo $producto_item['CODIGOARTICULO']; ?>#formulario-modificar">Modificar</a>
                         <a href="acciones.php?eliminar=<?php echo $producto_item['CODIGOARTICULO']; ?>"
                             onclick="return confirm('¿Estás seguro de que quieres eliminar este producto?');">Eliminar</a>
-                    </td>
-                <?php endif; ?>
+                    <?php endif; ?>
+                </td>
             </tr>
         <?php endwhile; ?>
     </table>
+
+    <!-- Formulario para enviar toda la tabla -->
+    <form method="post" action="enviar_tabla.php" class="button-wrapper">
+        <button type="submit" name="enviar_toda_tabla" class="send-button">Enviar Toda la Tabla</button>
+    </form>
+
+
+
 
     <!-- Formularios de agregar y modificar producto (solo visibles para admin) -->
     <?php if ($tipo_usuario == 'admin'): ?>
@@ -155,6 +174,7 @@ if (isset($_GET['editar'])) {
 
     <footer>
         <p>Francisco Salapic Fernández</p>
+        <a href="logout.php" class="logout-button">Cerrar Sesión</a>
     </footer>
 
 </body>

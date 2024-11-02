@@ -1,6 +1,9 @@
 <?php
-include 'db.php';
-session_start();
+include_once 'db.php';
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 
 // Función para verificar las credenciales del usuario y obtener el tipo de usuario (admin o usuario)
 function verificarUsuario($username, $password)

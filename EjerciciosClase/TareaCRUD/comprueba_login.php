@@ -1,6 +1,8 @@
 <?php
 include 'auth.php';
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = $_POST['username'];
@@ -8,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Llama a la función iniciarSesion de auth.php
     if (iniciarSesion($username, $password)) {
-        // Si las credenciales son válidas, redirige a index.php
+        // Si las credenciales son válidas, redirige de inmediato a index.php
         header("Location: index.php");
         exit();
     } else {
@@ -17,4 +19,5 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         exit();
     }
 }
+
 ?>
