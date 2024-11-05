@@ -1,5 +1,4 @@
 <?php
-session_start();
 
 // Parámetros de conexión
 $db_host = "localhost";
@@ -44,21 +43,55 @@ function eliminarProducto($codigo)
     return mysqli_stmt_execute($stmt);
 }
 
-// Función para obtener todos los productos o filtrar por búsqueda
-function obtenerProductos($buscar = "")
+// Función para obtener productos con búsqueda avanzada y filtro de NULL
+function obtenerProductos($criterios = [])
 {
     global $conexion;
-    $query = "SELECT * FROM productos";
-    if (!empty($buscar)) {
-        $query .= " WHERE CODIGOARTICULO LIKE ? OR NOMBREARTICULO LIKE ?";
-        $stmt = mysqli_prepare($conexion, $query);
-        $param = "%{$buscar}%";
-        mysqli_stmt_bind_param($stmt, "ss", $param, $param);
-        mysqli_stmt_execute($stmt);
-        return mysqli_stmt_get_result($stmt);
-    } else {
-        return mysqli_query($conexion, $query);
+    $query = "SELECT * FROM productos WHERE CODIGOARTICULO IS NOT NULL AND SECCION IS NOT NULL AND NOMBREARTICULO IS NOT NULL AND PRECIO IS NOT NULL";
+    $params = [];
+    $types = "";
+
+    // Agrega condiciones de búsqueda avanzada
+    if (!empty($criterios['buscar_codigo'])) {
+        $query .= " AND CODIGOARTICULO LIKE ?";
+        $params[] = "%" . $criterios['buscar_codigo'] . "%";
+        $types .= "s";
     }
+    if (!empty($criterios['buscar_nombre'])) {
+        $query .= " AND NOMBREARTICULO LIKE ?";
+        $params[] = "%" . $criterios['buscar_nombre'] . "%";
+        $types .= "s";
+    }
+    if (!empty($criterios['buscar_seccion'])) {
+        $query .= " AND SECCION LIKE ?";
+        $params[] = "%" . $criterios['buscar_seccion'] . "%";
+        $types .= "s";
+    }
+    if (!empty($criterios['buscar_precio'])) {
+        $query .= " AND PRECIO = ?";
+        $params[] = $criterios['buscar_precio'];
+        $types .= "d"; // Tipo de dato decimal o float
+    }
+    if (!empty($criterios['buscar_importado'])) {
+        $query .= " AND IMPORTADO = ?";
+        $params[] = $criterios['buscar_importado'];
+        $types .= "s";
+    }
+    if (!empty($criterios['buscar_pais'])) {
+        $query .= " AND PAISDEORIGEN LIKE ?";
+        $params[] = "%" . $criterios['buscar_pais'] . "%";
+        $types .= "s";
+    }
+
+    $stmt = mysqli_prepare($conexion, $query);
+
+    // Verifica si hay parámetros para vincular
+    if (!empty($params)) {
+        mysqli_stmt_bind_param($stmt, $types, ...$params);
+    }
+
+    mysqli_stmt_execute($stmt);
+    return mysqli_stmt_get_result($stmt);
 }
 
 // Función para obtener un producto por su código

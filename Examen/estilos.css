@@ -11,7 +11,7 @@ body {
 h1 {
   color: white;
   font-weight: 600;
-  text-align: center;
+  text-align: left;
 }
 
 h2 {
@@ -23,29 +23,59 @@ h2 {
 /* Header */
 header {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-between; /* Espacio entre el título y los botones */
   align-items: center;
   background-color: #00796b;
-  padding: 15px;
+  padding: 30px;
   color: white;
   border-radius: 5px;
-  flex-wrap: wrap;
-  gap: 10px;
 }
 
-header a.add-button,
-.logout-button {
+header h1 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+  color: white;
+}
+
+/* Contenedor de botones en el header */
+.button-group {
+  display: flex;
+  gap: 10px; /* Espacio entre los botones */
+}
+
+/* Botones dentro del header y del footer */
+.add-button {
   background-color: #ff5722;
   color: white;
   padding: 10px 20px;
   text-decoration: none;
+  border: none;
   border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
-header a.add-button:hover,
-.logout-button:hover {
+.add-button:hover {
   background-color: #e64a19;
+}
+
+/* Botón de enviar registro individual (no afecta a los botones en el header o footer) */
+.send-button {
+  background-color: #00796b;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  text-align: center;
+}
+
+.send-button:hover {
+  background-color: #004d40;
 }
 
 /* Formularios generales */
@@ -161,34 +191,6 @@ tr:nth-child(even) td {
   align-items: center;
 }
 
-/* Botones de envío de registro y tabla */
-.send-button {
-  background-color: #00796b;
-  color: white;
-  padding: 12px 20px;
-  border: none;
-  border-radius: 5px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  text-align: center;
-}
-
-.send-button:hover {
-  background-color: #004d40;
-}
-
-/* Centrado del botón de enviar toda la tabla */
-.center-button,
-.button-wrapper {
-  display: flex;
-  margin: 20px 0;
-  background-color: transparent;
-  box-shadow: none;
-  padding: 0;
-  justify-content: flex-end;
-}
-
 /* Formularios específicos de agregar y modificar */
 .formularios-container {
   display: flex;
@@ -253,7 +255,7 @@ footer {
   font-size: 14px;
 }
 
-footer .logout-button {
+footer .add-button {
   margin-left: auto;
 }
 
@@ -348,13 +350,11 @@ footer .logout-button {
 
 /* Media Queries para dispositivos más pequeños */
 @media (max-width: 768px) {
-  /* Ajusta el header para pantallas pequeñas */
   header {
     flex-direction: column;
     gap: 10px;
   }
 
-  /* Ajusta la tabla */
   table,
   th,
   td {
@@ -362,17 +362,15 @@ footer .logout-button {
     padding: 10px;
   }
 
-  /* Formularios generales */
   form {
     grid-template-columns: 1fr;
   }
 
-  /* Ajuste en la vista móvil para el botón de envío */
-  .button-wrapper {
-    justify-content: center;
+  .button-group {
+    flex-direction: column; /* Cambia la dirección a columna en dispositivos pequeños */
+    align-items: center;
   }
 
-  /* Formularios específicos de agregar y modificar */
   .formularios-container {
     flex-direction: column;
     align-items: center;

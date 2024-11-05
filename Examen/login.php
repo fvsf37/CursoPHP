@@ -1,3 +1,13 @@
+<?php
+session_start();
+
+// Mostrar mensaje de error en un alert si existe
+if (isset($_SESSION['mensaje'])) {
+    echo "<script>alert('{$_SESSION['mensaje']}');</script>";
+    unset($_SESSION['mensaje']); // Elimina el mensaje después de mostrarlo
+}
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 
