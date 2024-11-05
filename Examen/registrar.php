@@ -6,8 +6,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $password = $_POST['password'];
     $tipo_usuario = $_POST['tipo_usuario'];
 
-    // Cifra la contraseña con un coste de 13
-    $hashed_password = password_hash($password, PASSWORD_DEFAULT, array("cost" => 13));
+    // Cifra la contraseña con el coste predeterminado
+    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
     // Inserta el nuevo usuario en la base de datos
     $query = "INSERT INTO usuarios (nombreusuario, password, tipo) VALUES (?, ?, ?)";
@@ -16,12 +16,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $result = mysqli_stmt_execute($stmt);
 
     if ($result) {
-        echo "Registro exitoso. <a href='login.php'>Inicia sesión aquí.</a>";
+        // Si el registro es exitoso, muestra un alert personalizado y redirige de inmediato
+        echo "<script>
+                alert('Registro exitoso. Serás redirigido al inicio de sesión.');
+                window.location.href = 'login.php';
+              </script>";
     } else {
-        echo "Error en el registro.";
+        // En caso de error en el registro
+        echo "<script>
+                alert('Error en el registro. Inténtalo de nuevo.');
+                window.location.href = 'registrar.php';
+              </script>";
     }
 
     mysqli_stmt_close($stmt);
     mysqli_close($conexion);
 }
-?>

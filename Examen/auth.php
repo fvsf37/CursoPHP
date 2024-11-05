@@ -4,7 +4,6 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Función para verificar las credenciales del usuario y obtener el tipo de usuario (admin o usuario)
 function verificarUsuario($username, $password)
 {
     global $conexion;
@@ -14,17 +13,18 @@ function verificarUsuario($username, $password)
     mysqli_stmt_execute($stmt);
     $result = mysqli_stmt_get_result($stmt);
 
-    if ($result && $result->num_rows == 1) { // Verificar que haya un resultado
+    if ($result && $result->num_rows == 1) {
         $row = $result->fetch_assoc();
         $stored_password = $row['password'];
 
-        // Verificar la contraseña con password_verify
+        // Verificar la contraseña encriptada
         if (password_verify($password, $stored_password)) {
-            return $row['tipo']; // Retorna el tipo de usuario si la contraseña es correcta
+            return $row['tipo'];
         }
     }
     return null; // Retorna null si el usuario no existe o la contraseña es incorrecta
 }
+
 
 
 // Función para iniciar sesión
