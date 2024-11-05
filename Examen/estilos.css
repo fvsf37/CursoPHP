@@ -1,0 +1,380 @@
+/* Estilos generales */
+body {
+  font-family: "Arial", sans-serif;
+  margin: 0;
+  padding: 20px;
+  background-color: #f0f4f8;
+  color: #333;
+}
+
+/* Títulos */
+h1 {
+  color: white;
+  font-weight: 600;
+  text-align: center;
+}
+
+h2 {
+  color: #00796b;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* Header */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #00796b;
+  padding: 15px;
+  color: white;
+  border-radius: 5px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+header a.add-button,
+.logout-button {
+  background-color: #ff5722;
+  color: white;
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+header a.add-button:hover,
+.logout-button:hover {
+  background-color: #e64a19;
+}
+
+/* Formularios generales */
+form {
+  max-width: 700px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+}
+
+form input[type="text"],
+form input[type="number"],
+form select {
+  width: 100%;
+  padding: 12px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
+  font-size: 14px;
+  box-sizing: border-box;
+  transition: border-color 0.3s;
+}
+
+form input[type="text"]:focus,
+form input[type="number"]:focus,
+form select:focus {
+  border-color: #00796b;
+  outline: none;
+}
+
+form input[type="submit"] {
+  grid-column: 1 / -1;
+  background-color: #00796b;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+form input[type="submit"]:hover {
+  background-color: #004d40;
+}
+
+form label {
+  font-weight: bold;
+  font-size: 13px;
+  color: #555;
+  margin-bottom: 5px;
+  display: block;
+}
+
+/* Tabla de productos */
+table {
+  width: 100%;
+  margin: 20px auto;
+  border-collapse: collapse;
+  background-color: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+th,
+td {
+  padding: 15px;
+  text-align: left;
+}
+
+th {
+  background-color: #00796b;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+td {
+  background-color: #fafafa;
+}
+
+td a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  padding: 0 15px;
+  font-size: 14px;
+  border-radius: 5px;
+  text-decoration: none;
+  color: white;
+  background-color: #ff5722;
+  transition: background-color 0.3s ease;
+}
+
+td a:hover {
+  background-color: #e64a19;
+}
+
+tr:nth-child(even) td {
+  background-color: #f1f1f1;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+/* Botones de envío de registro y tabla */
+.send-button {
+  background-color: #00796b;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  text-align: center;
+}
+
+.send-button:hover {
+  background-color: #004d40;
+}
+
+/* Centrado del botón de enviar toda la tabla */
+.center-button,
+.button-wrapper {
+  display: flex;
+  margin: 20px 0;
+  background-color: transparent;
+  box-shadow: none;
+  padding: 0;
+  justify-content: flex-end;
+}
+
+/* Formularios específicos de agregar y modificar */
+.formularios-container {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+.formulario {
+  width: 300px;
+  padding: 20px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: grid;
+  gap: 15px;
+}
+
+.formulario h2 {
+  text-align: center;
+  color: #00796b;
+}
+
+.formulario input[type="text"],
+.formulario input[type="number"],
+.formulario input[type="date"],
+.formulario select,
+.formulario input[type="file"] {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
+  box-sizing: border-box;
+}
+
+.formulario input[type="submit"] {
+  width: 100%;
+  background-color: #00796b;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.formulario input[type="submit"]:hover {
+  background-color: #004d40;
+}
+
+/* Footer */
+footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background-color: #00796b;
+  color: white;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+footer .logout-button {
+  margin-left: auto;
+}
+
+/* Estilos específicos para Login y Registro */
+.login-container,
+.register-container {
+  max-width: 500px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  display: grid;
+  gap: 15px;
+  text-align: center;
+}
+
+.login-container h2,
+.register-container h2 {
+  color: #00796b;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.login-container input[type="text"],
+.login-container input[type="password"],
+.register-container input[type="text"],
+.register-container input[type="password"],
+.register-container select {
+  width: 100%;
+  padding: 12px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
+  font-size: 14px;
+  box-sizing: border-box;
+  transition: border-color 0.3s;
+}
+
+.login-container input[type="text"]:focus,
+.login-container input[type="password"]:focus,
+.register-container input[type="text"]:focus,
+.register-container input[type="password"]:focus,
+.register-container select:focus {
+  border-color: #00796b;
+  outline: none;
+}
+
+.login-container input[type="submit"],
+.register-container input[type="submit"] {
+  background-color: #00796b;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  width: 100%;
+}
+
+.login-container input[type="submit"]:hover,
+.register-container input[type="submit"]:hover {
+  background-color: #004d40;
+}
+
+.toggle-button {
+  background-color: #00796b;
+  color: white;
+  font-size: 14px;
+  padding: 8px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 10px;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.toggle-button:hover {
+  background-color: #004d40;
+}
+
+.register-container label {
+  font-weight: bold;
+  font-size: 13px;
+  color: #555;
+  margin-top: 10px;
+  display: block;
+}
+
+/* Media Queries para dispositivos más pequeños */
+@media (max-width: 768px) {
+  /* Ajusta el header para pantallas pequeñas */
+  header {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  /* Ajusta la tabla */
+  table,
+  th,
+  td {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  /* Formularios generales */
+  form {
+    grid-template-columns: 1fr;
+  }
+
+  /* Ajuste en la vista móvil para el botón de envío */
+  .button-wrapper {
+    justify-content: center;
+  }
+
+  /* Formularios específicos de agregar y modificar */
+  .formularios-container {
+    flex-direction: column;
+    align-items: center;
+  }
+}
