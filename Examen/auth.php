@@ -4,28 +4,21 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+// Función para verificar credenciales y obtener tipo de usuario
 function verificarUsuario($username, $password)
 {
     global $conexion;
-    echo "Inicio de la función verificarUsuario<br>"; // Línea de depuración
-
-    $query = "SELECT password, tipo FROM usuarios WHERE nombreusuario = ?";
+    $query = "SELECT tipo FROM usuarios WHERE nombreusuario = ? AND password = ?";
     $stmt = mysqli_prepare($conexion, $query);
-
-    if ($stmt === false) {
-        die("Error en la preparación de la consulta: " . mysqli_error($conexion));
-    }
-
-    mysqli_stmt_bind_param($stmt, "s", $username);
+    mysqli_stmt_bind_param($stmt, "ss", $username, $password);
     mysqli_stmt_execute($stmt);
-    mysqli_stmt_bind_result($stmt, $stored_password, $tipo_usuario);
-    mysqli_stmt_fetch($stmt);
+    $result = mysqli_stmt_get_result($stmt);
 
-    echo "Hash guardado en la base de datos: " . $stored_password . "<br>"; // Línea de depuración
-    echo "Contraseña ingresada: " . $password . "<br>"; // Línea de depuración
-
-    mysqli_stmt_close($stmt);
-    return null;
+    if ($result->num_rows == 1) {
+        return $result->fetch_assoc()['tipo']; // Retorna 'admin' o 'usuario'
+    } else {
+        return null; // Si no hay coincidencia, retorna null
+    }
 }
 
 
