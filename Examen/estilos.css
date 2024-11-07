@@ -8,22 +8,25 @@ body {
 }
 
 /* Títulos */
+h1,
+h2 {
+  font-weight: 600;
+}
+
 h1 {
   color: white;
-  font-weight: 600;
   text-align: left;
 }
 
 h2 {
   color: #00796b;
-  font-weight: 600;
   text-align: center;
 }
 
 /* Header */
 header {
   display: flex;
-  justify-content: space-between; /* Espacio entre el título y los botones */
+  justify-content: space-between;
   align-items: center;
   background-color: #00796b;
   padding: 30px;
@@ -34,48 +37,51 @@ header {
 header h1 {
   margin: 0;
   font-size: 24px;
-  font-weight: 600;
-  color: white;
 }
 
 /* Contenedor de botones en el header */
 .button-group {
   display: flex;
-  gap: 10px; /* Espacio entre los botones */
+  gap: 10px;
 }
 
-/* Botones dentro del header y del footer */
-.add-button {
-  background-color: #ff5722;
-  color: white;
+/* Botones generales */
+button,
+.add-button,
+.send-button,
+.upload-button {
   padding: 10px 20px;
-  text-decoration: none;
   border: none;
   border-radius: 5px;
   font-size: 16px;
+  color: white;
   cursor: pointer;
   transition: background-color 0.3s ease;
+}
+
+.add-button {
+  background-color: #ff5722;
 }
 
 .add-button:hover {
   background-color: #e64a19;
 }
 
-/* Botón de enviar registro individual (no afecta a los botones en el header o footer) */
 .send-button {
   background-color: #00796b;
-  color: white;
-  padding: 12px 20px;
-  border: none;
-  border-radius: 5px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  text-align: center;
 }
 
 .send-button:hover {
   background-color: #004d40;
+}
+
+/* Botón de subida de imagen */
+.upload-button {
+  background-color: #2196f3;
+}
+
+.upload-button:hover {
+  background-color: #1976d2;
 }
 
 /* Formularios generales */
@@ -87,13 +93,14 @@ form {
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
   gap: 15px;
 }
 
 form input[type="text"],
 form input[type="number"],
-form select {
+form select,
+form input[type="file"],
+form input[type="date"] {
   width: 100%;
   padding: 12px;
   border-radius: 5px;
@@ -106,7 +113,9 @@ form select {
 
 form input[type="text"]:focus,
 form input[type="number"]:focus,
-form select:focus {
+form select:focus,
+form input[type="file"]:focus,
+form input[type="date"]:focus {
   border-color: #00796b;
   outline: none;
 }
@@ -116,11 +125,7 @@ form input[type="submit"] {
   background-color: #00796b;
   color: white;
   padding: 12px;
-  border: none;
-  border-radius: 5px;
-  font-size: 16px;
   cursor: pointer;
-  transition: background-color 0.3s;
 }
 
 form input[type="submit"]:hover {
@@ -213,34 +218,6 @@ tr:nth-child(even) td {
 .formulario h2 {
   text-align: center;
   color: #00796b;
-}
-
-.formulario input[type="text"],
-.formulario input[type="number"],
-.formulario input[type="date"],
-.formulario select,
-.formulario input[type="file"] {
-  width: 100%;
-  padding: 10px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  background-color: #f9f9f9;
-  box-sizing: border-box;
-}
-
-.formulario input[type="submit"] {
-  width: 100%;
-  background-color: #00796b;
-  color: white;
-  padding: 10px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.formulario input[type="submit"]:hover {
-  background-color: #004d40;
 }
 
 /* Footer */
@@ -348,6 +325,21 @@ footer .add-button {
   display: block;
 }
 
+/* Contenedor del formulario de subida de imagen */
+form.upload-form {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Input de selección de archivo */
+form.upload-form input[type="file"] {
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
 /* Media Queries para dispositivos más pequeños */
 @media (max-width: 768px) {
   header {
@@ -366,11 +358,7 @@ footer .add-button {
     grid-template-columns: 1fr;
   }
 
-  .button-group {
-    flex-direction: column; /* Cambia la dirección a columna en dispositivos pequeños */
-    align-items: center;
-  }
-
+  .button-group,
   .formularios-container {
     flex-direction: column;
     align-items: center;

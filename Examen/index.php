@@ -161,7 +161,7 @@ if (isset($_GET['editar']) && isset($_GET['tabla'])) {
                     <td><?php echo $row['IMPORTADO'] !== null ? htmlspecialchars($row['IMPORTADO']) : ''; ?></td>
                     <td><?php echo $row['PAISDEORIGEN'] !== null ? htmlspecialchars($row['PAISDEORIGEN']) : ''; ?></td>
                     <td class="actions">
-                        <!-- Botones de acción para productos -->
+                        <!-- Botón para enviar registro -->
                         <form method="post" action="enviar_registro.php" style="display:inline;">
                             <input type="hidden" name="tabla" value="<?php echo $tabla; ?>">
                             <input type="hidden" name="codigo"
@@ -170,13 +170,35 @@ if (isset($_GET['editar']) && isset($_GET['tabla'])) {
                         </form>
 
                         <?php if ($tipo_usuario == 'admin'): ?>
-                            <a href="?tabla=productos&editar=<?php echo urlencode($row['CODIGOARTICULO']); ?>#formulario-modificar"
+                            <!-- Botón para modificar y eliminar -->
+                            <a href="?tabla=<?php echo $tabla; ?>&editar=<?php echo urlencode($row['CODIGOARTICULO'] ?? $row['id']); ?>#formulario-modificar"
                                 class="action-button">Modificar</a>
-                            <a href="acciones.php?eliminar=<?php echo urlencode($row['CODIGOARTICULO']); ?>&tabla=productos"
-                                onclick="return confirm('¿Estás seguro de que quieres eliminar este producto?');"
+                            <a href="acciones.php?eliminar=<?php echo urlencode($row['CODIGOARTICULO'] ?? $row['id']); ?>&tabla=<?php echo $tabla; ?>"
+                                onclick="return confirm('¿Estás seguro de que quieres eliminar este <?php echo $tabla; ?>?');"
                                 class="action-button">Eliminar</a>
+
+                            <!-- Botón de subir imagen -->
+                            <form method="post" action="subir_imagen.php" enctype="multipart/form-data" class="upload-form">
+                                <input type="hidden" name="tabla" value="<?php echo $tabla; ?>">
+                                <input type="hidden" name="codigo"
+                                    value="<?php echo htmlspecialchars($tabla == 'productos' ? $row['CODIGOARTICULO'] : $row['id']); ?>">
+
+                                <!-- Input de archivo oculto -->
+                                <input type="file" name="imagen" id="file-input-<?php echo $row['CODIGOARTICULO'] ?? $row['id']; ?>"
+                                    style="display: none;" required>
+
+                                <!-- Botón que actúa como disparador del input de archivo -->
+                                <button type="button"
+                                    onclick="document.getElementById('file-input-<?php echo $row['CODIGOARTICULO'] ?? $row['id']; ?>').click();"
+                                    class="upload-button">Elegir Imagen</button>
+
+                                <!-- Botón de enviar -->
+                                <button type="submit" class="upload-button">Subir Imagen</button>
+                            </form>
+
                         <?php endif; ?>
                     </td>
+
                 </tr>
             <?php elseif ($tabla == 'libros'): ?>
                 <!-- Código para la tabla de libros -->
