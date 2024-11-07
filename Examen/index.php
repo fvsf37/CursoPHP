@@ -6,6 +6,7 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+// Mensaje en sesión
 if (isset($_SESSION['mensaje'])) {
     echo "<script>alert('{$_SESSION['mensaje']}');</script>";
     unset($_SESSION['mensaje']);
@@ -20,35 +21,52 @@ if (!isset($_SESSION['username'])) {
 // Obtiene el tipo de usuario de la sesión
 $tipo_usuario = $_SESSION['tipo_usuario'];
 
-// Verifica si se ha solicitado editar un producto
-$producto = null;
-if (isset($_GET['editar'])) {
-    $codigo = $_GET['editar'];
-    $producto = obtenerProductoPorCodigo($codigo); // Función que obtiene el producto por su código
+// Determina la tabla a mostrar según el parámetro 'tabla' en la URL (por defecto, 'productos')
+$tabla = isset($_GET['tabla']) && $_GET['tabla'] == 'libros' ? 'libros' : 'productos';
+
+// Captura de criterios de búsqueda y obtención de datos según la tabla seleccionada
+if ($tabla == 'productos') {
+    $criterios = [
+        'buscar_codigo' => isset($_GET['buscar_codigo']) ? $_GET['buscar_codigo'] : "",
+        'buscar_nombre' => isset($_GET['buscar_nombre']) ? $_GET['buscar_nombre'] : "",
+        'buscar_seccion' => isset($_GET['buscar_seccion']) ? $_GET['buscar_seccion'] : "",
+        'buscar_precio' => isset($_GET['buscar_precio']) ? $_GET['buscar_precio'] : "",
+        'buscar_importado' => isset($_GET['buscar_importado']) ? $_GET['buscar_importado'] : "",
+        'buscar_pais' => isset($_GET['buscar_pais']) ? $_GET['buscar_pais'] : ""
+    ];
+    $resultados = obtenerProductos($criterios);
+} else {
+    $criterios = [
+        'buscar_titulo' => isset($_GET['buscar_titulo']) ? $_GET['buscar_titulo'] : "",
+        'buscar_autor' => isset($_GET['buscar_autor']) ? $_GET['buscar_autor'] : "",
+        'buscar_genero' => isset($_GET['buscar_genero']) ? $_GET['buscar_genero'] : "",
+        'buscar_anio' => isset($_GET['buscar_anio']) ? $_GET['buscar_anio'] : "",
+        'buscar_precio' => isset($_GET['buscar_precio']) ? $_GET['buscar_precio'] : "",
+        'buscar_editorial' => isset($_GET['buscar_editorial']) ? $_GET['buscar_editorial'] : ""
+    ];
+    $resultados = obtenerLibros($criterios);
 }
 
-// Captura de los criterios de búsqueda desde $_GET
-$criterios = [
-    'buscar_codigo' => isset($_GET['buscar_codigo']) ? $_GET['buscar_codigo'] : "",
-    'buscar_nombre' => isset($_GET['buscar_nombre']) ? $_GET['buscar_nombre'] : "",
-    'buscar_seccion' => isset($_GET['buscar_seccion']) ? $_GET['buscar_seccion'] : "",
-    'buscar_precio' => isset($_GET['buscar_precio']) ? $_GET['buscar_precio'] : "",
-    'buscar_importado' => isset($_GET['buscar_importado']) ? $_GET['buscar_importado'] : "",
-    'buscar_pais' => isset($_GET['buscar_pais']) ? $_GET['buscar_pais'] : ""
-];
-
-// Llama a la función obtenerProductos con los criterios de búsqueda
-$resultados = obtenerProductos($criterios);
-
-// Si la búsqueda no tiene resultados, se genera un mensaje en sesión
+// Mensaje si la búsqueda no tiene resultados
 if (!mysqli_num_rows($resultados)) {
     $_SESSION['mensaje'] = "No se encontraron resultados para la búsqueda.";
+    echo "<script>alert('{$_SESSION['mensaje']}');</script>";
+    unset($_SESSION['mensaje']);
 }
 
-// Mostrar mensaje de sesión si existe
-if (isset($_SESSION['mensaje'])) {
-    echo "<script>alert('{$_SESSION['mensaje']}');</script>";
-    unset($_SESSION['mensaje']); // Elimina el mensaje después de mostrarlo
+// Verifica si se ha solicitado editar un producto o libro
+$producto = null;
+if (isset($_GET['editar']) && isset($_GET['tabla'])) {
+    $codigo = $_GET['editar'];
+    $tabla = $_GET['tabla'];
+
+    if ($tabla == 'productos') {
+        // Carga el producto desde la base de datos
+        $producto = obtenerProductoPorCodigo($codigo);
+    } elseif ($tabla == 'libros') {
+        // Carga el libro desde la base de datos
+        $producto = obtenerLibroPorId($codigo);
+    }
 }
 ?>
 
@@ -58,49 +76,66 @@ if (isset($_SESSION['mensaje'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CRUD Productos</title>
+    <title>Gestión de Productos</title>
     <link rel="stylesheet" href="estilos.css">
 </head>
 
 <body>
-
     <header>
-        <h1>Gestión de Productos</h1>
+        <h1>Gestión de Inventario - Productos</h1>
         <div class="button-group">
-            <!-- Botón Agregar Producto -->
+            <a href="?tabla=productos" class="add-button">Ver Productos</a>
+            <a href="?tabla=libros" class="add-button">Ver Libros</a>
             <?php if ($tipo_usuario == 'admin'): ?>
                 <a href="#formulario-agregar" class="add-button">Agregar Producto</a>
-                <!-- Botón Enviar Toda la Tabla -->
-                <button type="button" onclick="location.href='enviar_tabla.php'" class="add-button">Enviar Tabla</button>
+                <button type="button" onclick="location.href='enviar_tabla.php?tabla=productos'" class="add-button">Enviar
+                    Tabla</button>
             <?php endif; ?>
         </div>
     </header>
 
-    <!-- Formulario de búsqueda avanzada (solo visible para admin) -->
+    <!-- Formulario de búsqueda avanzada -->
     <?php if ($tipo_usuario == 'admin'): ?>
         <form method="GET" action="index.php">
-            <input type="text" name="buscar_codigo" placeholder="Buscar por código"
-                value="<?php echo htmlspecialchars($criterios['buscar_codigo']); ?>">
-            <input type="text" name="buscar_nombre" placeholder="Buscar por nombre"
-                value="<?php echo htmlspecialchars($criterios['buscar_nombre']); ?>">
-            <input type="text" name="buscar_seccion" placeholder="Buscar por sección"
-                value="<?php echo htmlspecialchars($criterios['buscar_seccion']); ?>">
-            <input type="number" name="buscar_precio" placeholder="Buscar por precio" step="0.01"
-                value="<?php echo htmlspecialchars($criterios['buscar_precio']); ?>">
-            <select name="buscar_importado">
-                <option value="">Importado</option>
-                <option value="VERDADERO" <?php echo ($criterios['buscar_importado'] == "VERDADERO") ? 'selected' : ''; ?>>
-                    Verdadero</option>
-                <option value="FALSO" <?php echo ($criterios['buscar_importado'] == "FALSO") ? 'selected' : ''; ?>>Falso
-                </option>
-            </select>
-            <input type="text" name="buscar_pais" placeholder="Buscar por país"
-                value="<?php echo htmlspecialchars($criterios['buscar_pais']); ?>">
+            <input type="hidden" name="tabla" value="<?php echo $tabla; ?>">
+
+            <?php if ($tabla == 'productos'): ?>
+                <input type="text" name="buscar_codigo" placeholder="Buscar por código"
+                    value="<?php echo isset($criterios['buscar_codigo']) ? htmlspecialchars($criterios['buscar_codigo']) : ''; ?>">
+                <input type="text" name="buscar_nombre" placeholder="Buscar por nombre"
+                    value="<?php echo isset($criterios['buscar_nombre']) ? htmlspecialchars($criterios['buscar_nombre']) : ''; ?>">
+                <input type="text" name="buscar_seccion" placeholder="Buscar por sección"
+                    value="<?php echo isset($criterios['buscar_seccion']) ? htmlspecialchars($criterios['buscar_seccion']) : ''; ?>">
+                <input type="number" name="buscar_precio" placeholder="Buscar por precio" step="0.01"
+                    value="<?php echo isset($criterios['buscar_precio']) ? htmlspecialchars($criterios['buscar_precio']) : ''; ?>">
+                <select name="buscar_importado">
+                    <option value="">Importado</option>
+                    <option value="VERDADERO" <?php echo (isset($criterios['buscar_importado']) && $criterios['buscar_importado'] == "VERDADERO") ? 'selected' : ''; ?>>Verdadero</option>
+                    <option value="FALSO" <?php echo (isset($criterios['buscar_importado']) && $criterios['buscar_importado'] == "FALSO") ? 'selected' : ''; ?>>Falso</option>
+                </select>
+                <input type="text" name="buscar_pais" placeholder="Buscar por país"
+                    value="<?php echo isset($criterios['buscar_pais']) ? htmlspecialchars($criterios['buscar_pais']) : ''; ?>">
+
+            <?php elseif ($tabla == 'libros'): ?>
+                <input type="text" name="buscar_titulo" placeholder="Buscar por título"
+                    value="<?php echo isset($criterios['buscar_titulo']) ? htmlspecialchars($criterios['buscar_titulo']) : ''; ?>">
+                <input type="text" name="buscar_autor" placeholder="Buscar por autor"
+                    value="<?php echo isset($criterios['buscar_autor']) ? htmlspecialchars($criterios['buscar_autor']) : ''; ?>">
+                <input type="text" name="buscar_genero" placeholder="Buscar por género"
+                    value="<?php echo isset($criterios['buscar_genero']) ? htmlspecialchars($criterios['buscar_genero']) : ''; ?>">
+                <input type="number" name="buscar_anio" placeholder="Buscar por año"
+                    value="<?php echo isset($criterios['buscar_anio']) ? htmlspecialchars($criterios['buscar_anio']) : ''; ?>">
+                <input type="number" name="buscar_precio" placeholder="Buscar por precio" step="0.01"
+                    value="<?php echo isset($criterios['buscar_precio']) ? htmlspecialchars($criterios['buscar_precio']) : ''; ?>">
+                <input type="text" name="buscar_editorial" placeholder="Buscar por editorial"
+                    value="<?php echo isset($criterios['buscar_editorial']) ? htmlspecialchars($criterios['buscar_editorial']) : ''; ?>">
+            <?php endif; ?>
+
             <input type="submit" value="Buscar">
         </form>
     <?php endif; ?>
 
-    <!-- Tabla de productos (visible para todos los usuarios) -->
+    <!-- Tabla de productos con botones de acción -->
     <table>
         <tr>
             <th>Código</th>
@@ -112,88 +147,161 @@ if (isset($_SESSION['mensaje'])) {
             <th>País</th>
             <th>Acciones</th>
         </tr>
-        <?php
-        // Muestra los productos en la tabla
-        while ($producto_item = mysqli_fetch_assoc($resultados)): ?>
-            <tr>
-                <td><?php echo htmlspecialchars($producto_item['CODIGOARTICULO']); ?></td>
-                <td><?php echo htmlspecialchars($producto_item['SECCION']); ?></td>
-                <td><?php echo htmlspecialchars($producto_item['NOMBREARTICULO']); ?></td>
-                <td><?php echo htmlspecialchars($producto_item['PRECIO']); ?></td>
-                <td><?php echo htmlspecialchars($producto_item['FECHA']); ?></td>
-                <td><?php echo htmlspecialchars($producto_item['IMPORTADO']); ?></td>
-                <td><?php echo htmlspecialchars($producto_item['PAISDEORIGEN']); ?></td>
-                <td class="actions">
-                    <!-- Botón para enviar solo este registro -->
-                    <form method="post" action="enviar_registro.php" style="display:inline;">
-                        <input type="hidden" name="codigo"
-                            value="<?php echo htmlspecialchars($producto_item['CODIGOARTICULO']); ?>">
-                        <button type="submit" name="enviar_registro" class="send-button">Enviar Registro</button>
-                    </form>
-                    <!-- Botones de modificar y eliminar si el usuario es admin -->
-                    <?php if ($tipo_usuario == 'admin'): ?>
-                        <a
-                            href="?editar=<?php echo urlencode($producto_item['CODIGOARTICULO']); ?>#formulario-modificar">Modificar</a>
-                        <a href="acciones.php?eliminar=<?php echo urlencode($producto_item['CODIGOARTICULO']); ?>"
-                            onclick="return confirm('¿Estás seguro de que quieres eliminar este producto?');">Eliminar</a>
-                    <?php endif; ?>
-                </td>
-            </tr>
+        <?php while ($row = mysqli_fetch_assoc($resultados)): ?>
+            <?php if ($tabla == 'productos'): ?>
+                <?php if ($row['CODIGOARTICULO'] === null)
+                    continue; ?> <!-- Salta la fila si CODIGOARTICULO es NULL -->
+                <!-- Código para la tabla de productos -->
+                <tr>
+                    <td><?php echo htmlspecialchars($row['CODIGOARTICULO']); ?></td>
+                    <td><?php echo $row['SECCION'] !== null ? htmlspecialchars($row['SECCION']) : ''; ?></td>
+                    <td><?php echo $row['NOMBREARTICULO'] !== null ? htmlspecialchars($row['NOMBREARTICULO']) : ''; ?></td>
+                    <td><?php echo $row['PRECIO'] !== null ? htmlspecialchars($row['PRECIO']) : ''; ?></td>
+                    <td><?php echo $row['FECHA'] !== null ? htmlspecialchars($row['FECHA']) : ''; ?></td>
+                    <td><?php echo $row['IMPORTADO'] !== null ? htmlspecialchars($row['IMPORTADO']) : ''; ?></td>
+                    <td><?php echo $row['PAISDEORIGEN'] !== null ? htmlspecialchars($row['PAISDEORIGEN']) : ''; ?></td>
+                    <td class="actions">
+                        <!-- Botones de acción para productos -->
+                        <form method="post" action="enviar_registro.php" style="display:inline;">
+                            <input type="hidden" name="tabla" value="<?php echo $tabla; ?>">
+                            <input type="hidden" name="codigo"
+                                value="<?php echo htmlspecialchars($tabla == 'productos' ? $row['CODIGOARTICULO'] : $row['id']); ?>">
+                            <button type="submit" name="enviar_registro" class="send-button">Enviar Registro</button>
+                        </form>
+
+                        <?php if ($tipo_usuario == 'admin'): ?>
+                            <a href="?tabla=productos&editar=<?php echo urlencode($row['CODIGOARTICULO']); ?>#formulario-modificar"
+                                class="action-button">Modificar</a>
+                            <a href="acciones.php?eliminar=<?php echo urlencode($row['CODIGOARTICULO']); ?>&tabla=productos"
+                                onclick="return confirm('¿Estás seguro de que quieres eliminar este producto?');"
+                                class="action-button">Eliminar</a>
+                        <?php endif; ?>
+                    </td>
+                </tr>
+            <?php elseif ($tabla == 'libros'): ?>
+                <!-- Código para la tabla de libros -->
+                <tr>
+                    <td><?php echo htmlspecialchars($row['id']); ?></td>
+                    <td><?php echo $row['titulo'] !== null ? htmlspecialchars($row['titulo']) : ''; ?></td>
+                    <td><?php echo $row['autor'] !== null ? htmlspecialchars($row['autor']) : ''; ?></td>
+                    <td><?php echo $row['genero'] !== null ? htmlspecialchars($row['genero']) : ''; ?></td>
+                    <td><?php echo $row['anio_publicacion'] !== null ? htmlspecialchars($row['anio_publicacion']) : ''; ?></td>
+                    <td><?php echo $row['precio'] !== null ? htmlspecialchars($row['precio']) : ''; ?></td>
+                    <td><?php echo $row['stock'] !== null ? htmlspecialchars($row['stock']) : ''; ?></td>
+                    <td><?php echo $row['editorial'] !== null ? htmlspecialchars($row['editorial']) : ''; ?></td>
+                    <td class="actions">
+                        <!-- Botones de acción para libros -->
+                        <form method="post" action="enviar_registro.php" style="display:inline;">
+                            <input type="hidden" name="tabla" value="libros">
+                            <input type="hidden" name="id" value="<?php echo htmlspecialchars($row['id']); ?>">
+                            <button type="submit" name="enviar_registro" class="send-button">Enviar Registro</button>
+                        </form>
+                        <?php if ($tipo_usuario == 'admin'): ?>
+                            <a href="?tabla=libros&editar=<?php echo urlencode($row['id']); ?>#formulario-modificar"
+                                class="action-button">Modificar</a>
+                            <a href="acciones.php?eliminar=<?php echo urlencode($row['id']); ?>&tabla=libros"
+                                onclick="return confirm('¿Estás seguro de que quieres eliminar este libro?');"
+                                class="action-button">Eliminar</a>
+                        <?php endif; ?>
+                    </td>
+                </tr>
+            <?php endif; ?>
         <?php endwhile; ?>
+
     </table>
 
-    <!-- Formularios de agregar y modificar producto (solo visibles para admin) -->
     <?php if ($tipo_usuario == 'admin'): ?>
         <div class="formularios-container">
-            <!-- Formulario para agregar producto -->
+            <!-- Formulario para agregar producto o libro -->
             <form id="formulario-agregar" method="POST" action="acciones.php">
-                <h2>Agregar Producto</h2>
-                <input type="text" name="codigo" placeholder="Código" required>
-                <input type="text" name="seccion" placeholder="Sección" required>
-                <input type="text" name="nombre" placeholder="Nombre" required>
-                <input type="number" name="precio" placeholder="Precio" step="0.01" required>
-                <input type="date" name="fecha" required>
-                <select name="importado" required>
-                    <option value="">Importado</option>
-                    <option value="VERDADERO">Verdadero</option>
-                    <option value="FALSO">Falso</option>
-                </select>
-                <input type="text" name="pais" placeholder="País de origen" required>
-                <input type="submit" name="crear" value="Agregar Producto">
+                <h2>Agregar <?php echo $tabla == 'productos' ? 'Producto' : 'Libro'; ?></h2>
+                <input type="hidden" name="tabla" value="<?php echo $tabla; ?>">
+
+                <?php if ($tabla == 'productos'): ?>
+                    <!-- Campos para agregar un producto -->
+                    <input type="text" name="codigo" placeholder="Código" required>
+                    <input type="text" name="seccion" placeholder="Sección" required>
+                    <input type="text" name="nombre" placeholder="Nombre" required>
+                    <input type="number" name="precio" placeholder="Precio" step="0.01" required>
+                    <input type="date" name="fecha" required>
+                    <select name="importado" required>
+                        <option value="">Importado</option>
+                        <option value="VERDADERO">Verdadero</option>
+                        <option value="FALSO">Falso</option>
+                    </select>
+                    <input type="text" name="pais" placeholder="País de origen" required>
+
+                <?php elseif ($tabla == 'libros'): ?>
+                    <!-- Campos para agregar un libro -->
+                    <input type="text" name="titulo" placeholder="Título" required>
+                    <input type="text" name="autor" placeholder="Autor" required>
+                    <input type="text" name="genero" placeholder="Género" required>
+                    <input type="number" name="anio_publicacion" placeholder="Año de Publicación" required>
+                    <input type="number" name="precio" placeholder="Precio" step="0.01" required>
+                    <input type="number" name="stock" placeholder="Stock" required>
+                    <input type="text" name="editorial" placeholder="Editorial" required>
+                <?php endif; ?>
+
+                <input type="submit" name="crear"
+                    value="Agregar <?php echo $tabla == 'productos' ? 'Producto' : 'Libro'; ?>">
             </form>
 
-            <!-- Formulario para modificar producto -->
-            <form id="formulario-modificar" method="POST" action="acciones.php">
-                <h2>Modificar Producto</h2>
-                <input type="hidden" name="codigo_original"
-                    value="<?php echo isset($producto) ? htmlspecialchars($producto['CODIGOARTICULO']) : ''; ?>">
-                <input type="text" name="codigo" placeholder="Código"
-                    value="<?php echo isset($producto) ? htmlspecialchars($producto['CODIGOARTICULO']) : ''; ?>" required>
-                <input type="text" name="seccion" placeholder="Sección"
-                    value="<?php echo isset($producto) ? htmlspecialchars($producto['SECCION']) : ''; ?>" required>
-                <input type="text" name="nombre" placeholder="Nombre"
-                    value="<?php echo isset($producto) ? htmlspecialchars($producto['NOMBREARTICULO']) : ''; ?>" required>
-                <input type="number" name="precio" placeholder="Precio" step="0.01"
-                    value="<?php echo isset($producto) ? htmlspecialchars($producto['PRECIO']) : ''; ?>" required>
-                <input type="date" name="fecha"
-                    value="<?php echo isset($producto) ? htmlspecialchars($producto['FECHA']) : ''; ?>" required>
-                <select name="importado" required>
-                    <option value="">Importado</option>
-                    <option value="VERDADERO" <?php echo (isset($producto) && $producto['IMPORTADO'] == "VERDADERO") ? 'selected' : ''; ?>>Verdadero</option>
-                    <option value="FALSO" <?php echo (isset($producto) && $producto['IMPORTADO'] == "FALSO") ? 'selected' : ''; ?>>Falso</option>
-                </select>
-                <input type="text" name="pais" placeholder="País de origen"
-                    value="<?php echo isset($producto) ? htmlspecialchars($producto['PAISDEORIGEN']) : ''; ?>" required>
-                <input type="submit" name="actualizar" value="Actualizar Producto">
-            </form>
+            <!-- Formulario para modificar producto o libro -->
+            <?php if ($tipo_usuario == 'admin' && $producto !== null): ?>
+                <form id="formulario-modificar" method="POST" action="acciones.php">
+                    <h2>Modificar <?php echo $tabla == 'productos' ? 'Producto' : 'Libro'; ?></h2>
+                    <input type="hidden" name="tabla" value="<?php echo $tabla; ?>">
+                    <input type="hidden" name="codigo_original"
+                        value="<?php echo htmlspecialchars($producto['CODIGOARTICULO'] ?? $producto['id']); ?>">
+
+                    <?php if ($tabla == 'productos'): ?>
+                        <!-- Campos para modificar un producto -->
+                        <input type="text" name="codigo" placeholder="Código"
+                            value="<?php echo htmlspecialchars($producto['CODIGOARTICULO']); ?>" required>
+                        <input type="text" name="seccion" placeholder="Sección"
+                            value="<?php echo htmlspecialchars($producto['SECCION']); ?>" required>
+                        <input type="text" name="nombre" placeholder="Nombre"
+                            value="<?php echo htmlspecialchars($producto['NOMBREARTICULO']); ?>" required>
+                        <input type="number" name="precio" placeholder="Precio" step="0.01"
+                            value="<?php echo htmlspecialchars($producto['PRECIO']); ?>" required>
+                        <input type="date" name="fecha" value="<?php echo htmlspecialchars($producto['FECHA']); ?>" required>
+                        <select name="importado" required>
+                            <option value="VERDADERO" <?php echo ($producto['IMPORTADO'] == "VERDADERO") ? 'selected' : ''; ?>>
+                                Verdadero</option>
+                            <option value="FALSO" <?php echo ($producto['IMPORTADO'] == "FALSO") ? 'selected' : ''; ?>>Falso</option>
+                        </select>
+                        <input type="text" name="pais" placeholder="País de origen"
+                            value="<?php echo htmlspecialchars($producto['PAISDEORIGEN']); ?>" required>
+
+                    <?php elseif ($tabla == 'libros'): ?>
+                        <!-- Campos para modificar un libro -->
+                        <input type="text" name="titulo" placeholder="Título"
+                            value="<?php echo htmlspecialchars($producto['titulo']); ?>" required>
+                        <input type="text" name="autor" placeholder="Autor"
+                            value="<?php echo htmlspecialchars($producto['autor']); ?>" required>
+                        <input type="text" name="genero" placeholder="Género"
+                            value="<?php echo htmlspecialchars($producto['genero']); ?>" required>
+                        <input type="number" name="anio_publicacion" placeholder="Año de Publicación"
+                            value="<?php echo htmlspecialchars($producto['anio_publicacion']); ?>" required>
+                        <input type="number" name="precio" placeholder="Precio" step="0.01"
+                            value="<?php echo htmlspecialchars($producto['precio']); ?>" required>
+                        <input type="number" name="stock" placeholder="Stock"
+                            value="<?php echo htmlspecialchars($producto['stock']); ?>" required>
+                        <input type="text" name="editorial" placeholder="Editorial"
+                            value="<?php echo htmlspecialchars($producto['editorial']); ?>" required>
+                    <?php endif; ?>
+
+                    <input type="submit" name="actualizar"
+                        value="Actualizar <?php echo $tabla == 'productos' ? 'Producto' : 'Libro'; ?>">
+                </form>
+            <?php endif; ?>
+
         </div>
     <?php endif; ?>
-
     <footer>
         <p>Francisco Salapic Fernández</p>
         <a href="logout.php" class="add-button">Cerrar Sesión</a>
     </footer>
-
 </body>
 
 </html>
