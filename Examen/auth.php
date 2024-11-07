@@ -7,24 +7,26 @@ if (session_status() === PHP_SESSION_NONE) {
 function verificarUsuario($username, $password)
 {
     global $conexion;
+    echo "Inicio de la función verificarUsuario<br>"; // Línea de depuración
+
     $query = "SELECT password, tipo FROM usuarios WHERE nombreusuario = ?";
     $stmt = mysqli_prepare($conexion, $query);
+
+    if ($stmt === false) {
+        die("Error en la preparación de la consulta: " . mysqli_error($conexion));
+    }
+
     mysqli_stmt_bind_param($stmt, "s", $username);
     mysqli_stmt_execute($stmt);
-    $result = mysqli_stmt_get_result($stmt);
+    mysqli_stmt_bind_result($stmt, $stored_password, $tipo_usuario);
+    mysqli_stmt_fetch($stmt);
 
-    if ($result && $result->num_rows == 1) {
-        $row = $result->fetch_assoc();
-        $stored_password = $row['password'];
+    echo "Hash guardado en la base de datos: " . $stored_password . "<br>"; // Línea de depuración
+    echo "Contraseña ingresada: " . $password . "<br>"; // Línea de depuración
 
-        // Verificar la contraseña encriptada
-        if (password_verify($password, $stored_password)) {
-            return $row['tipo'];
-        }
-    }
-    return null; // Retorna null si el usuario no existe o la contraseña es incorrecta
+    mysqli_stmt_close($stmt);
+    return null;
 }
-
 
 
 // Función para iniciar sesión
