@@ -48,8 +48,7 @@ header h1 {
 /* Botones generales */
 button,
 .add-button,
-.send-button,
-.upload-button {
+.send-button {
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
@@ -75,13 +74,29 @@ button,
   background-color: #004d40;
 }
 
-/* Botón de subida de imagen */
-.upload-button {
+/* Estilos específicos para los botones de imagen */
+.upload-button,
+.upload-button-label {
   background-color: #2196f3;
+  color: white;
+  padding: 10px 20px;
+  font-size: 14px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  display: inline-block;
+  text-align: center;
 }
 
-.upload-button:hover {
+.upload-button:hover,
+.upload-button-label:hover {
   background-color: #1976d2;
+}
+
+/* Oculta el botón de selección de archivo original y usa la etiqueta como disparador */
+input[type="file"].upload-button {
+  display: none;
 }
 
 /* Formularios generales */
@@ -99,7 +114,6 @@ form {
 form input[type="text"],
 form input[type="number"],
 form select,
-form input[type="file"],
 form input[type="date"] {
   width: 100%;
   padding: 12px;
@@ -114,7 +128,6 @@ form input[type="date"] {
 form input[type="text"]:focus,
 form input[type="number"]:focus,
 form select:focus,
-form input[type="file"]:focus,
 form input[type="date"]:focus {
   border-color: #00796b;
   outline: none;
@@ -126,6 +139,7 @@ form input[type="submit"] {
   color: white;
   padding: 12px;
   cursor: pointer;
+  border-radius: 5px;
 }
 
 form input[type="submit"]:hover {
@@ -196,28 +210,69 @@ tr:nth-child(even) td {
   align-items: center;
 }
 
-/* Formularios específicos de agregar y modificar */
-.formularios-container {
+/* Estilo de la barra de búsqueda */
+.barra-busqueda {
   display: flex;
-  gap: 20px;
   justify-content: center;
-  margin-top: 20px;
-  flex-wrap: wrap;
-}
-
-.formulario {
-  width: 300px;
-  padding: 20px;
-  background-color: white;
-  border-radius: 10px;
+  align-items: center;
+  gap: 10px;
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 10px;
+  background-color: #ffffff;
+  border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  display: grid;
-  gap: 15px;
+  border: 1px solid #ddd;
 }
 
-.formulario h2 {
-  text-align: center;
-  color: #00796b;
+/* Desplegable de criterios de búsqueda */
+.barra-busqueda select {
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #f9f9f9;
+  transition: border-color 0.3s;
+}
+
+.barra-busqueda select:focus {
+  border-color: #00796b;
+  outline: none;
+  box-shadow: 0 0 6px rgba(0, 121, 107, 0.2);
+}
+
+/* Campo de entrada para el valor de búsqueda */
+.barra-busqueda input[type="text"] {
+  width: 100%;
+  max-width: 400px;
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #f9f9f9;
+  transition: border-color 0.3s;
+}
+
+.barra-busqueda input[type="text"]:focus {
+  border-color: #00796b;
+  outline: none;
+  box-shadow: 0 0 6px rgba(0, 121, 107, 0.2);
+}
+
+/* Botón de búsqueda */
+.barra-busqueda input[type="submit"] {
+  background-color: #00796b;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.barra-busqueda input[type="submit"]:hover {
+  background-color: #004d40;
 }
 
 /* Footer */
@@ -234,110 +289,6 @@ footer {
 
 footer .add-button {
   margin-left: auto;
-}
-
-/* Estilos específicos para Login y Registro */
-.login-container,
-.register-container {
-  max-width: 500px;
-  margin: 20px auto;
-  padding: 20px;
-  background-color: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  display: grid;
-  gap: 15px;
-  text-align: center;
-}
-
-.login-container h2,
-.register-container h2 {
-  color: #00796b;
-  font-weight: 600;
-  margin-bottom: 20px;
-}
-
-.login-container input[type="text"],
-.login-container input[type="password"],
-.register-container input[type="text"],
-.register-container input[type="password"],
-.register-container select {
-  width: 100%;
-  padding: 12px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  background-color: #f9f9f9;
-  font-size: 14px;
-  box-sizing: border-box;
-  transition: border-color 0.3s;
-}
-
-.login-container input[type="text"]:focus,
-.login-container input[type="password"]:focus,
-.register-container input[type="text"]:focus,
-.register-container input[type="password"]:focus,
-.register-container select:focus {
-  border-color: #00796b;
-  outline: none;
-}
-
-.login-container input[type="submit"],
-.register-container input[type="submit"] {
-  background-color: #00796b;
-  color: white;
-  padding: 12px;
-  border: none;
-  border-radius: 5px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  width: 100%;
-}
-
-.login-container input[type="submit"]:hover,
-.register-container input[type="submit"]:hover {
-  background-color: #004d40;
-}
-
-.toggle-button {
-  background-color: #00796b;
-  color: white;
-  font-size: 14px;
-  padding: 8px 15px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  margin-top: 10px;
-  text-decoration: none;
-  display: inline-block;
-}
-
-.toggle-button:hover {
-  background-color: #004d40;
-}
-
-.register-container label {
-  font-weight: bold;
-  font-size: 13px;
-  color: #555;
-  margin-top: 10px;
-  display: block;
-}
-
-/* Contenedor del formulario de subida de imagen */
-form.upload-form {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-/* Input de selección de archivo */
-form.upload-form input[type="file"] {
-  padding: 5px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 14px;
 }
 
 /* Media Queries para dispositivos más pequeños */

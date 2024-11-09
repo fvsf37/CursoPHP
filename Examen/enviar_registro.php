@@ -12,9 +12,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['codigo']) && isset($_P
 
     // Carga el registro del producto o libro en función de la tabla
     if ($tabla == 'productos') {
-        $registro = obtenerProductoPorCodigo($codigo); // Suponiendo que esta función está en db.php
+        $registro = obtenerProductoPorCodigo($codigo);
     } elseif ($tabla == 'libros') {
-        $registro = obtenerLibroPorId($codigo); // Suponiendo que esta función está en db.php
+        $registro = obtenerLibroPorId($codigo);
     } else {
         $_SESSION['mensaje'] = 'Tabla inválida.';
         header("Location: index.php");
@@ -28,13 +28,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['codigo']) && isset($_P
             $mail->isSMTP();
             $mail->Host = 'smtp.gmail.com';
             $mail->SMTPAuth = true;
-            $mail->Username = 'tucorreo@gmail.com'; // Cambia esto a tu correo
-            $mail->Password = 'tucontraseña'; // Cambia esto a tu contraseña
+            $mail->Username = 'fvsalapic@gmail.com';
+            $mail->Password = 'agrt jeiv ogru yrch';
             $mail->SMTPSecure = 'ssl';
             $mail->Port = 465;
 
-            $mail->setFrom('tucorreo@gmail.com', 'Nombre');
-            $mail->addAddress('destinatario@gmail.com'); // Cambia esto al correo del destinatario
+            $mail->setFrom('fvsalapic@gmail.com', 'Francisco Salapic');
+            $mail->addAddress('fvsalapic@outlook.com');
             $mail->isHTML(true);
             $mail->Subject = 'Detalles del Registro';
 
@@ -45,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['codigo']) && isset($_P
             }
             $mail->Body = $contenido;
 
-            // Enviar el correo
+            // Intenta enviar el correo
             if ($mail->send()) {
                 $_SESSION['mensaje'] = 'Email con los detalles del registro enviado exitosamente.';
             } else {

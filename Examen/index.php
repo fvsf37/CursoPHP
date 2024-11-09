@@ -94,43 +94,34 @@ if (isset($_GET['editar']) && isset($_GET['tabla'])) {
         </div>
     </header>
 
-    <!-- Formulario de búsqueda avanzada -->
+    <!-- Barra de búsqueda avanzada -->
     <?php if ($tipo_usuario == 'admin'): ?>
-        <form method="GET" action="index.php">
+        <form method="GET" action="index.php" class="barra-busqueda">
             <input type="hidden" name="tabla" value="<?php echo $tabla; ?>">
 
-            <?php if ($tabla == 'productos'): ?>
-                <input type="text" name="buscar_codigo" placeholder="Buscar por código"
-                    value="<?php echo isset($criterios['buscar_codigo']) ? htmlspecialchars($criterios['buscar_codigo']) : ''; ?>">
-                <input type="text" name="buscar_nombre" placeholder="Buscar por nombre"
-                    value="<?php echo isset($criterios['buscar_nombre']) ? htmlspecialchars($criterios['buscar_nombre']) : ''; ?>">
-                <input type="text" name="buscar_seccion" placeholder="Buscar por sección"
-                    value="<?php echo isset($criterios['buscar_seccion']) ? htmlspecialchars($criterios['buscar_seccion']) : ''; ?>">
-                <input type="number" name="buscar_precio" placeholder="Buscar por precio" step="0.01"
-                    value="<?php echo isset($criterios['buscar_precio']) ? htmlspecialchars($criterios['buscar_precio']) : ''; ?>">
-                <select name="buscar_importado">
-                    <option value="">Importado</option>
-                    <option value="VERDADERO" <?php echo (isset($criterios['buscar_importado']) && $criterios['buscar_importado'] == "VERDADERO") ? 'selected' : ''; ?>>Verdadero</option>
-                    <option value="FALSO" <?php echo (isset($criterios['buscar_importado']) && $criterios['buscar_importado'] == "FALSO") ? 'selected' : ''; ?>>Falso</option>
-                </select>
-                <input type="text" name="buscar_pais" placeholder="Buscar por país"
-                    value="<?php echo isset($criterios['buscar_pais']) ? htmlspecialchars($criterios['buscar_pais']) : ''; ?>">
+            <!-- Menú desplegable para seleccionar criterio de búsqueda -->
+            <select name="criterio" required>
+                <?php if ($tabla == 'productos'): ?>
+                    <option value="buscar_codigo">Buscar por código</option>
+                    <option value="buscar_nombre">Buscar por nombre</option>
+                    <option value="buscar_seccion">Buscar por sección</option>
+                    <option value="buscar_precio">Buscar por precio</option>
+                    <option value="buscar_importado">Buscar por importado</option>
+                    <option value="buscar_pais">Buscar por país</option>
+                <?php elseif ($tabla == 'libros'): ?>
+                    <option value="buscar_titulo">Buscar por título</option>
+                    <option value="buscar_autor">Buscar por autor</option>
+                    <option value="buscar_genero">Buscar por género</option>
+                    <option value="buscar_anio">Buscar por año</option>
+                    <option value="buscar_precio">Buscar por precio</option>
+                    <option value="buscar_editorial">Buscar por editorial</option>
+                <?php endif; ?>
+            </select>
 
-            <?php elseif ($tabla == 'libros'): ?>
-                <input type="text" name="buscar_titulo" placeholder="Buscar por título"
-                    value="<?php echo isset($criterios['buscar_titulo']) ? htmlspecialchars($criterios['buscar_titulo']) : ''; ?>">
-                <input type="text" name="buscar_autor" placeholder="Buscar por autor"
-                    value="<?php echo isset($criterios['buscar_autor']) ? htmlspecialchars($criterios['buscar_autor']) : ''; ?>">
-                <input type="text" name="buscar_genero" placeholder="Buscar por género"
-                    value="<?php echo isset($criterios['buscar_genero']) ? htmlspecialchars($criterios['buscar_genero']) : ''; ?>">
-                <input type="number" name="buscar_anio" placeholder="Buscar por año"
-                    value="<?php echo isset($criterios['buscar_anio']) ? htmlspecialchars($criterios['buscar_anio']) : ''; ?>">
-                <input type="number" name="buscar_precio" placeholder="Buscar por precio" step="0.01"
-                    value="<?php echo isset($criterios['buscar_precio']) ? htmlspecialchars($criterios['buscar_precio']) : ''; ?>">
-                <input type="text" name="buscar_editorial" placeholder="Buscar por editorial"
-                    value="<?php echo isset($criterios['buscar_editorial']) ? htmlspecialchars($criterios['buscar_editorial']) : ''; ?>">
-            <?php endif; ?>
+            <!-- Campo de entrada para el valor de búsqueda -->
+            <input type="text" name="valor" placeholder="Ingrese el valor de búsqueda">
 
+            <!-- Botón de búsqueda -->
             <input type="submit" value="Buscar">
         </form>
     <?php endif; ?>
@@ -150,7 +141,7 @@ if (isset($_GET['editar']) && isset($_GET['tabla'])) {
         <?php while ($row = mysqli_fetch_assoc($resultados)): ?>
             <?php if ($tabla == 'productos'): ?>
                 <?php if ($row['CODIGOARTICULO'] === null)
-                    continue; ?> <!-- Salta la fila si CODIGOARTICULO es NULL -->
+                    continue; ?>
                 <!-- Código para la tabla de productos -->
                 <tr>
                     <td><?php echo htmlspecialchars($row['CODIGOARTICULO']); ?></td>
@@ -235,7 +226,8 @@ if (isset($_GET['editar']) && isset($_GET['tabla'])) {
     <?php if ($tipo_usuario == 'admin'): ?>
         <div class="formularios-container">
             <!-- Formulario para agregar producto o libro -->
-            <form id="formulario-agregar" method="POST" action="acciones.php">
+            <form id="formulario-agregar" class="formulario-agregar" method="POST" action="acciones.php"
+                enctype="multipart/form-data">
                 <h2>Agregar <?php echo $tabla == 'productos' ? 'Producto' : 'Libro'; ?></h2>
                 <input type="hidden" name="tabla" value="<?php echo $tabla; ?>">
 
@@ -253,6 +245,13 @@ if (isset($_GET['editar']) && isset($_GET['tabla'])) {
                     </select>
                     <input type="text" name="pais" placeholder="País de origen" required>
 
+                    <!-- Botón para elegir una imagen -->
+                    <label for="file-input" class="upload-button-label">Elegir Imagen</label>
+                    <input type="file" name="imagen" id="file-input" class="upload-button" required>
+
+                    <!-- Botón para subir la imagen -->
+                    <button type="submit" class="upload-button">Subir Imagen</button>
+
                 <?php elseif ($tabla == 'libros'): ?>
                     <!-- Campos para agregar un libro -->
                     <input type="text" name="titulo" placeholder="Título" required>
@@ -262,8 +261,16 @@ if (isset($_GET['editar']) && isset($_GET['tabla'])) {
                     <input type="number" name="precio" placeholder="Precio" step="0.01" required>
                     <input type="number" name="stock" placeholder="Stock" required>
                     <input type="text" name="editorial" placeholder="Editorial" required>
+
+                    <!-- Botón para elegir una imagen -->
+                    <label for="file-input" class="upload-button-label">Elegir Imagen</label>
+                    <input type="file" name="imagen" id="file-input" class="upload-button" required>
+
+                    <!-- Botón para subir la imagen -->
+                    <button type="submit" class="upload-button">Subir Imagen</button>
                 <?php endif; ?>
 
+                <!-- Botón para agregar el producto o libro -->
                 <input type="submit" name="crear"
                     value="Agregar <?php echo $tabla == 'productos' ? 'Producto' : 'Libro'; ?>">
             </form>

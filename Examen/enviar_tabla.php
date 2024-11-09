@@ -12,20 +12,19 @@ try {
 
     // Verifica si hay productos en la base de datos
     if (mysqli_num_rows($productos) > 0) {
-        // Configuración del correo
         $mail = new PHPMailer(true);
         $mail->isSMTP();
         $mail->Host = 'smtp.gmail.com';
         $mail->SMTPAuth = true;
-        $mail->Username = 'tucorreo@gmail.com'; // Cambia esto a tu correo
-        $mail->Password = 'tucontraseña'; // Cambia esto a tu contraseña
+        $mail->Username = 'fvsalapic@gmail.com';
+        $mail->Password = 'agrt jeiv ogru yrch';
         $mail->SMTPSecure = 'ssl';
         $mail->Port = 465;
 
-        $mail->setFrom('tucorreo@gmail.com', 'Nombre');
-        $mail->addAddress('destinatario@gmail.com'); // Cambia esto al correo del destinatario
+        $mail->setFrom('fvsalapic@gmail.com', 'Francisco Salapic');
+        $mail->addAddress('fvsalapic@outlook.com');
         $mail->isHTML(true);
-        $mail->Subject = 'Tabla de Productos Completa';
+        $mail->Subject = 'Detalles del Registro';
 
         // Genera el contenido del correo con la tabla de productos
         $emailContent = "<h2>Tabla Completa de Productos</h2><table border='1'>
