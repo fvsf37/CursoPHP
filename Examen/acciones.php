@@ -2,45 +2,45 @@
 session_start();
 include 'db.php';
 
-// Detecta la tabla seleccionada
+// Detecta la tabla seleccionada, por defecto es 'productos'
 $tabla = isset($_GET['tabla']) ? $_GET['tabla'] : (isset($_POST['tabla']) ? $_POST['tabla'] : 'productos');
 
-// Verifica si la solicitud es POST (crear o actualizar)
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Crear nuevo producto o libro
+    $datos = [
+        'codigo' => $_POST['codigo'],
+        'seccion' => $_POST['seccion'],
+        'nombre' => $_POST['nombre'],
+        'precio' => $_POST['precio'],
+        'fecha' => $_POST['fecha'],
+        'importado' => $_POST['importado'],
+        'pais' => $_POST['pais']
+    ];
+
+    insertarProducto($datos);
+}
+
+
+// Procesa la solicitud POST para crear o actualizar
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+    // Crear un nuevo producto o libro
     if (isset($_POST['crear'])) {
         $datos = $_POST;
 
         if ($tabla == 'productos') {
-            if (insertarProducto($datos)) {
-                $_SESSION['mensaje'] = "Producto agregado correctamente.";
-            } else {
-                $_SESSION['mensaje'] = "Error al agregar el producto.";
-            }
+            $_SESSION['mensaje'] = insertarProducto($datos) ? "Producto agregado correctamente." : "Error al agregar el producto.";
         } elseif ($tabla == 'libros') {
-            if (insertarLibro($datos)) {
-                $_SESSION['mensaje'] = "Libro agregado correctamente.";
-            } else {
-                $_SESSION['mensaje'] = "Error al agregar el libro.";
-            }
+            $_SESSION['mensaje'] = insertarLibro($datos) ? "Libro agregado correctamente." : "Error al agregar el libro.";
         }
     }
-    // Actualizar producto o libro existente
+    // Actualiza un producto o libro existente
     elseif (isset($_POST['actualizar'])) {
         $datos = $_POST;
 
         if ($tabla == 'productos') {
-            if (actualizarProducto($datos)) {
-                $_SESSION['mensaje'] = "Producto modificado correctamente.";
-            } else {
-                $_SESSION['mensaje'] = "Error al modificar el producto.";
-            }
+            $_SESSION['mensaje'] = actualizarProducto($datos) ? "Producto modificado correctamente." : "Error al modificar el producto.";
         } elseif ($tabla == 'libros') {
-            if (actualizarLibro($datos)) {
-                $_SESSION['mensaje'] = "Libro modificado correctamente.";
-            } else {
-                $_SESSION['mensaje'] = "Error al modificar el libro.";
-            }
+            $_SESSION['mensaje'] = actualizarLibro($datos) ? "Libro modificado correctamente." : "Error al modificar el libro.";
         }
     }
 
@@ -49,22 +49,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     exit();
 }
 
-// Verifica si la solicitud es GET y se quiere eliminar
+// Procesa la solicitud GET para eliminar un producto o libro
 if (isset($_GET['eliminar'])) {
     $id = $_GET['eliminar'];
 
     if ($tabla == 'productos') {
-        if (eliminarProducto($id)) {
-            $_SESSION['mensaje'] = "Producto eliminado correctamente.";
-        } else {
-            $_SESSION['mensaje'] = "Error al eliminar el producto.";
-        }
+        $_SESSION['mensaje'] = eliminarProducto($id) ? "Producto eliminado correctamente." : "Error al eliminar el producto.";
     } elseif ($tabla == 'libros') {
-        if (eliminarLibro($id)) {
-            $_SESSION['mensaje'] = "Libro eliminado correctamente.";
-        } else {
-            $_SESSION['mensaje'] = "Error al eliminar el libro.";
-        }
+        $_SESSION['mensaje'] = eliminarLibro($id) ? "Libro eliminado correctamente." : "Error al eliminar el libro.";
     }
 
     // Redirige a index.php después de la operación
@@ -72,8 +64,7 @@ if (isset($_GET['eliminar'])) {
     exit();
 }
 
-// Si la solicitud no coincide con ninguna acción, redirige de todas formas
+// Redirige si no coincide con ninguna acción
 $_SESSION['mensaje'] = "Acción no reconocida.";
 header("Location: index.php");
 exit();
-?>

@@ -4,7 +4,7 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Función para verificar credenciales y obtener tipo de usuario
+// Verifica credenciales y obtiene el tipo de usuario
 function verificarUsuario($username, $password)
 {
     global $conexion;
@@ -15,20 +15,19 @@ function verificarUsuario($username, $password)
     $result = mysqli_stmt_get_result($stmt);
 
     if ($result->num_rows == 1) {
-        return $result->fetch_assoc()['tipo']; // Retorna 'admin' o 'usuario'
+        return $result->fetch_assoc()['tipo']; // Devuelve 'admin' o 'usuario'
     } else {
-        return null; // Si no hay coincidencia, retorna null
+        return null; // Retorna null si no hay coincidencia
     }
 }
 
-
-// Función para iniciar sesión
+// Inicia sesión si las credenciales son válidas
 function iniciarSesion($username, $password)
 {
     $tipo_usuario = verificarUsuario($username, $password);
 
     if ($tipo_usuario) {
-        // Credenciales válidas, guarda la información en la sesión
+        // Guarda usuario y tipo en sesión
         $_SESSION['username'] = $username;
         $_SESSION['tipo_usuario'] = $tipo_usuario; // 'admin' o 'usuario'
         return true;
@@ -37,7 +36,7 @@ function iniciarSesion($username, $password)
     }
 }
 
-// Función para verificar si el usuario existe en la base de datos
+// Verifica si el usuario existe en la base de datos
 function usuarioExiste($username)
 {
     global $conexion;
@@ -50,8 +49,7 @@ function usuarioExiste($username)
     return mysqli_num_rows($result) > 0;
 }
 
-
-// Función para cerrar sesión
+// Cierra la sesión y redirige a la página de inicio de sesión
 function cerrarSesion()
 {
     session_start();

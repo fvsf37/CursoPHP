@@ -1,5 +1,5 @@
 <?php
-// Conexión a la base de datos
+// Configuración de la conexión a la base de datos
 $db_host = "localhost";
 $db_usuario = "root";
 $db_nombre = "pruebas";
@@ -14,7 +14,7 @@ if (!$conexion) {
 
 // Funciones CRUD para la tabla productos
 
-// Función para insertar un producto
+// Inserta un producto en la tabla productos
 function insertarProducto($datos)
 {
     global $conexion;
@@ -24,7 +24,7 @@ function insertarProducto($datos)
     return mysqli_stmt_execute($stmt);
 }
 
-// Función para actualizar un producto
+// Actualiza un producto existente
 function actualizarProducto($datos)
 {
     global $conexion;
@@ -34,7 +34,7 @@ function actualizarProducto($datos)
     return mysqli_stmt_execute($stmt);
 }
 
-// Función para eliminar un producto
+// Elimina un producto por su código
 function eliminarProducto($codigo)
 {
     global $conexion;
@@ -44,7 +44,7 @@ function eliminarProducto($codigo)
     return mysqli_stmt_execute($stmt);
 }
 
-// Función para obtener productos con búsqueda avanzada
+// Obtiene productos con búsqueda avanzada según criterios
 function obtenerProductos($criterios = [])
 {
     global $conexion;
@@ -52,36 +52,25 @@ function obtenerProductos($criterios = [])
     $params = [];
     $types = "";
 
-    // Agrega condiciones de búsqueda avanzada
-    if (!empty($criterios['buscar_codigo'])) {
-        $query .= " AND CODIGOARTICULO LIKE ?";
-        $params[] = "%" . $criterios['buscar_codigo'] . "%";
-        $types .= "s";
-    }
-    if (!empty($criterios['buscar_nombre'])) {
-        $query .= " AND NOMBREARTICULO LIKE ?";
-        $params[] = "%" . $criterios['buscar_nombre'] . "%";
-        $types .= "s";
-    }
-    if (!empty($criterios['buscar_seccion'])) {
-        $query .= " AND SECCION LIKE ?";
-        $params[] = "%" . $criterios['buscar_seccion'] . "%";
-        $types .= "s";
-    }
-    if (!empty($criterios['buscar_precio'])) {
-        $query .= " AND PRECIO = ?";
-        $params[] = $criterios['buscar_precio'];
-        $types .= "d";
-    }
-    if (!empty($criterios['buscar_importado'])) {
-        $query .= " AND IMPORTADO = ?";
-        $params[] = $criterios['buscar_importado'];
-        $types .= "s";
-    }
-    if (!empty($criterios['buscar_pais'])) {
-        $query .= " AND PAISDEORIGEN LIKE ?";
-        $params[] = "%" . $criterios['buscar_pais'] . "%";
-        $types .= "s";
+    // Mapeo de criterios a columnas de la tabla productos
+    $column_map = [
+        'buscar_codigo' => 'CODIGOARTICULO',
+        'buscar_nombre' => 'NOMBREARTICULO',
+        'buscar_seccion' => 'SECCION',
+        'buscar_precio' => 'PRECIO',
+        'buscar_importado' => 'IMPORTADO',
+        'buscar_pais' => 'PAISDEORIGEN'
+    ];
+
+    // Añade condiciones a la consulta según criterios
+    if (!empty($criterios)) {
+        foreach ($criterios as $campo => $valor) {
+            if (isset($column_map[$campo])) {  // Verifica que el criterio existe en el mapa
+                $query .= " AND " . $column_map[$campo] . " LIKE ?";
+                $params[] = "%" . $valor . "%";
+                $types .= "s";
+            }
+        }
     }
 
     $stmt = mysqli_prepare($conexion, $query);
@@ -96,7 +85,7 @@ function obtenerProductos($criterios = [])
 
 // Funciones CRUD para la tabla libros
 
-// Función para insertar un libro
+// Inserta un libro en la tabla libros
 function insertarLibro($datos)
 {
     global $conexion;
@@ -106,7 +95,7 @@ function insertarLibro($datos)
     return mysqli_stmt_execute($stmt);
 }
 
-// Función para actualizar un libro
+// Actualiza un libro existente
 function actualizarLibro($datos)
 {
     global $conexion;
@@ -116,7 +105,7 @@ function actualizarLibro($datos)
     return mysqli_stmt_execute($stmt);
 }
 
-// Función para eliminar un libro
+// Elimina un libro por su ID
 function eliminarLibro($id)
 {
     global $conexion;
@@ -126,7 +115,7 @@ function eliminarLibro($id)
     return mysqli_stmt_execute($stmt);
 }
 
-// Función para obtener libros con búsqueda avanzada
+// Obtiene libros con búsqueda avanzada según criterios
 function obtenerLibros($criterios = [])
 {
     global $conexion;
@@ -134,36 +123,25 @@ function obtenerLibros($criterios = [])
     $params = [];
     $types = "";
 
-    // Agrega condiciones de búsqueda avanzada
-    if (!empty($criterios['buscar_titulo'])) {
-        $query .= " AND titulo LIKE ?";
-        $params[] = "%" . $criterios['buscar_titulo'] . "%";
-        $types .= "s";
-    }
-    if (!empty($criterios['buscar_autor'])) {
-        $query .= " AND autor LIKE ?";
-        $params[] = "%" . $criterios['buscar_autor'] . "%";
-        $types .= "s";
-    }
-    if (!empty($criterios['buscar_genero'])) {
-        $query .= " AND genero LIKE ?";
-        $params[] = "%" . $criterios['buscar_genero'] . "%";
-        $types .= "s";
-    }
-    if (!empty($criterios['buscar_anio'])) {
-        $query .= " AND anio_publicacion = ?";
-        $params[] = $criterios['buscar_anio'];
-        $types .= "i";
-    }
-    if (!empty($criterios['buscar_precio'])) {
-        $query .= " AND precio = ?";
-        $params[] = $criterios['buscar_precio'];
-        $types .= "d";
-    }
-    if (!empty($criterios['buscar_editorial'])) {
-        $query .= " AND editorial LIKE ?";
-        $params[] = "%" . $criterios['buscar_editorial'] . "%";
-        $types .= "s";
+    // Mapeo de criterios a columnas de la tabla libros
+    $column_map = [
+        'buscar_titulo' => 'titulo',
+        'buscar_autor' => 'autor',
+        'buscar_genero' => 'genero',
+        'buscar_anio' => 'anio_publicacion',
+        'buscar_precio' => 'precio',
+        'buscar_editorial' => 'editorial'
+    ];
+
+    // Añade condiciones a la consulta según criterios
+    if (!empty($criterios)) {
+        foreach ($criterios as $campo => $valor) {
+            if (isset($column_map[$campo])) {  // Verifica que el criterio existe en el mapa
+                $query .= " AND " . $column_map[$campo] . " LIKE ?";
+                $params[] = "%" . $valor . "%";
+                $types .= "s";
+            }
+        }
     }
 
     $stmt = mysqli_prepare($conexion, $query);
@@ -176,7 +154,7 @@ function obtenerLibros($criterios = [])
     return mysqli_stmt_get_result($stmt);
 }
 
-// Función para obtener un producto por su código
+// Obtiene un producto por su código
 function obtenerProductoPorCodigo($codigo)
 {
     global $conexion;
@@ -188,8 +166,7 @@ function obtenerProductoPorCodigo($codigo)
     return mysqli_fetch_assoc($result); // Retorna un array asociativo o null si no se encuentra
 }
 
-
-// Función para obtener un libro por su ID
+// Obtiene un libro por su ID
 function obtenerLibroPorId($id)
 {
     global $conexion;

@@ -6,11 +6,12 @@ include 'db.php';
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
+// Verifica si el formulario ha sido enviado y contiene código y tabla
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['codigo']) && isset($_POST['tabla'])) {
     $codigo = $_POST['codigo'];
     $tabla = $_POST['tabla'];
 
-    // Carga el registro del producto o libro en función de la tabla
+    // Carga el registro de productos o libros según la tabla
     if ($tabla == 'productos') {
         $registro = obtenerProductoPorCodigo($codigo);
     } elseif ($tabla == 'libros') {
@@ -21,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['codigo']) && isset($_P
         exit();
     }
 
-    // Verifica que el registro exista
+    // Envía un correo si el registro existe
     if ($registro) {
         try {
             $mail = new PHPMailer(true);
@@ -45,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['codigo']) && isset($_P
             }
             $mail->Body = $contenido;
 
-            // Intenta enviar el correo
+            // Envía el correo y establece el mensaje de sesión según el resultado
             if ($mail->send()) {
                 $_SESSION['mensaje'] = 'Email con los detalles del registro enviado exitosamente.';
             } else {
@@ -61,6 +62,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['codigo']) && isset($_P
     $_SESSION['mensaje'] = 'Solicitud inválida.';
 }
 
-// Redirige de vuelta a index.php con el mensaje en sesión
+// Redirige a index.php con el mensaje en sesión
 header("Location: index.php");
 exit();

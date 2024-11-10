@@ -1,10 +1,10 @@
 <?php
 session_start();
 
-// Mostrar mensaje de error en un alert si existe
+// Muestra un mensaje de error en caso de que exista y lo elimina después de mostrarlo
 if (isset($_SESSION['mensaje'])) {
     echo "<script>alert('{$_SESSION['mensaje']}');</script>";
-    unset($_SESSION['mensaje']); // Elimina el mensaje después de mostrarlo
+    unset($_SESSION['mensaje']);
 }
 ?>
 
@@ -15,12 +15,12 @@ if (isset($_SESSION['mensaje'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Iniciar Sesión o Registrarse</title>
-    <link rel="stylesheet" href="estilos.css">
+    <link rel="stylesheet" href="login.css">
 </head>
 
 <body>
 
-    <!-- Formulario de Iniciar Sesión -->
+    <!-- Contenedor de Iniciar Sesión -->
     <div class="login-container" id="login-form">
         <h2>Iniciar Sesión</h2>
         <form method="POST" action="comprueba_login.php">
@@ -32,7 +32,7 @@ if (isset($_SESSION['mensaje'])) {
         <button class="toggle-button" onclick="toggleForm()">¿No tienes cuenta? Regístrate</button>
     </div>
 
-    <!-- Formulario de Registrarse -->
+    <!-- Contenedor de Registrarse -->
     <div class="register-container" id="register-form" style="display: none;">
         <h2>Registrarse</h2>
         <form method="POST" action="registrar.php">
@@ -49,7 +49,7 @@ if (isset($_SESSION['mensaje'])) {
         <button class="toggle-button" onclick="toggleForm()">¿Ya tienes cuenta? Inicia sesión</button>
     </div>
 
-    <!-- Script de JavaScript para alternar entre los formularios -->
+    <!-- Script para alternar entre formularios de sesión y registro -->
     <script>
         function toggleForm() {
             const loginForm = document.getElementById('login-form');

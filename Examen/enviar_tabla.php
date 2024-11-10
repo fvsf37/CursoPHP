@@ -7,10 +7,10 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
 try {
-    // Obtiene todos los productos
+    // Obtiene los productos de la base de datos
     $productos = obtenerProductos();
 
-    // Verifica si hay productos en la base de datos
+    // Verifica si hay productos para enviar en el correo
     if (mysqli_num_rows($productos) > 0) {
         $mail = new PHPMailer(true);
         $mail->isSMTP();
@@ -26,7 +26,7 @@ try {
         $mail->isHTML(true);
         $mail->Subject = 'Detalles del Registro';
 
-        // Genera el contenido del correo con la tabla de productos
+        // Genera el contenido de la tabla de productos en el correo
         $emailContent = "<h2>Tabla Completa de Productos</h2><table border='1'>
                         <tr>
                           <th>Código</th>
@@ -38,7 +38,7 @@ try {
                           <th>País de Origen</th>
                         </tr>";
 
-        // Añade cada producto a la tabla en el correo
+        // Añade cada producto a la tabla
         while ($producto = mysqli_fetch_assoc($productos)) {
             $emailContent .= "<tr>
                               <td>{$producto['CODIGOARTICULO']}</td>
@@ -67,6 +67,6 @@ try {
     $_SESSION['mensaje'] = "Error al enviar email: {$mail->ErrorInfo}";
 }
 
-// Redirige de vuelta a index.php con el mensaje en sesión
+// Redirige a index.php con el mensaje en sesión
 header("Location: index.php");
 exit();
