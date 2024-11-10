@@ -6,27 +6,37 @@ include 'db.php';
 $tabla = isset($_GET['tabla']) ? $_GET['tabla'] : (isset($_POST['tabla']) ? $_POST['tabla'] : 'productos');
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $datos = [
-        'codigo' => $_POST['codigo'],
-        'seccion' => $_POST['seccion'],
-        'nombre' => $_POST['nombre'],
-        'precio' => $_POST['precio'],
-        'fecha' => $_POST['fecha'],
-        'importado' => $_POST['importado'],
-        'pais' => $_POST['pais']
-    ];
-
-    insertarProducto($datos);
+    // Configura los datos en función de la tabla seleccionada
+    if ($tabla == 'productos') {
+        $datos = [
+            'codigo' => $_POST['codigo'],
+            'seccion' => $_POST['seccion'],
+            'nombre' => $_POST['nombre'],
+            'precio' => $_POST['precio'],
+            'fecha' => $_POST['fecha'],
+            'importado' => $_POST['importado'],
+            'pais' => $_POST['pais']
+        ];
+        insertarProducto($datos);
+    } elseif ($tabla == 'libros') {
+        $datos = [
+            'titulo' => $_POST['titulo'],
+            'autor' => $_POST['autor'],
+            'genero' => $_POST['genero'],
+            'anio_publicacion' => $_POST['anio_publicacion'],
+            'precio' => $_POST['precio'],
+            'stock' => $_POST['stock'],
+            'editorial' => $_POST['editorial']
+        ];
+        insertarLibro($datos);
+    }
 }
-
 
 // Procesa la solicitud POST para crear o actualizar
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Crear un nuevo producto o libro
     if (isset($_POST['crear'])) {
-        $datos = $_POST;
-
         if ($tabla == 'productos') {
             $_SESSION['mensaje'] = insertarProducto($datos) ? "Producto agregado correctamente." : "Error al agregar el producto.";
         } elseif ($tabla == 'libros') {
@@ -35,8 +45,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
     // Actualiza un producto o libro existente
     elseif (isset($_POST['actualizar'])) {
-        $datos = $_POST;
-
         if ($tabla == 'productos') {
             $_SESSION['mensaje'] = actualizarProducto($datos) ? "Producto modificado correctamente." : "Error al modificar el producto.";
         } elseif ($tabla == 'libros') {

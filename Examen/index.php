@@ -255,13 +255,6 @@ if (isset($_GET['editar']) && isset($_GET['tabla'])) {
                     </select>
                     <input type="text" name="pais" placeholder="País de origen" required>
 
-                    <!-- Botón para elegir una imagen -->
-                    <label for="file-input-agregar" class="upload-button-label">Elegir Imagen</label>
-                    <input type="file" name="imagen" id="file-input-agregar" class="upload-button">
-
-                    <!-- Botón para subir la imagen -->
-                    <button type="submit" name="subir_imagen" class="upload-button">Subir Imagen</button>
-
                 <?php elseif ($tabla == 'libros'): ?>
                     <!-- Campos para agregar un libro -->
                     <input type="text" name="titulo" placeholder="Título" required>
@@ -271,13 +264,6 @@ if (isset($_GET['editar']) && isset($_GET['tabla'])) {
                     <input type="number" name="precio" placeholder="Precio" step="0.01" required>
                     <input type="number" name="stock" placeholder="Stock" required>
                     <input type="text" name="editorial" placeholder="Editorial" required>
-
-                    <!-- Botón para elegir una imagen -->
-                    <label for="file-input-agregar" class="upload-button-label">Elegir Imagen</label>
-                    <input type="file" name="imagen" id="file-input-agregar" class="upload-button">
-
-                    <!-- Botón para subir la imagen -->
-                    <button type="submit" name="subir_imagen" class="upload-button">Subir Imagen</button>
 
                 <?php endif; ?>
 
