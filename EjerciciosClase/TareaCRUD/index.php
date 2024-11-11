@@ -46,18 +46,6 @@ if (isset($_GET['editar'])) {
         </div>
     </header>
 
-    <!-- Ejecuta el mensaje de bienvenida con JavaScript
-    <script>
-        window.onload = function () {
-            const username = "<?php echo $username; ?>";
-            const tipoUsuario = "<?php echo $tipo_usuario; ?>";
-            const mensaje = tipoUsuario === 'admin'
-                ? `Bienvenido, ${username}. Tienes acceso completo a todas las funcionalidades.`
-                : `Bienvenido, ${username}. Tienes acceso limitado.`;
-            alert(mensaje);
-        };
-    </script> -->
-
     <!-- Formulario de búsqueda avanzada (solo visible para admin) -->
     <?php if ($tipo_usuario == 'admin'): ?>
         <form method="GET" action="">
