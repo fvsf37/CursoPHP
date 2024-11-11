@@ -38,11 +38,6 @@ if (isset($_SESSION['mensaje'])) {
         <form method="POST" action="registrar.php">
             <input type="text" name="username" placeholder="Nombre de usuario" required>
             <input type="password" name="password" placeholder="Contraseña" required>
-            <label for="tipo_usuario">Tipo de Usuario:</label>
-            <select name="tipo_usuario" required>
-                <option value="usuario">Usuario</option>
-                <option value="admin">Administrador</option>
-            </select>
             <input type="submit" value="Registrarse">
         </form>
         <!-- Botón para alternar a la vista de inicio de sesión -->
