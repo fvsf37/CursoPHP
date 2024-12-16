@@ -22,32 +22,28 @@ try {
         $mail->Port = 465;
 
         $mail->setFrom('fvsalapic@gmail.com', 'Francisco Salapic');
-        $mail->addAddress('fvsalapic@outlook.com');
+        $mail->addAddress('victor.navarro@ext.cesurformacion.com');
         $mail->isHTML(true);
-        $mail->Subject = 'Detalles del Registro';
+        $mail->Subject = 'Tabla de Productos';
 
         // Genera el contenido de la tabla de productos en el correo
         $emailContent = "<h2>Tabla Completa de Productos</h2><table border='1'>
                         <tr>
                           <th>Código</th>
-                          <th>Nombre</th>
-                          <th>Sección</th>
-                          <th>Precio</th>
-                          <th>Fecha</th>
-                          <th>Importado</th>
-                          <th>País de Origen</th>
+                          <th>Descripción</th>
+                          <th>Precio de Venta</th>
+                          <th>Precio de Compra</th>
+                          <th>Existencias</th>
                         </tr>";
 
         // Añade cada producto a la tabla
         while ($producto = mysqli_fetch_assoc($productos)) {
             $emailContent .= "<tr>
-                              <td>{$producto['CODIGOARTICULO']}</td>
-                              <td>{$producto['NOMBREARTICULO']}</td>
-                              <td>{$producto['SECCION']}</td>
-                              <td>{$producto['PRECIO']}</td>
-                              <td>{$producto['FECHA']}</td>
-                              <td>{$producto['IMPORTADO']}</td>
-                              <td>{$producto['PAISDEORIGEN']}</td>
+                              <td>{$producto['codigo']}</td>
+                              <td>{$producto['descripcion']}</td>
+                              <td>{$producto['precioVenta']}</td>
+                              <td>{$producto['precioCompra']}</td>
+                              <td>{$producto['existencias']}</td>
                             </tr>";
         }
         $emailContent .= "</table>";

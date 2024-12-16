@@ -1,9 +1,9 @@
 <?php
 session_start();
-include 'db.php'; // Conexión a la base de datos
+include 'db.php';
 
-// Verifica si se cargaron imagen, código y tabla
-if (isset($_FILES['imagen']) && isset($_POST['codigo']) && isset($_POST['tabla'])) {
+// Verifica si se cargaron imagen y código
+if (isset($_FILES['imagen']) && isset($_POST['codigo'])) {
     // Asigna información de la imagen a variables
     $nombre_imagen = $_FILES["imagen"]["name"];
     $tipo_imagen = $_FILES["imagen"]["type"];
@@ -11,34 +11,22 @@ if (isset($_FILES['imagen']) && isset($_POST['codigo']) && isset($_POST['tabla']
 
     // Valida tamaño y tipo de imagen
     if ($size_imagen <= 1000000) { // Máx. 1MB
-        if ($tipo_imagen == "image/jpeg" || $tipo_imagen == "image/jpg" || $tipo_imagen == "image/png" || $tipo_imagen == "image/gif") {
+        if (in_array($tipo_imagen, ["image/jpeg", "image/jpg", "image/png", "image/gif"])) {
 
-            // Define la carpeta destino para la imagen
-            $carpeta_destino = $_SERVER['DOCUMENT_ROOT'] . '/CURSOPHP/Examen/carpeta_imagenes_subidas/';
+            // Lee el contenido binario de la imagen
+            $imagen_binaria = file_get_contents($_FILES["imagen"]["tmp_name"]);
 
-            // Mueve la imagen a la carpeta destino
-            if (move_uploaded_file($_FILES["imagen"]["tmp_name"], $carpeta_destino . $nombre_imagen)) {
-                $codigo = $_POST['codigo'];
-                $tabla = $_POST['tabla'];
+            // Prepara la consulta para actualizar la imagen en la base de datos
+            $codigo = $_POST['codigo'];
+            $sql = "UPDATE productos SET foto=? WHERE codigo=?";
+            $stmt = mysqli_prepare($conexion, $sql);
+            mysqli_stmt_bind_param($stmt, "ss", $imagen_binaria, $codigo);
 
-                // Prepara la consulta para actualizar la imagen en la base de datos
-                if ($tabla == 'productos') {
-                    $sql = "UPDATE productos SET FOTO=? WHERE CODIGOARTICULO=?";
-                } elseif ($tabla == 'libros') {
-                    $sql = "UPDATE libros SET FOTO=? WHERE id=?";
-                }
-
-                $stmt = mysqli_prepare($conexion, $sql);
-                mysqli_stmt_bind_param($stmt, "ss", $nombre_imagen, $codigo); // Asigna imagen y código
-                if (mysqli_stmt_execute($stmt)) {
-                    $_SESSION['mensaje'] = "Imagen subida y guardada en la base de datos correctamente.";
-                } else {
-                    $_SESSION['mensaje'] = "Error al guardar la imagen en la base de datos.";
-                }
+            if (mysqli_stmt_execute($stmt)) {
+                $_SESSION['mensaje'] = "Imagen subida y guardada en la base de datos correctamente.";
             } else {
-                $_SESSION['mensaje'] = "Error al mover la imagen a la carpeta de destino.";
+                $_SESSION['mensaje'] = "Error al guardar la imagen en la base de datos.";
             }
-
         } else {
             $_SESSION['mensaje'] = "Formato de imagen no permitido. Solo JPEG, JPG, PNG y GIF.";
         }
@@ -50,6 +38,5 @@ if (isset($_FILES['imagen']) && isset($_POST['codigo']) && isset($_POST['tabla']
 }
 
 // Redirige de vuelta con el mensaje
-header("Location: index.php?tabla=$tabla");
+header("Location: index.php?tabla=productos");
 exit();
-?>

@@ -2,7 +2,7 @@
 // Configuración de la conexión a la base de datos
 $db_host = "localhost";
 $db_usuario = "root";
-$db_nombre = "pruebas";
+$db_nombre = "crudcesur";
 $db_contra = "";
 
 // Conexión a la base de datos
@@ -18,9 +18,9 @@ if (!$conexion) {
 function insertarProducto($datos)
 {
     global $conexion;
-    $query = "INSERT INTO productos (CODIGOARTICULO, SECCION, NOMBREARTICULO, PRECIO, FECHA, IMPORTADO, PAISDEORIGEN) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    $query = "INSERT INTO productos (codigo, descripcion, precioVenta, precioCompra, existencias, foto) VALUES (?, ?, ?, ?, ?, ?)";
     $stmt = mysqli_prepare($conexion, $query);
-    mysqli_stmt_bind_param($stmt, "sssssss", $datos['codigo'], $datos['seccion'], $datos['nombre'], $datos['precio'], $datos['fecha'], $datos['importado'], $datos['pais']);
+    mysqli_stmt_bind_param($stmt, "ssddib", $datos['codigo'], $datos['descripcion'], $datos['precioVenta'], $datos['precioCompra'], $datos['existencias'], $datos['foto']);
     return mysqli_stmt_execute($stmt);
 }
 
@@ -28,21 +28,24 @@ function insertarProducto($datos)
 function actualizarProducto($datos)
 {
     global $conexion;
-    $query = "UPDATE productos SET SECCION=?, NOMBREARTICULO=?, PRECIO=?, FECHA=?, IMPORTADO=?, PAISDEORIGEN=? WHERE CODIGOARTICULO=?";
+    $query = "UPDATE productos SET codigo=?, descripcion=?, precioVenta=?, precioCompra=?, existencias=?, foto=? WHERE id=?";
     $stmt = mysqli_prepare($conexion, $query);
-    mysqli_stmt_bind_param($stmt, "sssssss", $datos['seccion'], $datos['nombre'], $datos['precio'], $datos['fecha'], $datos['importado'], $datos['pais'], $datos['codigo_original']);
+    mysqli_stmt_bind_param($stmt, "ssddibi", $datos['codigo'], $datos['descripcion'], $datos['precioVenta'], $datos['precioCompra'], $datos['existencias'], $datos['foto'], $datos['id']);
     return mysqli_stmt_execute($stmt);
 }
 
-// Elimina un producto por su código
-function eliminarProducto($codigo)
+// Elimina un producto por su id
+function eliminarProducto($id)
 {
     global $conexion;
-    $query = "DELETE FROM productos WHERE CODIGOARTICULO=?";
+    $query = "DELETE FROM productos WHERE id = ?";
     $stmt = mysqli_prepare($conexion, $query);
-    mysqli_stmt_bind_param($stmt, "s", $codigo);
-    return mysqli_stmt_execute($stmt);
+    mysqli_stmt_bind_param($stmt, "i", $id);
+    $resultado = mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+    return $resultado;
 }
+
 
 // Obtiene productos con búsqueda avanzada según criterios
 function obtenerProductos($criterios = [])
@@ -54,18 +57,17 @@ function obtenerProductos($criterios = [])
 
     // Mapeo de criterios a columnas de la tabla productos
     $column_map = [
-        'buscar_codigo' => 'CODIGOARTICULO',
-        'buscar_nombre' => 'NOMBREARTICULO',
-        'buscar_seccion' => 'SECCION',
-        'buscar_precio' => 'PRECIO',
-        'buscar_importado' => 'IMPORTADO',
-        'buscar_pais' => 'PAISDEORIGEN'
+        'buscar_codigo' => 'codigo',
+        'buscar_descripcion' => 'descripcion',
+        'buscar_precioVenta' => 'precioVenta',
+        'buscar_precioCompra' => 'precioCompra',
+        'buscar_existencias' => 'existencias'
     ];
 
     // Añade condiciones a la consulta según criterios
     if (!empty($criterios)) {
         foreach ($criterios as $campo => $valor) {
-            if (isset($column_map[$campo])) {  // Verifica que el criterio existe en el mapa
+            if (isset($column_map[$campo])) {
                 $query .= " AND " . $column_map[$campo] . " LIKE ?";
                 $params[] = "%" . $valor . "%";
                 $types .= "s";
@@ -83,97 +85,14 @@ function obtenerProductos($criterios = [])
     return mysqli_stmt_get_result($stmt);
 }
 
-// Funciones CRUD para la tabla libros
-
-// Inserta un libro en la tabla libros
-function insertarLibro($datos)
+// Obtiene un producto por su id
+function obtenerProductoPorId($id)
 {
     global $conexion;
-    $query = "INSERT INTO libros (titulo, autor, genero, anio_publicacion, precio, stock, editorial) VALUES (?, ?, ?, ?, ?, ?, ?)";
-    $stmt = mysqli_prepare($conexion, $query);
-    mysqli_stmt_bind_param($stmt, "sssidsi", $datos['titulo'], $datos['autor'], $datos['genero'], $datos['anio'], $datos['precio'], $datos['stock'], $datos['editorial']);
-    return mysqli_stmt_execute($stmt);
-}
-
-// Actualiza un libro existente
-function actualizarLibro($datos)
-{
-    global $conexion;
-    $query = "UPDATE libros SET titulo=?, autor=?, genero=?, anio_publicacion=?, precio=?, stock=?, editorial=? WHERE id=?";
-    $stmt = mysqli_prepare($conexion, $query);
-    mysqli_stmt_bind_param($stmt, "sssidsii", $datos['titulo'], $datos['autor'], $datos['genero'], $datos['anio'], $datos['precio'], $datos['stock'], $datos['editorial'], $datos['codigo_original']);
-    return mysqli_stmt_execute($stmt);
-}
-
-// Elimina un libro por su ID
-function eliminarLibro($id)
-{
-    global $conexion;
-    $query = "DELETE FROM libros WHERE id=?";
-    $stmt = mysqli_prepare($conexion, $query);
-    mysqli_stmt_bind_param($stmt, "i", $id);
-    return mysqli_stmt_execute($stmt);
-}
-
-// Obtiene libros con búsqueda avanzada según criterios
-function obtenerLibros($criterios = [])
-{
-    global $conexion;
-    $query = "SELECT * FROM libros WHERE 1=1";
-    $params = [];
-    $types = "";
-
-    // Mapeo de criterios a columnas de la tabla libros
-    $column_map = [
-        'buscar_titulo' => 'titulo',
-        'buscar_autor' => 'autor',
-        'buscar_genero' => 'genero',
-        'buscar_anio' => 'anio_publicacion',
-        'buscar_precio' => 'precio',
-        'buscar_editorial' => 'editorial'
-    ];
-
-    // Añade condiciones a la consulta según criterios
-    if (!empty($criterios)) {
-        foreach ($criterios as $campo => $valor) {
-            if (isset($column_map[$campo])) {  // Verifica que el criterio existe en el mapa
-                $query .= " AND " . $column_map[$campo] . " LIKE ?";
-                $params[] = "%" . $valor . "%";
-                $types .= "s";
-            }
-        }
-    }
-
-    $stmt = mysqli_prepare($conexion, $query);
-
-    if (!empty($params)) {
-        mysqli_stmt_bind_param($stmt, $types, ...$params);
-    }
-
-    mysqli_stmt_execute($stmt);
-    return mysqli_stmt_get_result($stmt);
-}
-
-// Obtiene un producto por su código
-function obtenerProductoPorCodigo($codigo)
-{
-    global $conexion;
-    $query = "SELECT * FROM productos WHERE CODIGOARTICULO = ?";
-    $stmt = mysqli_prepare($conexion, $query);
-    mysqli_stmt_bind_param($stmt, "s", $codigo);
-    mysqli_stmt_execute($stmt);
-    $result = mysqli_stmt_get_result($stmt);
-    return mysqli_fetch_assoc($result); // Retorna un array asociativo o null si no se encuentra
-}
-
-// Obtiene un libro por su ID
-function obtenerLibroPorId($id)
-{
-    global $conexion;
-    $query = "SELECT * FROM libros WHERE id = ?";
+    $query = "SELECT * FROM productos WHERE id = ?";
     $stmt = mysqli_prepare($conexion, $query);
     mysqli_stmt_bind_param($stmt, "i", $id);
     mysqli_stmt_execute($stmt);
     $result = mysqli_stmt_get_result($stmt);
-    return mysqli_fetch_assoc($result); // Retorna un array asociativo o null si no se encuentra
+    return mysqli_fetch_assoc($result);
 }

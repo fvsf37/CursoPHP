@@ -269,7 +269,7 @@ header h1 {
 }
 
 .formulario-agregar input::placeholder {
-  color: #888; /* Color del texto del placeholder */
+  color: #888;
 }
 
 /* Botón de Elegir Imagen */
@@ -314,7 +314,7 @@ header h1 {
   justify-items: center;
 }
 
-/* Estilo de los Formularios (Agregar y Modificar) */
+/* Estilo de los Formularios */
 .formulario-agregar,
 .formulario-modificar {
   background-color: #1e1e1e;
@@ -362,7 +362,7 @@ header h1 {
 
 .formulario-agregar input::placeholder,
 .formulario-modificar input::placeholder {
-  color: #888; /* Color del texto del placeholder */
+  color: #888;
 }
 
 /* Botón de Elegir Imagen y Subir Imagen en gris */

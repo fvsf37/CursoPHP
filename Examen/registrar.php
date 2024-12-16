@@ -1,19 +1,19 @@
 <?php
-include_once 'db.php';
+session_start();
+include 'db.php';
 
 // Verifica si se ha enviado el formulario por método POST
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   $username = $_POST['username'];
   $password = $_POST['password'];
-  $tipo_usuario = $_POST['tipo_usuario'];
 
   // Cifra la contraseña usando el método predeterminado
   $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
   // Inserta el usuario en la base de datos
-  $query = "INSERT INTO usuarios (nombreusuario, password, tipo) VALUES (?, ?, ?)";
+  $query = "INSERT INTO usuarios_pass (usuario, password) VALUES (?, ?)";
   $stmt = mysqli_prepare($conexion, $query);
-  mysqli_stmt_bind_param($stmt, "sss", $username, $hashed_password, $tipo_usuario);
+  mysqli_stmt_bind_param($stmt, "ss", $username, $hashed_password);
   $result = mysqli_stmt_execute($stmt);
 
   if ($result) {
@@ -33,3 +33,4 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   mysqli_stmt_close($stmt);
   mysqli_close($conexion);
 }
+?>
