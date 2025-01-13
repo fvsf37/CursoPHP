@@ -4,6 +4,10 @@
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/EjemplosCursoPHP/enviarEmail/PHPMailer/src" isTestSource="false" packagePrefix="PHPMailer\PHPMailer\" />
       <sourceFolder url="file://$MODULE_DIR$/EjemplosCursoPHP/enviarEmail/PHPMailer/test" isTestSource="true" packagePrefix="PHPMailer\Test\" />
+      <sourceFolder url="file://$MODULE_DIR$/CRUD/crudinicial/app" isTestSource="false" packagePrefix="App\" />
+      <sourceFolder url="file://$MODULE_DIR$/CRUD/crudinicial/app/Config" isTestSource="false" packagePrefix="Config\" />
+      <sourceFolder url="file://$MODULE_DIR$/CRUD/crudinicial/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/CRUD/crudinicial/tests/_support" isTestSource="true" packagePrefix="Tests\Support\" />
       <excludeFolder url="file://$MODULE_DIR$/Examen/vendor/composer" />
       <excludeFolder url="file://$MODULE_DIR$/Examen/vendor/phpmailer/phpmailer" />
     </content>
