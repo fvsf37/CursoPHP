@@ -105,7 +105,7 @@ Para detener el servidor PHP, presiona `CTRL + C` en la terminal donde se está 
   ```
   composer --version
   ```
-
+n nb 
 - Iniciar el servidor local (desde la carpeta raíz):
   ```
   php -S localhost:8000
