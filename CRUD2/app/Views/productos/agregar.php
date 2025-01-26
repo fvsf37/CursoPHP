@@ -5,12 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agregar Producto</title>
-    <link rel="stylesheet" href="<?= base_url('assets/style.css') ?>">
+    <!-- Archivos CSS -->
+    <link rel="stylesheet" href="<?= base_url('assets/css/general.css') ?>">
+    <link rel="stylesheet" href="<?= base_url('assets/css/add.css') ?>">
 </head>
 
 <body>
-    <div class="form-container">
-        <h1>Agregar Producto</h1>
+    <!-- Contenedor específico para agregar -->
+    <div class="container-add">
+        <h1 class="add-title">Agregar Producto</h1>
 
         <!-- Mostrar errores de validación -->
         <?php if (session()->getFlashdata('errors')): ?>
@@ -24,7 +27,7 @@
         <?php endif; ?>
 
         <!-- Formulario para agregar producto -->
-        <form action="<?= base_url('productos/agregar') ?>" method="post">
+        <form action="<?= base_url('productos/agregar') ?>" method="post" class="form-add">
             <div class="form-group">
                 <label for="nombre">Nombre</label>
                 <input type="text" id="nombre" name="nombre" value="<?= old('nombre') ?>"
@@ -61,9 +64,10 @@
                     placeholder="ID del productor">
             </div>
 
+            <!-- Botones de acción -->
             <div class="form-buttons">
-                <button type="submit" class="button">Agregar Producto</button>
-                <a href="<?= base_url('productos') ?>" class="button button-secondary">Cancelar</a>
+                <button type="submit" class="button-main button-add">Agregar Producto</button>
+                <a href="<?= base_url('productos') ?>" class="button-main button-cancel">Cancelar</a>
             </div>
         </form>
     </div>

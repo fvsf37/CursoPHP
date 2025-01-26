@@ -1,16 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar Producto</title>
-    <link rel="stylesheet" href="<?= base_url('assets/style.css') ?>">
+    <!-- Archivos CSS -->
+    <link rel="stylesheet" href="<?= base_url('assets/css/general.css') ?>">
+    <link rel="stylesheet" href="<?= base_url('assets/css/edit.css') ?>">
 </head>
 
 <body>
-    <div class="container">
-        <h1>Editar Producto</h1>
+    <!-- Clase específica para la edición -->
+    <div class="container-edit">
+        <h1 class="edit-title">Editar Producto</h1>
 
         <!-- Mostrar mensajes de error -->
         <?php if (session()->getFlashdata('errors')): ?>
@@ -20,7 +23,7 @@
         <?php endif; ?>
 
         <!-- Formulario para editar el producto -->
-        <form action="<?= base_url('productos/editar/' . $producto['id']) ?>" method="post">
+        <form action="<?= base_url('productos/editar/' . $producto['id']) ?>" method="post" class="form-edit">
             <div class="form-group">
                 <label for="nombre">Nombre:</label>
                 <input type="text" id="nombre" name="nombre" value="<?= esc($producto['nombre']) ?>" required>
@@ -53,8 +56,10 @@
                     value="<?= esc($producto['id_productor']) ?>">
             </div>
 
-            <button type="submit" class="button">Guardar Cambios</button>
-            <a href="<?= base_url('productos') ?>" class="button button-secondary">Cancelar</a>
+            <div class="form-actions">
+                <button type="submit" class="button-main button-save">Guardar Cambios</button>
+                <a href="<?= base_url('productos') ?>" class="button-main button-cancel">Cancelar</a>
+            </div>
         </form>
     </div>
 </body>
