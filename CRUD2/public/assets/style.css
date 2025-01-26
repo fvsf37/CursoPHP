@@ -1,0 +1,157 @@
+/* General Styles */
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #eef2f7;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 40px auto;
+  background: #ffffff;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 25px;
+  font-size: 28px;
+  font-weight: 600;
+}
+
+/* Table Styles */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.table th,
+.table td {
+  border: 1px solid #dfe3e8;
+  padding: 12px;
+  text-align: left;
+}
+
+.table th {
+  background-color: #f7fafc;
+  color: #495057;
+  font-weight: bold;
+}
+
+.table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.table tr:hover {
+  background-color: #f1f5f9;
+}
+
+.table td {
+  color: #495057;
+  vertical-align: middle;
+}
+
+/* Button Styles */
+.button {
+  display: inline-block;
+  padding: 10px 15px;
+  background-color: #007bff;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+}
+
+.button:hover {
+  background-color: #0056b3;
+}
+
+.button-danger {
+  background-color: #e63946;
+}
+
+.button-danger:hover {
+  background-color: #a71d2a;
+}
+
+.button-warning {
+  background-color: #f4a261;
+  color: #212529;
+}
+
+.button-warning:hover {
+  background-color: #e76f51;
+}
+
+/* Alert Styles */
+.alert {
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  color: #fff;
+  font-weight: 500;
+}
+
+.alert-success {
+  background-color: #38a169;
+}
+
+.alert-danger {
+  background-color: #e53e3e;
+}
+
+/* Pagination Styles */
+.pagination {
+  margin-top: 30px;
+  text-align: center;
+}
+
+.pagination a,
+.pagination strong {
+  display: inline-block;
+  padding: 10px 15px;
+  margin: 0 5px;
+  border: 1px solid #ddd;
+  text-decoration: none;
+  color: #007bff;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.pagination a:hover {
+  background-color: #f1f1f1;
+}
+
+.pagination strong {
+  background-color: #007bff;
+  color: #fff;
+}
+
+/* Utility Styles */
+.text-center {
+  text-align: center;
+}
+
+.text-danger {
+  color: #dc3545;
+}
+
+.text-warning {
+  color: #ffc107;
+}
+
+.mt-10 {
+  margin-top: 10px;
+}
+
+.mb-10 {
+  margin-bottom: 10px;
+}
