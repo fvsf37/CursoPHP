@@ -35,12 +35,12 @@ $routes->setAutoRoute(true);
 $routes->get('/', 'Productos::index');
 
 // Rutas CRUD para productos
-$routes->get('productos', 'Productos::index'); // Lista de productos
-$routes->get('productos/agregar', 'Productos::agregar'); // Formulario de agregar producto
-$routes->post('productos/agregar', 'Productos::agregar'); // Acción de agregar producto
-$routes->get('productos/editar/(:num)', 'Productos::editar/$1'); // Formulario de editar producto
-$routes->post('productos/editar/(:num)', 'Productos::editar/$1'); // Acción de editar producto
-$routes->get('productos/eliminar/(:num)', 'Productos::eliminar/$1'); // Acción de eliminar producto
+$routes->get('productos', 'Productos::index');
+$routes->get('productos/agregar', 'Productos::agregar');
+$routes->post('productos/agregar', 'Productos::agregar');
+$routes->get('productos/editar/(:num)', 'Productos::editar/$1');
+$routes->post('productos/editar/(:num)', 'Productos::editar/$1');
+$routes->get('productos/eliminar/(:num)', 'Productos::eliminar/$1');
 
 /*
  * --------------------------------------------------------------------
