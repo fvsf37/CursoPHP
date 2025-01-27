@@ -43,7 +43,7 @@ class Calculator extends BaseController
                 if (!preg_match('/^[0-9+\-\*\/\(\)\. ]+$/', $expression)) {
                     $result = 'Expresión no válida';
                 } else {
-                    $result = eval ('return ' . $expression . ';'); // Evaluar la expresión
+                    $result = eval ('return ' . $expression . ';');
                 }
             }
         } catch (\Throwable $e) {
