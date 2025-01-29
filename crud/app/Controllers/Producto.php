@@ -11,6 +11,9 @@ class Producto extends Controller
     {
         $productoModel = new ProductoModel();
 
+        // Obtener el término de búsqueda desde la URL
+        $search = $this->request->getGet('search') ?? '';
+
         // Obtener el número de elementos por página (5, 10, 20)
         $perPage = $this->request->getGet('perPage') ?? 10; // Por defecto 10
         $page = $this->request->getGet('page') ?? 1; // Página actual
@@ -22,11 +25,12 @@ class Producto extends Controller
         // Calcular el offset
         $offset = ($page - 1) * $perPage;
 
-        // Obtener productos paginados
-        $data['productos'] = $productoModel->getPaginatedProducts($perPage, $offset);
-        $data['total'] = $productoModel->countAllResults();
+        // Obtener productos paginados con búsqueda
+        $data['productos'] = $productoModel->getPaginatedProducts($perPage, $offset, $search);
+        $data['total'] = $productoModel->getTotalProducts($search);
         $data['perPage'] = $perPage;
         $data['currentPage'] = $page;
+        $data['search'] = $search; // Pasamos el término de búsqueda a la vista
 
         return view('productos/index', $data);
     }

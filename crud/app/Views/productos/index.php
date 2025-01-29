@@ -33,6 +33,51 @@
             margin-bottom: 20px;
         }
 
+        /* Barra de búsqueda */
+        .search-bar {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .search-bar input {
+            padding: 10px;
+            font-size: 16px;
+            width: 300px;
+            border-radius: 5px;
+            border: 1px solid #444;
+            background: #2a2a2a;
+            color: white;
+        }
+
+        .search-bar button {
+            padding: 10px 15px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: none;
+            background: #0d6efd;
+            color: white;
+            cursor: pointer;
+        }
+
+        .search-bar button:hover {
+            background: #0a58ca;
+        }
+
+        /* Selector de cantidad de productos */
+        .page-select {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        select {
+            padding: 8px;
+            font-size: 16px;
+            border-radius: 5px;
+            background: #2a2a2a;
+            color: white;
+            border: 1px solid #444;
+        }
+
         /* Botón de Agregar */
         .btn {
             display: inline-block;
@@ -142,21 +187,6 @@
             background: #0a58ca;
         }
 
-        /* Selector de cantidad de productos */
-        .page-select {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        select {
-            padding: 8px;
-            font-size: 16px;
-            border-radius: 5px;
-            background: #2a2a2a;
-            color: white;
-            border: 1px solid #444;
-        }
-
         /* Responsividad */
         @media (max-width: 768px) {
             .container {
@@ -182,6 +212,15 @@
 
     <div class="container">
         <h1>Lista de Productos</h1>
+
+        <!-- Barra de Búsqueda -->
+        <div class="search-bar">
+            <form method="GET">
+                <input type="text" name="search" placeholder="Buscar por código, descripción, precio..."
+                    value="<?= esc($search) ?>">
+                <button type="submit">🔍 Buscar</button>
+            </form>
+        </div>
 
         <!-- Selector de cantidad de productos por página -->
         <div class="page-select">
@@ -209,11 +248,11 @@
             <tbody>
                 <?php foreach ($productos as $producto): ?>
                     <tr>
-                        <td><?= $producto['codigo'] ?></td>
-                        <td><?= $producto['descripcion'] ?></td>
+                        <td><?= esc($producto['codigo']) ?></td>
+                        <td><?= esc($producto['descripcion']) ?></td>
                         <td>$<?= number_format($producto['precioVenta'], 2) ?></td>
                         <td>$<?= number_format($producto['precioCompra'], 2) ?></td>
-                        <td><?= $producto['existencias'] ?></td>
+                        <td><?= esc($producto['existencias']) ?></td>
                         <td>
                             <a href="<?= base_url('producto/edit/' . $producto['id']) ?>" class="btn btn-edit">✏️ Editar</a>
                             <a href="<?= base_url('producto/delete/' . $producto['id']) ?>" class="btn btn-delete"
@@ -226,13 +265,8 @@
 
         <!-- Paginación -->
         <div class="pagination">
-            <?php
-            $totalPages = ceil($total / $perPage);
-            for ($i = 1; $i <= $totalPages; $i++):
-                ?>
-                <a href="?page=<?= $i ?>&perPage=<?= $perPage ?>" <?= $i == $currentPage ? 'style="background: #0a58ca;"' : '' ?>>
-                    <?= $i ?>
-                </a>
+            <?php for ($i = 1; $i <= ceil($total / $perPage); $i++): ?>
+                <a href="?page=<?= $i ?>&perPage=<?= $perPage ?>&search=<?= esc($search) ?>" <?= $i == $currentPage ? 'style="background: #0a58ca;"' : '' ?>><?= $i ?></a>
             <?php endfor; ?>
         </div>
     </div>
@@ -240,7 +274,7 @@
     <script>
         function changePerPage() {
             let perPage = document.getElementById("perPage").value;
-            window.location.href = "?page=1&perPage=" + perPage;
+            window.location.href = "?page=1&perPage=" + perPage + "&search=<?= esc($search) ?>";
         }
     </script>
 
