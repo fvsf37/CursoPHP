@@ -12,6 +12,6 @@ class ProductoModel extends Model
 
     public function getPaginatedProducts($limit, $offset)
     {
-        return $this->orderBy('id', 'DESC')->findAll($limit, $offset);
+        return $this->orderBy('id', 'ASC')->findAll($limit, $offset);
     }
 }

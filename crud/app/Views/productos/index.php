@@ -10,9 +10,7 @@
         body {
             font-family: 'Arial', sans-serif;
             background-color: #121212;
-            /* Fondo oscuro */
             color: #e0e0e0;
-            /* Texto en gris claro */
             margin: 0;
             padding: 0;
         }
@@ -22,7 +20,6 @@
             max-width: 1000px;
             margin: 30px auto;
             background: #1e1e1e;
-            /* Fondo oscuro para el contenido */
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
@@ -64,7 +61,6 @@
             border-collapse: collapse;
             margin-top: 15px;
             background: #222;
-            /* Fondo oscuro para la tabla */
             border-radius: 8px;
             overflow: hidden;
         }
@@ -126,6 +122,41 @@
             transform: scale(1.05);
         }
 
+        /* Controles de paginación */
+        .pagination {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .pagination a {
+            color: white;
+            background: #0d6efd;
+            padding: 8px 12px;
+            margin: 5px;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .pagination a:hover {
+            background: #0a58ca;
+        }
+
+        /* Selector de cantidad de productos */
+        .page-select {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        select {
+            padding: 8px;
+            font-size: 16px;
+            border-radius: 5px;
+            background: #2a2a2a;
+            color: white;
+            border: 1px solid #444;
+        }
+
         /* Responsividad */
         @media (max-width: 768px) {
             .container {
@@ -151,6 +182,17 @@
 
     <div class="container">
         <h1>Lista de Productos</h1>
+
+        <!-- Selector de cantidad de productos por página -->
+        <div class="page-select">
+            <label for="perPage">Mostrar:</label>
+            <select id="perPage" onchange="changePerPage()">
+                <option value="5" <?= $perPage == 5 ? 'selected' : '' ?>>5</option>
+                <option value="10" <?= $perPage == 10 ? 'selected' : '' ?>>10</option>
+                <option value="20" <?= $perPage == 20 ? 'selected' : '' ?>>20</option>
+            </select> productos por página.
+        </div>
+
         <a href="<?= base_url('producto/create') ?>" class="btn btn-primary">➕ Agregar Producto</a>
 
         <table class="table">
@@ -181,7 +223,26 @@
                 <?php endforeach; ?>
             </tbody>
         </table>
+
+        <!-- Paginación -->
+        <div class="pagination">
+            <?php
+            $totalPages = ceil($total / $perPage);
+            for ($i = 1; $i <= $totalPages; $i++):
+                ?>
+                <a href="?page=<?= $i ?>&perPage=<?= $perPage ?>" <?= $i == $currentPage ? 'style="background: #0a58ca;"' : '' ?>>
+                    <?= $i ?>
+                </a>
+            <?php endfor; ?>
+        </div>
     </div>
+
+    <script>
+        function changePerPage() {
+            let perPage = document.getElementById("perPage").value;
+            window.location.href = "?page=1&perPage=" + perPage;
+        }
+    </script>
 
 </body>
 

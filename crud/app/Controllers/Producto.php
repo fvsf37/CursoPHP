@@ -10,14 +10,30 @@ class Producto extends Controller
     public function index()
     {
         $productoModel = new ProductoModel();
-        $data['productos'] = $productoModel->findAll(); // Obtener todos los productos
+
+        // Obtener el número de elementos por página (5, 10, 20)
+        $perPage = $this->request->getGet('perPage') ?? 10; // Por defecto 10
+        $page = $this->request->getGet('page') ?? 1; // Página actual
+
+        // Convertir valores a enteros
+        $perPage = (int) $perPage;
+        $page = (int) $page;
+
+        // Calcular el offset
+        $offset = ($page - 1) * $perPage;
+
+        // Obtener productos paginados
+        $data['productos'] = $productoModel->getPaginatedProducts($perPage, $offset);
+        $data['total'] = $productoModel->countAllResults();
+        $data['perPage'] = $perPage;
+        $data['currentPage'] = $page;
 
         return view('productos/index', $data);
     }
 
     public function create()
     {
-        return view('productos/create'); // Mostrar formulario de agregar producto
+        return view('productos/create');
     }
 
     public function store()
@@ -36,20 +52,19 @@ class Producto extends Controller
         // Insertar en la base de datos
         $productoModel->insert($data);
 
-        // Redirigir con mensaje de éxito
         return redirect()->to('/producto')->with('mensaje', 'Producto agregado correctamente.');
     }
 
     public function edit($id)
     {
         $productoModel = new ProductoModel();
-        $data['producto'] = $productoModel->find($id); // Buscar producto por ID
+        $data['producto'] = $productoModel->find($id);
 
         if (!$data['producto']) {
             return redirect()->to('/producto')->with('error', 'Producto no encontrado.');
         }
 
-        return view('productos/edit', $data); // Mostrar formulario de edición
+        return view('productos/edit', $data);
     }
 
     public function update($id)
@@ -65,12 +80,11 @@ class Producto extends Controller
             'existencias' => $this->request->getPost('existencias'),
         ];
 
-        // Verificar si el producto existe antes de actualizar
         if (!$productoModel->find($id)) {
             return redirect()->to('/producto')->with('error', 'Producto no encontrado.');
         }
 
-        // Actualizar producto en la base de datos
+        // Actualizar producto
         $productoModel->update($id, $data);
 
         return redirect()->to('/producto')->with('mensaje', 'Producto actualizado correctamente.');
@@ -80,7 +94,6 @@ class Producto extends Controller
     {
         $productoModel = new ProductoModel();
 
-        // Verificar si el producto existe antes de eliminar
         if (!$productoModel->find($id)) {
             return redirect()->to('/producto')->with('error', 'El producto no existe.');
         }
