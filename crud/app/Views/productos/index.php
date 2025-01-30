@@ -121,8 +121,11 @@
         .table th {
             background-color: #0d6efd;
             color: white;
-            font-size: 16px;
-            text-transform: uppercase;
+            cursor: pointer;
+        }
+
+        .table th:hover {
+            background-color: #0a58ca;
         }
 
         /* Filas pares con efecto sutil */
@@ -186,25 +189,6 @@
         .pagination a:hover {
             background: #0a58ca;
         }
-
-        /* Responsividad */
-        @media (max-width: 768px) {
-            .container {
-                width: 90%;
-            }
-
-            .table,
-            .table th,
-            .table td {
-                font-size: 14px;
-            }
-
-            .btn {
-                display: block;
-                text-align: center;
-                margin-bottom: 10px;
-            }
-        }
     </style>
 </head>
 
@@ -237,11 +221,11 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th>Código</th>
-                    <th>Descripción</th>
-                    <th>Precio Venta</th>
-                    <th>Precio Compra</th>
-                    <th>Existencias</th>
+                    <th onclick="sortTable('codigo')">Código</th>
+                    <th onclick="sortTable('descripcion')">Descripción</th>
+                    <th onclick="sortTable('precioVenta')">Precio Venta</th>
+                    <th onclick="sortTable('precioCompra')">Precio Compra</th>
+                    <th onclick="sortTable('existencias')">Existencias</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
@@ -262,19 +246,16 @@
                 <?php endforeach; ?>
             </tbody>
         </table>
-
-        <!-- Paginación -->
-        <div class="pagination">
-            <?php for ($i = 1; $i <= ceil($total / $perPage); $i++): ?>
-                <a href="?page=<?= $i ?>&perPage=<?= $perPage ?>&search=<?= esc($search) ?>" <?= $i == $currentPage ? 'style="background: #0a58ca;"' : '' ?>><?= $i ?></a>
-            <?php endfor; ?>
-        </div>
     </div>
 
     <script>
         function changePerPage() {
             let perPage = document.getElementById("perPage").value;
             window.location.href = "?page=1&perPage=" + perPage + "&search=<?= esc($search) ?>";
+        }
+
+        function sortTable(field) {
+            window.location.href = "?orderBy=" + field + "&orderDirection=<?= $orderDirection === 'ASC' ? 'DESC' : 'ASC' ?>&perPage=<?= $perPage ?>&search=<?= esc($search) ?>";
         }
     </script>
 

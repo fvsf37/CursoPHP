@@ -10,9 +10,28 @@ class ProductoModel extends Model
     protected $primaryKey = 'id';
     protected $allowedFields = ['codigo', 'descripcion', 'precioVenta', 'precioCompra', 'existencias'];
 
-    public function getPaginatedProducts($limit, $offset, $search = null)
+    /**
+     * Obtiene productos con paginación, búsqueda y ordenación.
+     *
+     * @param int $limit Cantidad de productos por página.
+     * @param int $offset Offset para la paginación.
+     * @param string|null $search Término de búsqueda.
+     * @param string $orderBy Campo por el cual ordenar.
+     * @param string $orderDirection Dirección de orden (ASC/DESC).
+     * @return array Lista de productos.
+     */
+    public function getPaginatedProducts($limit, $offset, $search = null, $orderBy = 'id', $orderDirection = 'ASC')
     {
-        $query = $this->orderBy('id', 'ASC');
+        // Validar que el campo de ordenación sea seguro
+        $validColumns = ['id', 'codigo', 'descripcion', 'precioVenta', 'precioCompra', 'existencias'];
+        if (!in_array($orderBy, $validColumns)) {
+            $orderBy = 'id';
+        }
+
+        // Validar dirección de ordenación
+        $orderDirection = strtoupper($orderDirection) === 'DESC' ? 'DESC' : 'ASC';
+
+        $query = $this->orderBy($orderBy, $orderDirection);
 
         if ($search) {
             $query->groupStart()
@@ -27,6 +46,12 @@ class ProductoModel extends Model
         return $query->findAll($limit, $offset);
     }
 
+    /**
+     * Obtiene el total de productos considerando la búsqueda.
+     *
+     * @param string|null $search Término de búsqueda.
+     * @return int Número total de productos encontrados.
+     */
     public function getTotalProducts($search = null)
     {
         if ($search) {

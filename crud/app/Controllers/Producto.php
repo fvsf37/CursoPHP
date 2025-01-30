@@ -11,26 +11,26 @@ class Producto extends Controller
     {
         $productoModel = new ProductoModel();
 
-        // Obtener el término de búsqueda desde la URL
+        // Obtener parámetros de búsqueda y ordenación
         $search = $this->request->getGet('search') ?? '';
-
-        // Obtener el número de elementos por página (5, 10, 20)
-        $perPage = $this->request->getGet('perPage') ?? 10; // Por defecto 10
+        $perPage = $this->request->getGet('perPage') ?? 10; // Productos por página (por defecto 10)
         $page = $this->request->getGet('page') ?? 1; // Página actual
+        $orderBy = $this->request->getGet('orderBy') ?? 'id'; // Campo de ordenación (por defecto 'id')
+        $orderDirection = $this->request->getGet('orderDirection') ?? 'ASC'; // Dirección ASC/DESC
 
-        // Convertir valores a enteros
+        // Convertir valores a enteros donde corresponda
         $perPage = (int) $perPage;
         $page = (int) $page;
-
-        // Calcular el offset
         $offset = ($page - 1) * $perPage;
 
-        // Obtener productos paginados con búsqueda
-        $data['productos'] = $productoModel->getPaginatedProducts($perPage, $offset, $search);
+        // Obtener productos paginados con búsqueda y ordenación
+        $data['productos'] = $productoModel->getPaginatedProducts($perPage, $offset, $search, $orderBy, $orderDirection);
         $data['total'] = $productoModel->getTotalProducts($search);
         $data['perPage'] = $perPage;
         $data['currentPage'] = $page;
-        $data['search'] = $search; // Pasamos el término de búsqueda a la vista
+        $data['search'] = $search;
+        $data['orderBy'] = $orderBy;
+        $data['orderDirection'] = $orderDirection;
 
         return view('productos/index', $data);
     }
